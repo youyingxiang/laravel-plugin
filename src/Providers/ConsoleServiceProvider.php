@@ -3,10 +3,15 @@ namespace Yxx\LaravelPlugin\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class PluginServiceProvider extends ServiceProvider
+class ConsoleServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->register(ConsoleServiceProvider::class);
+
+    }
+
+    public function provides()
+    {
+
     }
 }
