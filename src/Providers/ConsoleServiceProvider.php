@@ -2,16 +2,17 @@
 namespace Yxx\LaravelPlugin\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Yxx\LaravelPlugin\Console\Commands\PluginMakeCommand;
 
 class ConsoleServiceProvider extends ServiceProvider
 {
-    public function register()
+    protected array $commands = [
+        PluginMakeCommand::class
+    ];
+
+
+    public function register():void
     {
-
-    }
-
-    public function provides()
-    {
-
+        $this->commands($this->commands);
     }
 }
