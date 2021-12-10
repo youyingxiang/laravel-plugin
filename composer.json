@@ -1,0 +1,15 @@
+{
+    "name": "yxx/laravel-plugin",
+    "autoload": {
+        "psr-4": {
+            "Yxx\\LaravelPlugin\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "youyingxiang",
+            "email": "1365831278@qq.com"
+        }
+    ],
+    "require": {}
+}
