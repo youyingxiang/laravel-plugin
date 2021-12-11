@@ -26,10 +26,10 @@ return [
                 'VENDOR',
                 'AUTHOR_NAME',
                 'AUTHOR_EMAIL',
-                'MODULE_NAME',
-                'MODULE_NAMESPACE',
+                'PLUGIN_NAME',
+                'PLUGIN_NAMESPACE',
                 'PROVIDER_NAMESPACE',
-                'MODULE_DOMAIN'
+                'PLUGIN_DOMAIN'
             ],
         ]
     ],

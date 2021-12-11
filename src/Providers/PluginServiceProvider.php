@@ -7,6 +7,7 @@ use Yxx\LaravelPlugin\Contracts\PluginStatusInterface;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
 use Yxx\LaravelPlugin\Support\Repositories\FileRepository;
 use Yxx\LaravelPlugin\Support\Repositories\RepositoryManager;
+use Yxx\LaravelPlugin\Support\Stub;
 
 class PluginServiceProvider extends ServiceProvider
 {
@@ -14,6 +15,7 @@ class PluginServiceProvider extends ServiceProvider
     {
         $this->registerNamespaces();
         $this->registerServices();
+        $this->setupStubPath();
         $this->registerProviders();
     }
 
@@ -36,7 +38,7 @@ class PluginServiceProvider extends ServiceProvider
 
     protected function setupStubPath():void
     {
-
+        Stub::setBasePath(__DIR__ . '/../../stubs/plugin');
     }
 
     protected function registerProviders():void

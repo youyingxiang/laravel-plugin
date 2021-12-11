@@ -3,6 +3,8 @@ namespace Yxx\LaravelPlugin\Support\Repositories;
 
 use Illuminate\Container\Container;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
+use Yxx\LaravelPlugin\Exceptions\PluginNotFoundException;
+use Yxx\LaravelPlugin\Support\Plugin;
 
 class RepositoryManager
 {
@@ -14,13 +16,13 @@ class RepositoryManager
     /**
      * @var RepositoryInterface
      */
-    protected RepositoryInterface $repositor;
+    protected RepositoryInterface $repository;
 
 
     public function __construct(Container $app, RepositoryInterface $repository)
     {
         $this->app = $app;
-        $this->repositor = $repository;
+        $this->repository = $repository;
     }
 
     /**
@@ -32,7 +34,7 @@ class RepositoryManager
      */
     public function getOrdered($direction = 'asc'): array
     {
-        return $this->repositor->getOrdered();
+        return $this->repository->getOrdered();
     }
 
     /**
@@ -62,7 +64,26 @@ class RepositoryManager
      */
     public function config(string $key, ?string $default = null)
     {
-        return $this->repositor->config($key, $default);
+        return $this->repository->config($key, $default);
+    }
+
+    /**
+     * @param  string  $plugin
+     * @return string
+     */
+    public function getPluginPath(string $plugin): string
+    {
+        return $this->repository->getPluginPath($plugin);
+    }
+
+    /**
+     * @param  string  $name
+     * @return Plugin
+     * @throws PluginNotFoundException
+     */
+    public function findOrFail(string $name): Plugin
+    {
+        return $this->repository->findOrFail($name);
     }
 
 

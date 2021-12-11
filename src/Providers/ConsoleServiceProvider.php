@@ -3,11 +3,13 @@ namespace Yxx\LaravelPlugin\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Yxx\LaravelPlugin\Console\Commands\PluginMakeCommand;
+use Yxx\LaravelPlugin\Console\Commands\ProviderMakeCommand;
 
 class ConsoleServiceProvider extends ServiceProvider
 {
     protected array $commands = [
-        PluginMakeCommand::class
+        PluginMakeCommand::class,
+        ProviderMakeCommand::class
     ];
 
 

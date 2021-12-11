@@ -4,7 +4,7 @@ namespace Yxx\LaravelPlugin\Console\Commands;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Yxx\LaravelPlugin\Support\Generators\PluginModuleGenerator;
+use Yxx\LaravelPlugin\Support\Generators\PluginGenerator;
 
 class PluginMakeCommand extends Command
 {
@@ -29,7 +29,7 @@ class PluginMakeCommand extends Command
     {
         $names = $this->argument('name');
         foreach ($names as $name) {
-            with(new PluginModuleGenerator($name))
+            with(new PluginGenerator($name))
                 ->setFilesystem($this->laravel['files'])
                 ->setRepository($this->laravel['plugins.repository'])
                 ->setConfig($this->laravel['config'])
