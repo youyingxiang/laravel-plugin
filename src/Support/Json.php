@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
-use Yxx\LaravelPlugin\Exceptions\InvalidJsonException;
 
 class Json
 {
@@ -38,9 +37,9 @@ class Json
      * @param  Filesystem|null  $filesystem
      * @throws Exception
      */
-    public function __construct(string $path, ?Filesystem $filesystem = null)
+    public function __construct(string $path, Filesystem $filesystem = null)
     {
-        $this->path = $path;
+        $this->path = (string) $path;
         $this->filesystem = $filesystem ?: new Filesystem();
         $this->attributes = Collection::make($this->getAttributes());
     }
@@ -60,7 +59,7 @@ class Json
      *
      * @param Filesystem $filesystem
      *
-     * @return Json
+     * @return $this
      */
     public function setFilesystem(Filesystem $filesystem): Json
     {
@@ -82,13 +81,13 @@ class Json
     /**
      * Set path.
      *
-     * @param string $path
+     * @param mixed $path
      *
-     * @return Json
+     * @return $this
      */
     public function setPath(string $path): Json
     {
-        $this->path = (string) $path;
+        $this->path = $path;
 
         return $this;
     }
@@ -102,7 +101,7 @@ class Json
      * @return static
      * @throws Exception
      */
-    public static function make(string $path, ?Filesystem $filesystem = null)
+    public static function make(string $path, Filesystem $filesystem = null): Json
     {
         return new static($path, $filesystem);
     }
@@ -173,7 +172,7 @@ class Json
      * @param string $key
      * @param mixed  $value
      *
-     * @return Json
+     * @return $this
      */
     public function set(string $key, $value): Json
     {
@@ -199,7 +198,7 @@ class Json
      *
      * @return mixed
      */
-    public function __get(string $key)
+    public function __get($key)
     {
         return $this->get($key);
     }

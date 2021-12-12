@@ -3,9 +3,9 @@ namespace Yxx\LaravelPlugin\Support\Config;
 
 class GeneratorPath
 {
-    private string $path;
-    private bool $generate;
-    private string $namespace;
+    private $path;
+    private $generate;
+    private $namespace;
 
     public function __construct($config)
     {
@@ -21,22 +21,22 @@ class GeneratorPath
         $this->namespace = $config;
     }
 
-    public function getPath():string
+    public function getPath()
     {
         return $this->path;
     }
 
-    public function generate(): bool
+    public function generate() : bool
     {
         return $this->generate;
     }
 
-    public function getNamespace():string
+    public function getNamespace()
     {
         return $this->namespace;
     }
 
-    private function convertPathToNamespace($path):string
+    private function convertPathToNamespace($path)
     {
         return str_replace('/', '\\', $path);
     }

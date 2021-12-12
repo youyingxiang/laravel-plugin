@@ -2,6 +2,7 @@
 namespace Yxx\LaravelPlugin\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
 
 class BootstrapServiceProvider extends ServiceProvider
 {
@@ -10,7 +11,7 @@ class BootstrapServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        app('plugins.repository')->boot();
+        $this->app[RepositoryInterface::class]->boot();
     }
 
     /**
@@ -18,6 +19,6 @@ class BootstrapServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        app('plugins.repository')->register();
+        $this->app[RepositoryInterface::class]->register();
     }
 }

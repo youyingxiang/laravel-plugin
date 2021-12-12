@@ -1,1 +1,0 @@
-{{ Field::slug($model, 'slug') }}

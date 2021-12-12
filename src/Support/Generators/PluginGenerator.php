@@ -1,145 +1,98 @@
 <?php
 namespace Yxx\LaravelPlugin\Support\Generators;
 
+use Exception;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Console\Command as Console;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use Yxx\LaravelPlugin\Abstracts\Generator;
+use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
+use Yxx\LaravelPlugin\Contracts\GeneratorInterface;
 use Yxx\LaravelPlugin\Support\Config\GenerateConfigReader;
-use Yxx\LaravelPlugin\Support\Repositories\RepositoryManager;
+use Yxx\LaravelPlugin\Support\FileRepository;
 use Yxx\LaravelPlugin\Support\Stub;
 
-class PluginGenerator extends Generator
+class PluginGenerator implements GeneratorInterface
 {
     /**
+     * The plugin name will created.
+     *
      * @var string
      */
     protected string $name;
 
     /**
-     * @var Filesystem
+     * The laravel config instance.
+     *
+     * @var Config|null
      */
-    protected Filesystem $filesystem;
+    protected ?Config $config;
 
     /**
-     * @var RepositoryManager
+     * The laravel filesystem instance.
+     *
+     * @var Filesystem|null
      */
-    protected RepositoryManager $repositoryManager;
+    protected ?Filesystem $filesystem;
 
     /**
-     * @var Config
+     * The laravel console instance.
+     *
+     * @var Console|null
      */
-    protected Config $config;
+    protected ?Console $console;
 
     /**
-     * @var Console
+     * The activator instance
+     *
+     * @var ActivatorInterface|null
      */
-    protected Console $console;
+    protected ?ActivatorInterface $activator;
 
     /**
+     * The plugin instance.
+     *
+     * @var FileRepository|null
+     */
+    protected ?FileRepository $pluginRepository;
+
+    /**
+     * Force status.
+     *
      * @var bool
      */
-    protected bool $force;
+    protected bool $force = false;
 
     /**
+     * Enables the plugin.
+     *
      * @var bool
      */
-    protected bool $plain;
+    protected bool $isActive = false;
 
     /**
-     * @var bool
-     */
-    protected bool $isActive;
-
-    /**
-     * PluginGenerator constructor.
+     * The constructor.
      * @param  string  $name
+     * @param  FileRepository|null  $pluginRepository
+     * @param  Config|null  $config
+     * @param  Filesystem|null  $filesystem
+     * @param  Console|null  $console
+     * @param  ActivatorInterface|null  $activator
      */
-    public function __construct(string $name)
-    {
+    public function __construct(
+        string $name,
+        FileRepository $pluginRepository = null,
+        Config $config = null,
+        Filesystem $filesystem = null,
+        Console $console = null,
+        ActivatorInterface $activator = null
+    ) {
         $this->name = $name;
-    }
-
-    /**
-     * Set the laravel filesystem instance.
-     *
-     * @param Filesystem $filesystem
-     *
-     * @return PluginGenerator
-     */
-    public function setFilesystem(Filesystem $filesystem): PluginGenerator
-    {
-        $this->filesystem = $filesystem;
-
-        return $this;
-    }
-
-    /**
-     * @param  RepositoryManager  $repositoryManager
-     * @return PluginGenerator
-     */
-    public function setRepository(RepositoryManager $repositoryManager): PluginGenerator
-    {
-        $this->repositoryManager = $repositoryManager;
-
-        return $this;
-    }
-
-    /**
-     * Set the laravel config instance.
-     *
-     * @param Config $config
-     *
-     * @return PluginGenerator
-     */
-    public function setConfig(Config $config): PluginGenerator
-    {
         $this->config = $config;
-
-        return $this;
-    }
-
-    /**
-     * Set the laravel console instance.
-     *
-     * @param Console $console
-     *
-     * @return PluginGenerator
-     */
-    public function setConsole(Console $console): PluginGenerator
-    {
+        $this->filesystem = $filesystem;
         $this->console = $console;
-
-        return $this;
-    }
-
-    /**
-     * Set force status.
-     *
-     * @param bool|int $force
-     *
-     * @return PluginGenerator
-     */
-    public function setForce(bool $force): PluginGenerator
-    {
-        $this->force = $force;
-
-        return $this;
-    }
-
-    /**
-     * Set plain flag.
-     *
-     * @param bool $plain
-     *
-     * @return PluginGenerator
-     */
-    public function setPlain(bool $plain): PluginGenerator
-    {
-        $this->plain = $plain;
-
-        return $this;
+        $this->pluginRepository = $pluginRepository;
+        $this->activator = $activator;
     }
 
     /**
@@ -147,7 +100,7 @@ class PluginGenerator extends Generator
      *
      * @param bool $active
      *
-     * @return PluginGenerator
+     * @return $this
      */
     public function setActive(bool $active): PluginGenerator
     {
@@ -163,29 +116,212 @@ class PluginGenerator extends Generator
      */
     public function getName(): string
     {
-        return Str::lower($this->name);
+        return Str::studly($this->name);
     }
 
+    /**
+     * Get the laravel config instance.
+     *
+     * @return Config
+     */
+    public function getConfig(): Config
+    {
+        return $this->config;
+    }
+
+    /**
+     * Set the laravel config instance.
+     *
+     * @param Config $config
+     *
+     * @return $this
+     */
+    public function setConfig(Config $config): PluginGenerator
+    {
+        $this->config = $config;
+
+        return $this;
+    }
+
+    /**
+     * Set the plugins activator
+     *
+     * @param ActivatorInterface $activator
+     *
+     * @return $this
+     */
+    public function setActivator(ActivatorInterface $activator): PluginGenerator
+    {
+        $this->activator = $activator;
+
+        return $this;
+    }
+
+    /**
+     * Get the laravel filesystem instance.
+     *
+     * @return Filesystem
+     */
+    public function getFilesystem(): Filesystem
+    {
+        return $this->filesystem;
+    }
+
+    /**
+     * Set the laravel filesystem instance.
+     *
+     * @param Filesystem $filesystem
+     *
+     * @return $this
+     */
+    public function setFilesystem(Filesystem $filesystem): PluginGenerator
+    {
+        $this->filesystem = $filesystem;
+
+        return $this;
+    }
+
+    /**
+     * Get the laravel console instance.
+     *
+     * @return Console
+     */
+    public function getConsole(): Console
+    {
+        return $this->console;
+    }
+
+    /**
+     * Set the laravel console instance.
+     *
+     * @param Console $console
+     *
+     * @return $this
+     */
+    public function setConsole(Console $console): PluginGenerator
+    {
+        $this->console = $console;
+
+        return $this;
+    }
+
+    /**
+     * Get the FileRepository instance.
+     *
+     * @return FileRepository $plugin
+     */
+    public function getPluginRepository(): FileRepository
+    {
+        return $this->pluginRepository;
+    }
+
+    /**
+     * Set the module instance.
+     *
+     * @param  FileRepository  $pluginRepository
+     * @return $this
+     */
+    public function setPluginRepository(FileRepository $pluginRepository): PluginGenerator
+    {
+        $this->pluginRepository = $pluginRepository;
+
+        return $this;
+    }
+
+    /**
+     * Get the list of folders will created.
+     *
+     * @return array
+     */
+    public function getFolders(): array
+    {
+        return $this->pluginRepository->config('paths.generator');
+    }
+
+    /**
+     * Get the list of files will created.
+     *
+     * @return array
+     */
+    public function getFiles(): array
+    {
+        return $this->pluginRepository->config('stubs.files');
+    }
+
+    /**
+     * Set force status.
+     *
+     * @param bool|int $force
+     *
+     * @return $this
+     */
+    public function setForce(bool $force): PluginGenerator
+    {
+        $this->force = $force;
+
+        return $this;
+    }
 
     /**
      * Generate the plugin.
+     * @throws Exception
      */
-    public function generate():void
+    public function generate() : int
     {
         $name = $this->getName();
 
-        $this->generateFolders();
+        if ($this->pluginRepository->has($name)) {
+            if ($this->force) {
+                $this->pluginRepository->delete($name);
+            } else {
+                $this->console->error("Plugin [{$name}] already exist!");
 
-        if ($this->plain !== true) {
-            $this->generateFiles();
-          //  $this->generateResources();
+                return E_ERROR;
+            }
         }
 
+        $this->generateFolders();
+
+        $this->generatePluginJsonFile();
+
+        $this->generateFiles();
+//
+//        if ($this->type !== 'plain') {
+//            $this->generateFiles();
+//            $this->generateResources();
+//        }
+//
+//        if ($this->type === 'plain') {
+//            $this->cleanModuleJsonFile();
+//        }
+//
+//        $this->activator->setActiveByName($name, $this->isActive);
+//
         $this->console->info("Plugin [{$name}] created successfully.");
+
+        return 0;
+    }
+
+    /**
+     * Generate the plugin.json file
+     * @throws Exception
+     */
+    private function generatePluginJsonFile()
+    {
+        $path = $this->pluginRepository->getPluginPath($this->getName()) . 'plugin.json';
+
+        if (!$this->filesystem->isDirectory($dir = dirname($path))) {
+            $this->filesystem->makeDirectory($dir, 0775, true);
+        }
+
+        $this->filesystem->put($path, $this->getStubContents('json'));
+
+        $this->console->info("Created : {$path}");
     }
 
     /**
      * Generate the folders.
+     * @throws Exception
      */
     public function generateFolders(): void
     {
@@ -196,23 +332,25 @@ class PluginGenerator extends Generator
                 continue;
             }
 
-            $path = $this->repositoryManager->getPluginPath($this->getName()) . '/' . $folder->getPath();
+            $path = $this->pluginRepository->getPluginPath($this->getName()) . $folder->getPath();
 
             $this->filesystem->makeDirectory($path, 0755, true);
-            $this->console->info("Created : {$path}");
-            $this->generateGitKeep($path);
+            if (config('plugins.stubs.gitkeep')) {
+                $this->generateGitKeep($path);
+            }
         }
     }
 
     /**
      * Generate the files.
+     * @throws Exception
      */
     public function generateFiles(): void
     {
         foreach ($this->getFiles() as $stub => $file) {
-            $path = $this->repositoryManager->getPluginPath($this->getName()) . $file;
+            $path = $this->pluginRepository->getPluginPath($this->getName()) . $file;
 
-            if (! $this->filesystem->isDirectory($dir = dirname($path))) {
+            if (!$this->filesystem->isDirectory($dir = dirname($path))) {
                 $this->filesystem->makeDirectory($dir, 0775, true);
             }
 
@@ -223,53 +361,23 @@ class PluginGenerator extends Generator
     }
 
     /**
-     * Generate some resources.
+     * Generate git keep to the specified path.
+     *
+     * @param string $path
      */
-    public function generateResources()
+    public function generateGitKeep(string $path): void
     {
-//        if (GenerateConfigReader::read('seeder')->generate() === true) {
-//            $this->console->call('plugin:make-seed', [
-//                'name' => $this->getStudlyName(),
-//                'module' => $this->getName(),
-//                '--master' => true,
-//            ]);
-//        }
-
-        if (GenerateConfigReader::read('provider')->generate() === true) {
-            $this->console->call('plugin:make-provider', [
-                'name' => $this->getStudlyName() . 'ServiceProvider',
-                'plugin' => $this->getName(),
-                '--master' => true,
-            ]);
-            /*$this->console->call('plugin:route-provider', [
-                'module' => $this->getName(),
-            ]);*/
-        }
-//
-//        if (GenerateConfigReader::read('controller')->generate() === true) {
-//            $this->console->call('plugin:make-controller', [
-//                'controller' => $this->getStudlyName() . 'Controller',
-//                'module' => $this->getName(),
-//            ]);
-//        }
-    }
-
-    public function getStudlyName()
-    {
-        $name = explode('/', $this->name);
-        $name = $name[1] ?? $name[0];
-
-        return Str::studly($name);
+        $this->filesystem->put($path . '/.gitkeep', '');
     }
 
     /**
      * Get the contents of the specified stub file by given stub name.
      *
-     * @param $stub
+     * @param string $stub
      *
      * @return string
      */
-    protected function getStubContents($stub)
+    protected function getStubContents(string $stub): string
     {
         return (new Stub(
             '/' . $stub . '.stub',
@@ -279,25 +387,17 @@ class PluginGenerator extends Generator
     }
 
     /**
-     * get the list for the replacements.
-     */
-    public function getReplacements(): array
-    {
-        return $this->repositoryManager->config('stubs.replacements');
-    }
-
-    /**
      * Get array replacement for the specified stub.
      *
-     * @param $stub
+     * @param string $stub
      *
      * @return array
      */
-    protected function getReplacement($stub)
+    protected function getReplacement(string $stub): array
     {
-        $replacements = $this->getReplacements();
+        $replacements = $this->pluginRepository->config('stubs.replacements');
 
-        if (! isset($replacements[$stub])) {
+        if (!isset($replacements[$stub])) {
             return [];
         }
 
@@ -310,7 +410,6 @@ class PluginGenerator extends Generator
                 $keys[] = 'PROVIDER_NAMESPACE';
             }
         }
-
         foreach ($keys as $key) {
             if (method_exists($this, $method = 'get' . ucfirst(Str::studly(strtolower($key))) . 'Replacement')) {
                 $replaces[$key] = $this->$method();
@@ -319,39 +418,7 @@ class PluginGenerator extends Generator
             }
         }
 
-        /*if ($stub === 'composer') {
-            dd($replaces);
-        }*/
-
         return $replaces;
-    }
-
-    /**
-     * @return array
-     */
-    public function getFolders(): array
-    {
-        return $this->repositoryManager->config('paths.generator') ?? [];
-    }
-
-    /**
-     * Generate git keep to the specified path.
-     *
-     * @param string $path
-     */
-    public function generateGitKeep(string $path):void
-    {
-        $this->filesystem->put($path . '/.gitkeep', '');
-    }
-
-    /**
-     * Get the list of files will created.
-     *
-     * @return array
-     */
-    public function getFiles():array
-    {
-        return $this->repositoryManager->config('stubs.files');
     }
 
     /**
@@ -375,61 +442,23 @@ class PluginGenerator extends Generator
     }
 
     /**
-     * Get the plugin name in snake case.
-     *
-     * @return string
-     */
-    protected function getSnakeNameReplacement(): string
-    {
-        return strtolower($this->getSnakeName());
-    }
-
-    /**
-     * @return string
-     */
-    public function getSnakeName(): string
-    {
-        return Str::snake(preg_replace('/[^0-9a-z]/', '_', $this->name));
-    }
-
-    /**
      * Get replacement for $VENDOR$.
      *
      * @return string
      */
-    protected function getVendorReplacement(): string
+    protected function getVendorReplacement()
     {
-        $name = explode('/', $this->getName());
-        $name = $name[0];
-
-        return $name;
+        return $this->pluginRepository->config('composer.vendor');
     }
 
     /**
-     * Get replacement for $MODULE_NAMESPACE$.
+     * Get replacement for $PLUGIN_NAMESPACE$.
      *
      * @return string
      */
     protected function getPluginNamespaceReplacement(): string
     {
-        $name = $this->getName();
-        $namespace = ucwords(str_replace('/', ' ', $name));
-        $namespace = str_replace(' ', '\\', $namespace);
-
-        return str_replace('\\', '\\\\', $namespace);
-    }
-
-    /**
-     * Get replacement for $MODULE_NAME$.
-     *
-     * @return string
-     */
-    protected function getPluginNameReplacement(): string
-    {
-        $name = explode('\\', $this->getPluginNamespaceReplacement());
-        $name = $name[count($name) - 1];
-
-        return $name;
+        return str_replace('\\', '\\\\', $this->pluginRepository->config('namespace'));
     }
 
     /**
@@ -439,10 +468,7 @@ class PluginGenerator extends Generator
      */
     protected function getAuthorNameReplacement(): string
     {
-        $name = explode('/', $this->getName());
-        $name = ucfirst($name[0]);
-
-        return $name;
+        return $this->pluginRepository->config('composer.author.name');
     }
 
     /**
@@ -452,20 +478,14 @@ class PluginGenerator extends Generator
      */
     protected function getAuthorEmailReplacement(): string
     {
-        return 'example@gmail.com';
+        return $this->pluginRepository->config('composer.author.email');
     }
 
+    /**
+     * @return string
+     */
     protected function getProviderNamespaceReplacement(): string
     {
-        return 'Providers';
-    }
-
-    protected function getPluginDomainReplacement(): string
-    {
-        $name = explode('/', $this->getName());
-        $author = $name[0];
-        $plugin = $name[1];
-
-        return substr($author, 0, 2) . substr($plugin, 0, 2);
+        return str_replace('\\', '\\\\', GenerateConfigReader::read('provider')->getNamespace());
     }
 }

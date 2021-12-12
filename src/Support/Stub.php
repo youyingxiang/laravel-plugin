@@ -25,7 +25,7 @@ class Stub
     protected array $replaces = [];
 
     /**
-     * The contructor.
+     * The constructor.
      *
      * @param string $path
      * @param array  $replaces
@@ -44,7 +44,7 @@ class Stub
      *
      * @return self
      */
-    public static function create($path, array $replaces = [])
+    public static function create(string $path, array $replaces = []): Stub
     {
         return new static($path, $replaces);
     }
@@ -56,7 +56,7 @@ class Stub
      *
      * @return self
      */
-    public function setPath($path)
+    public function setPath(string $path): Stub
     {
         $this->path = $path;
 
@@ -68,7 +68,7 @@ class Stub
      *
      * @return string
      */
-    public function getPath()
+    public function getPath():string
     {
         return static::getBasePath() . $this->path;
     }
@@ -78,7 +78,7 @@ class Stub
      *
      * @param string $path
      */
-    public static function setBasePath($path)
+    public static function setBasePath(string $path): void
     {
         static::$basePath = $path;
     }
@@ -88,7 +88,7 @@ class Stub
      *
      * @return string|null
      */
-    public static function getBasePath()
+    public static function getBasePath(): ?string
     {
         return static::$basePath;
     }
@@ -98,7 +98,7 @@ class Stub
      *
      * @return mixed|string
      */
-    public function getContents()
+    public function getContents(): string
     {
         $contents = file_get_contents($this->getPath());
 
@@ -114,7 +114,7 @@ class Stub
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         return $this->getContents();
     }
@@ -127,7 +127,7 @@ class Stub
      *
      * @return bool
      */
-    public function saveTo($path, $filename)
+    public function saveTo(string $path, string $filename)
     {
         return file_put_contents($path . '/' . $filename, $this->getContents());
     }
@@ -139,7 +139,7 @@ class Stub
      *
      * @return $this
      */
-    public function replace(array $replaces = [])
+    public function replace(array $replaces = []): Stub
     {
         $this->replaces = $replaces;
 
@@ -151,7 +151,7 @@ class Stub
      *
      * @return array
      */
-    public function getReplaces()
+    public function getReplaces(): array
     {
         return $this->replaces;
     }
@@ -161,7 +161,7 @@ class Stub
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->render();
     }
