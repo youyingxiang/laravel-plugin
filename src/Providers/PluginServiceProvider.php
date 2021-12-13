@@ -2,7 +2,6 @@
 namespace Yxx\LaravelPlugin\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Plugins\Test\Providers\TestServiceProvider;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
 use Yxx\LaravelPlugin\Exceptions\InvalidActivatorClass;
@@ -16,14 +15,8 @@ class PluginServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerNamespaces();
+        $this->registerTranslation();
         $this->registerPlugins();
-
-        // todo
-        $loader = require base_path()."/vendor/autoload.php";
-        $loader->setPsr4("Plugins\\", [base_path()."/plugins/"]);
-        $this->app->register(TestServiceProvider::class);
-
     }
 
     /**
@@ -31,6 +24,8 @@ class PluginServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerNamespaces();
+        $this->setPsr4();
         $this->registerServices();
         $this->setupStubPath();
         $this->registerProviders();
@@ -42,6 +37,14 @@ class PluginServiceProvider extends ServiceProvider
     protected function registerPlugins(): void
     {
         $this->app->register(BootstrapServiceProvider::class);
+    }
+
+    protected function setPsr4(): void
+    {
+        $loader = require base_path()."/vendor/autoload.php";
+        $namespace = $this->app['config']->get('plugins.namespace');
+        $path = $this->app['config']->get('plugins.paths.plugins');
+        $loader->setPsr4("{$namespace}\\", ["{$path}/"]);
     }
 
     /**
@@ -101,6 +104,15 @@ class PluginServiceProvider extends ServiceProvider
     {
         $this->app->register(ConsoleServiceProvider::class);
         $this->app->register(ContractsServiceProvider::class);
+    }
+
+    protected function registerTranslation(): void
+    {
+        $langPath = __DIR__ . '/../../resources/lang';
+
+        if (is_dir($langPath)) {
+            $this->loadTranslationsFrom($langPath, "plugins");
+        }
     }
 
     /**

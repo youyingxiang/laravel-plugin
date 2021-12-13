@@ -80,6 +80,30 @@ class Plugin
     }
 
     /**
+     * Register the Plugin.
+     */
+    public function register(): void
+    {
+        $this->registerAliases();
+
+        $this->registerProviders();
+
+        $this->fireEvent('register');
+    }
+
+    /**
+     * Bootstrap the application events.
+     */
+    public function boot(): void
+    {
+        if (config('plugins.register.translations', true) === true) {
+            $this->registerTranslation();
+        }
+
+        $this->fireEvent('boot');
+    }
+
+    /**
      * @return string
      */
     public function getCachedServicesPath(): string
@@ -89,7 +113,6 @@ class Plugin
         if (!is_null(env('VAPOR_MAINTENANCE_MODE', null))) {
             return Str::replaceLast('config.php', $this->getSnakeName() . '_plugin.php', $this->app->getCachedConfigPath());
         }
-
         return Str::replaceLast('services.php', $this->getSnakeName() . '_plugin.php', $this->app->getCachedServicesPath());
     }
 
@@ -214,22 +237,6 @@ class Plugin
     }
 
     /**
-     * Bootstrap the application events.
-     */
-    public function boot(): void
-    {
-        if (config('plugins.register.translations', true) === true) {
-            $this->registerTranslation();
-        }
-
-        if ($this->isLoadFilesOnBoot()) {
-            $this->registerFiles();
-        }
-
-        $this->fireEvent('boot');
-    }
-
-    /**
      * Register plugin's translation.
      *
      * @return void
@@ -290,22 +297,6 @@ class Plugin
     }
 
     /**
-     * Register the Plugin.
-     */
-    public function register(): void
-    {
-        $this->registerAliases();
-
-        $this->registerProviders();
-
-        if ($this->isLoadFilesOnBoot() === false) {
-            $this->registerFiles();
-        }
-
-        $this->fireEvent('register');
-    }
-
-    /**
      * Register the Plugin event.
      *
      * @param string $event
@@ -313,16 +304,6 @@ class Plugin
     protected function fireEvent($event): void
     {
         $this->app['events']->dispatch(sprintf('plugins.%s.' . $event, $this->getLowerName()), [$this]);
-    }
-
-    /**
-     * Register the files from this Plugin.
-     */
-    protected function registerFiles(): void
-    {
-        foreach ($this->get('files', []) as $file) {
-            include $this->path . '/' . $file;
-        }
     }
 
     /**

@@ -38,7 +38,7 @@ class PluginMakeCommand extends Command
                 ->setFilesystem($this->laravel['files'])
                 ->setPluginRepository($this->laravel['plugins.repository'])
                 ->setConfig($this->laravel['config'])
-                //->setActivator($this->laravel[ActivatorInterface::class])
+                ->setActivator($this->laravel[ActivatorInterface::class])
                 ->setConsole($this)
                 ->setForce($this->option('force'))
                 ->setActive(!$this->option('disabled'))

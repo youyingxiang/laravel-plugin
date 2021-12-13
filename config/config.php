@@ -96,26 +96,8 @@ return [
     | you can simply comment them out.
     |
     */
-    'commands' => [
+    'commands' => [],
 
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Scan Path
-    |--------------------------------------------------------------------------
-    |
-    | Here you define which folder will be scanned. By default will scan vendor
-    | directory. This is useful if you host the package in packagist website.
-    |
-    */
-
-    'scan' => [
-        'enabled' => false,
-        'paths' => [
-            base_path('vendor/*/*'),
-        ],
-    ],
 
     /*
     |--------------------------------------------------------------------------

@@ -4,6 +4,11 @@ namespace Yxx\LaravelPlugin\Providers;
 use Carbon\Laravel\ServiceProvider;
 use Illuminate\Support\Str;
 use Yxx\LaravelPlugin\Console\Commands\ControllerMakeCommand;
+use Yxx\LaravelPlugin\Console\Commands\DisableCommand;
+use Yxx\LaravelPlugin\Console\Commands\EnableCommand;
+use Yxx\LaravelPlugin\Console\Commands\ListCommand;
+use Yxx\LaravelPlugin\Console\Commands\PluginCommand;
+use Yxx\LaravelPlugin\Console\Commands\PluginDeleteCommand;
 use Yxx\LaravelPlugin\Console\Commands\PluginMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\ProviderMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\RouteProviderMakeCommand;
@@ -22,11 +27,16 @@ class ConsoleServiceProvider extends ServiceProvider
      * @var array
      */
     protected array $commands = [
+        PluginCommand::class,
         PluginMakeCommand::class,
         ProviderMakeCommand::class,
         RouteProviderMakeCommand::class,
         ControllerMakeCommand::class,
         SeedMakeCommand::class,
+        ListCommand::class,
+        DisableCommand::class,
+        EnableCommand::class,
+        PluginDeleteCommand::class,
     ];
 
     /**
@@ -36,7 +46,7 @@ class ConsoleServiceProvider extends ServiceProvider
     {
         $commands = [];
 
-        foreach (config('plugins.commands', $this->commands) as $command) {
+        foreach ((config('plugins.commands') ?: $this->commands) as $command) {
             $commands[] = Str::contains($command, $this->consoleNamespace) ?
                 $command :
                 $this->consoleNamespace . "\\" . $command;

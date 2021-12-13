@@ -288,6 +288,8 @@ class PluginGenerator implements GeneratorInterface
 
         $this->generateResources();
 
+        $this->activator->setActiveByName($name, $this->isActive);
+
         $this->console->info("Plugin [{$name}] created successfully.");
 
         return 0;

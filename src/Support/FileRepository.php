@@ -125,10 +125,6 @@ class FileRepository implements RepositoryInterface
 
         $paths[] = $this->getPath();
 
-        if ($this->config('scan.enabled')) {
-            $paths = array_merge($paths, $this->config('scan.paths'));
-        }
-
         $paths = array_map(function ($path) {
             return Str::endsWith($path, '/*') ? $path : Str::finish($path, '/*');
         }, $paths);
