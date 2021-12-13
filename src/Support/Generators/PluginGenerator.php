@@ -285,21 +285,41 @@ class PluginGenerator implements GeneratorInterface
         $this->generatePluginJsonFile();
 
         $this->generateFiles();
-//
-//        if ($this->type !== 'plain') {
-//            $this->generateFiles();
-//            $this->generateResources();
-//        }
-//
-//        if ($this->type === 'plain') {
-//            $this->cleanModuleJsonFile();
-//        }
-//
-//        $this->activator->setActiveByName($name, $this->isActive);
-//
+
+        $this->generateResources();
+
         $this->console->info("Plugin [{$name}] created successfully.");
 
         return 0;
+    }
+
+    public function generateResources()
+    {
+        if (GenerateConfigReader::read('seeder')->generate() === true) {
+            $this->console->call('plugin:make-seed', [
+                'name' => $this->getName(),
+                'plugin' => $this->getName(),
+                '--master' => true,
+            ]);
+        }
+
+        if (GenerateConfigReader::read('provider')->generate() === true) {
+            $this->console->call('plugin:make-provider', [
+                'name' => $this->getName() . 'ServiceProvider',
+                'plugin' => $this->getName(),
+                '--master' => true,
+            ]);
+            $this->console->call('plugin:route-provider', [
+                'plugin' => $this->getName(),
+            ]);
+        }
+
+        if (GenerateConfigReader::read('controller')->generate() === true) {
+            $this->console->call('plugin:make-controller', [
+                'controller' => $this->getName() . 'Controller',
+                'plugin' => $this->getName(),
+            ]);
+        }
     }
 
     /**
@@ -442,16 +462,6 @@ class PluginGenerator implements GeneratorInterface
     }
 
     /**
-     * Get replacement for $VENDOR$.
-     *
-     * @return string
-     */
-    protected function getVendorReplacement()
-    {
-        return $this->pluginRepository->config('composer.vendor');
-    }
-
-    /**
      * Get replacement for $PLUGIN_NAMESPACE$.
      *
      * @return string
@@ -459,26 +469,6 @@ class PluginGenerator implements GeneratorInterface
     protected function getPluginNamespaceReplacement(): string
     {
         return str_replace('\\', '\\\\', $this->pluginRepository->config('namespace'));
-    }
-
-    /**
-     * Get replacement for $AUTHOR_NAME$.
-     *
-     * @return string
-     */
-    protected function getAuthorNameReplacement(): string
-    {
-        return $this->pluginRepository->config('composer.author.name');
-    }
-
-    /**
-     * Get replacement for $AUTHOR_EMAIL$.
-     *
-     * @return string
-     */
-    protected function getAuthorEmailReplacement(): string
-    {
-        return $this->pluginRepository->config('composer.author.email');
     }
 
     /**

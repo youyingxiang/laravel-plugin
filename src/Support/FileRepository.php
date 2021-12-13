@@ -241,7 +241,6 @@ class FileRepository implements RepositoryInterface
                 $plugins[$name] = $plugin;
             }
         }
-
         return $plugins;
     }
 

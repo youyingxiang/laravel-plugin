@@ -12,7 +12,7 @@ class $CLASS$ extends ServiceProvider
      *
      * @var string
      */
-    protected $pluginNamespace = '$PLUGIN_NAMESPACE$\$PLUGIN$\$CONTROLLER_NAMESPACE$';
+    protected string $pluginNamespace = '$PLUGIN_NAMESPACE$\$PLUGIN$\$CONTROLLER_NAMESPACE$';
 
     /**
      * Called before routes are registered.
@@ -49,7 +49,7 @@ class $CLASS$ extends ServiceProvider
     {
         Route::middleware('web')
             ->namespace($this->pluginNamespace)
-            ->group(module_path('$PLUGIN$', '$WEB_ROUTES_PATH$'));
+            ->group(plugin_path('$PLUGIN$', '$WEB_ROUTES_PATH$'));
     }
 
     /**
@@ -64,6 +64,6 @@ class $CLASS$ extends ServiceProvider
         Route::prefix('api')
             ->middleware('api')
             ->namespace($this->pluginNamespace)
-            ->group(module_path('$PLUGIN$', '$API_ROUTES_PATH$'));
+            ->group(plugin_path('$PLUGIN$', '$API_ROUTES_PATH$'));
     }
 }

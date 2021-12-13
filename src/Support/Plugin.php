@@ -75,7 +75,7 @@ class Plugin
         $this->cache = $app['cache'];
         $this->files = $app['files'];
         $this->translator = $app['translator'];
-       // $this->activator = $app[ActivatorInterface::class];
+        $this->activator = $app[ActivatorInterface::class];
         $this->app = $app;
     }
 

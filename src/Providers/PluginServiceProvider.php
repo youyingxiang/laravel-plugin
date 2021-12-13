@@ -2,6 +2,7 @@
 namespace Yxx\LaravelPlugin\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Plugins\Test\Providers\TestServiceProvider;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
 use Yxx\LaravelPlugin\Exceptions\InvalidActivatorClass;
@@ -17,6 +18,12 @@ class PluginServiceProvider extends ServiceProvider
     {
         $this->registerNamespaces();
         $this->registerPlugins();
+
+        // todo
+        $loader = require base_path()."/vendor/autoload.php";
+        $loader->setPsr4("Plugins\\", [base_path()."/plugins/"]);
+        $this->app->register(TestServiceProvider::class);
+
     }
 
     /**
@@ -105,8 +112,5 @@ class PluginServiceProvider extends ServiceProvider
     {
         return [RepositoryInterface::class, 'plugins.repository'];
     }
-
-
-
 
 }

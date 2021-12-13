@@ -3,7 +3,11 @@ namespace Yxx\LaravelPlugin\Providers;
 
 use Carbon\Laravel\ServiceProvider;
 use Illuminate\Support\Str;
+use Yxx\LaravelPlugin\Console\Commands\ControllerMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\PluginMakeCommand;
+use Yxx\LaravelPlugin\Console\Commands\ProviderMakeCommand;
+use Yxx\LaravelPlugin\Console\Commands\RouteProviderMakeCommand;
+use Yxx\LaravelPlugin\Console\Commands\SeedMakeCommand;
 
 class ConsoleServiceProvider extends ServiceProvider
 {
@@ -18,7 +22,11 @@ class ConsoleServiceProvider extends ServiceProvider
      * @var array
      */
     protected array $commands = [
-        PluginMakeCommand::class
+        PluginMakeCommand::class,
+        ProviderMakeCommand::class,
+        RouteProviderMakeCommand::class,
+        ControllerMakeCommand::class,
+        SeedMakeCommand::class,
     ];
 
     /**
