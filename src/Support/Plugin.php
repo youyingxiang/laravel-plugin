@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support;
 
 use Illuminate\Cache\CacheManager;
@@ -64,9 +65,10 @@ class Plugin
 
     /**
      * Plugin constructor.
-     * @param  ApplicationContract  $app
-     * @param  string  $name
-     * @param  string  $path
+     *
+     * @param ApplicationContract $app
+     * @param string              $name
+     * @param string              $path
      */
     public function __construct(ApplicationContract $app, string $name, string $path)
     {
@@ -111,18 +113,17 @@ class Plugin
         // This checks if we are running on a Laravel Vapor managed instance
         // and sets the path to a writable one (services path is not on a writable storage in Vapor).
         if (!is_null(env('VAPOR_MAINTENANCE_MODE', null))) {
-            return Str::replaceLast('config.php', $this->getSnakeName() . '_plugin.php', $this->app->getCachedConfigPath());
+            return Str::replaceLast('config.php', $this->getSnakeName().'_plugin.php', $this->app->getCachedConfigPath());
         }
-        return Str::replaceLast('services.php', $this->getSnakeName() . '_plugin.php', $this->app->getCachedServicesPath());
-    }
 
+        return Str::replaceLast('services.php', $this->getSnakeName().'_plugin.php', $this->app->getCachedServicesPath());
+    }
 
     public function registerProviders(): void
     {
         (new ProviderRepository($this->app, new Filesystem(), $this->getCachedServicesPath()))
             ->load($this->get('providers', []));
     }
-
 
     public function registerAliases(): void
     {
@@ -245,7 +246,7 @@ class Plugin
     {
         $lowerName = $this->getLowerName();
 
-        $langPath = $this->getPath() . '/Resources/lang';
+        $langPath = $this->getPath().'/Resources/lang';
 
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, $lowerName);
@@ -255,18 +256,18 @@ class Plugin
     /**
      * Get json contents from the cache, setting as needed.
      *
-     * @param  string|null  $file
+     * @param string|null $file
      *
      * @return Json
      */
-    public function json(?string $file = null) : Json
+    public function json(?string $file = null): Json
     {
         if ($file === null) {
             $file = 'plugin.json';
         }
 
         return Arr::get($this->pluginJson, $file, function () use ($file) {
-            return $this->pluginJson[$file] = new Json($this->getPath() . '/' . $file, $this->files);
+            return $this->pluginJson[$file] = new Json($this->getPath().'/'.$file, $this->files);
         });
     }
 
@@ -274,7 +275,7 @@ class Plugin
      * Get a specific data from json file by given the key.
      *
      * @param string $key
-     * @param null $default
+     * @param null   $default
      *
      * @return mixed
      */
@@ -303,7 +304,7 @@ class Plugin
      */
     protected function fireEvent($event): void
     {
-        $this->app['events']->dispatch(sprintf('plugins.%s.' . $event, $this->getLowerName()), [$this]);
+        $this->app['events']->dispatch(sprintf('plugins.%s.'.$event, $this->getLowerName()), [$this]);
     }
 
     /**
@@ -323,7 +324,7 @@ class Plugin
      *
      * @return bool
      */
-    public function isStatus(bool $status) : bool
+    public function isStatus(bool $status): bool
     {
         return $this->activator->hasStatus($this, $status);
     }
@@ -333,7 +334,7 @@ class Plugin
      *
      * @return bool
      */
-    public function isEnabled() : bool
+    public function isEnabled(): bool
     {
         return $this->activator->hasStatus($this, true);
     }
@@ -343,7 +344,7 @@ class Plugin
      *
      * @return bool
      */
-    public function isDisabled() : bool
+    public function isDisabled(): bool
     {
         return !$this->isEnabled();
     }
@@ -405,14 +406,13 @@ class Plugin
      *
      * @return string
      */
-    public function getExtraPath(string $path) : string
+    public function getExtraPath(string $path): string
     {
-        return $this->getPath() . '/' . $path;
+        return $this->getPath().'/'.$path;
     }
 
     /**
      * Check if can load files of plugin on boot method.
-     *
      */
     protected function isLoadFilesOnBoot(): bool
     {
@@ -429,8 +429,9 @@ class Plugin
     /**
      * Register a translation file namespace.
      *
-     * @param  string  $path
-     * @param  string  $namespace
+     * @param string $path
+     * @param string $namespace
+     *
      * @return void
      */
     private function loadTranslationsFrom(string $path, string $namespace): void

@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -28,7 +29,6 @@ class PluginCommand extends Command
                                                                                                                                                                
 LOGO;
 
-
     public function handle(): void
     {
         $this->info(static::$logo);
@@ -37,7 +37,6 @@ LOGO;
         $this->comment('Available commands:');
         $this->listAdminCommands();
     }
-
 
     protected function listAdminCommands(): void
     {
@@ -74,7 +73,8 @@ LOGO;
     /**
      * Returns the length of a string, using mb_strwidth if it is available.
      *
-     * @param  string  $string  The string to check its length
+     * @param string $string The string to check its length
+     *
      * @return int The length of the string
      */
     public static function strlen($string): int
@@ -85,5 +85,4 @@ LOGO;
 
         return mb_strwidth($string, $encoding);
     }
-
 }

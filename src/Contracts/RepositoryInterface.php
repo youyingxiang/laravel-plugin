@@ -1,11 +1,11 @@
 <?php
-namespace Yxx\LaravelPlugin\Contracts;
 
+namespace Yxx\LaravelPlugin\Contracts;
 
 use Illuminate\Filesystem\Filesystem;
 use Yxx\LaravelPlugin\Exceptions\PluginNotFoundException;
-use Yxx\LaravelPlugin\Support\Plugin;
 use Yxx\LaravelPlugin\Support\Collection;
+use Yxx\LaravelPlugin\Support\Plugin;
 
 interface RepositoryInterface
 {
@@ -67,7 +67,9 @@ interface RepositoryInterface
 
     /**
      * Get all ordered plugins.
+     *
      * @param string $direction
+     *
      * @return mixed
      */
     public function getOrdered($direction = 'asc');
@@ -85,6 +87,7 @@ interface RepositoryInterface
      * Find a specific plugin.
      *
      * @param $name
+     *
      * @return Plugin|null
      */
     public function find(string $name): ?Plugin;
@@ -93,8 +96,10 @@ interface RepositoryInterface
      * Find all plugins that are required by a plugin. If the plugin cannot be found, throw an exception.
      *
      * @param $name
-     * @return array
+     *
      * @throws PluginNotFoundException
+     *
+     * @return array
      */
     public function findRequirements($name): array;
 
@@ -108,7 +113,8 @@ interface RepositoryInterface
     public function findOrFail(string $name): Plugin;
 
     /**
-     * @param  string  $pluginName
+     * @param string $pluginName
+     *
      * @return string
      */
     public function getPluginPath(string $pluginName): string;
@@ -120,9 +126,10 @@ interface RepositoryInterface
 
     /**
      * Get a specific config data from a configuration file.
-     * @param string $key
      *
+     * @param string      $key
      * @param string|null $default
+     *
      * @return mixed
      */
     public function config(string $key, $default = null);
@@ -132,11 +139,13 @@ interface RepositoryInterface
      *
      * @return string
      */
-    public function getPath() : string;
+    public function getPath(): string;
 
     /**
      * Find a specific plugin by its alias.
+     *
      * @param string $alias
+     *
      * @return Plugin|null
      */
     public function findByAlias(string $alias): ?Plugin;
@@ -155,31 +164,41 @@ interface RepositoryInterface
      * Get asset path for a specific plugin.
      *
      * @param string $name
+     *
      * @return string
      */
     public function assetPath(string $name): string;
 
     /**
      * Delete a specific plugin.
+     *
      * @param string $name
-     * @return bool
+     *
      * @throws PluginNotFoundException
+     *
+     * @return bool
      */
     public function delete(string $name): bool;
 
     /**
      * Determine whether the given plugin is activated.
+     *
      * @param string $name
-     * @return bool
+     *
      * @throws PluginNotFoundException
+     *
+     * @return bool
      */
-    public function isEnabled(string $name) : bool;
+    public function isEnabled(string $name): bool;
 
     /**
      * Determine whether the given plugin is not activated.
+     *
      * @param string $name
-     * @return bool
+     *
      * @throws PluginNotFoundException
+     *
+     * @return bool
      */
-    public function isDisabled(string $name) : bool;
+    public function isDisabled(string $name): bool;
 }

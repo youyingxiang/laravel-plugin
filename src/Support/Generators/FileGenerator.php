@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support\Generators;
 
 use Illuminate\Filesystem\Filesystem;
@@ -35,8 +36,8 @@ class FileGenerator implements GeneratorInterface
     /**
      * The constructor.
      *
-     * @param string $path
-     * @param string $contents
+     * @param string          $path
+     * @param string          $contents
      * @param Filesystem|null $filesystem
      */
     public function __construct(string $path, string $contents, Filesystem $filesystem = null)
@@ -127,6 +128,7 @@ class FileGenerator implements GeneratorInterface
 
     /**
      * Generate the file.
+     *
      * @throws FileAlreadyExistException
      */
     public function generate(): bool

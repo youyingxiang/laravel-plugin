@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support;
 
 class Stub
@@ -68,9 +69,9 @@ class Stub
      *
      * @return string
      */
-    public function getPath():string
+    public function getPath(): string
     {
-        return static::getBasePath() . $this->path;
+        return static::getBasePath().$this->path;
     }
 
     /**
@@ -103,7 +104,7 @@ class Stub
         $contents = file_get_contents($this->getPath());
 
         foreach ($this->replaces as $search => $replace) {
-            $contents = str_replace('$' . strtoupper($search) . '$', $replace, $contents);
+            $contents = str_replace('$'.strtoupper($search).'$', $replace, $contents);
         }
 
         return $contents;
@@ -129,7 +130,7 @@ class Stub
      */
     public function saveTo(string $path, string $filename)
     {
-        return file_put_contents($path . '/' . $filename, $this->getContents());
+        return file_put_contents($path.'/'.$filename, $this->getContents());
     }
 
     /**

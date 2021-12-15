@@ -25,10 +25,10 @@ class EnableCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle() : int
+    public function handle(): int
     {
         /**
-         * check if user entred an argument
+         * check if user entred an argument.
          */
         if ($this->argument('plugin') === null) {
             $this->enableAll();
@@ -51,7 +51,7 @@ class EnableCommand extends Command
     }
 
     /**
-     * enableAll
+     * enableAll.
      *
      * @return void
      */

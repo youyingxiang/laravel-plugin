@@ -34,8 +34,9 @@ class Json
     /**
      * The constructor.
      *
-     * @param  mixed  $path
-     * @param  Filesystem|null  $filesystem
+     * @param mixed           $path
+     * @param Filesystem|null $filesystem
+     *
      * @throws Exception
      */
     public function __construct(string $path, Filesystem $filesystem = null)
@@ -96,11 +97,12 @@ class Json
     /**
      * Make new instance.
      *
-     * @param  string  $path
-     * @param  Filesystem|null  $filesystem
+     * @param string          $path
+     * @param Filesystem|null $filesystem
+     *
+     * @throws Exception
      *
      * @return static
-     * @throws Exception
      */
     public static function make(string $path, Filesystem $filesystem = null): Json
     {
@@ -110,8 +112,9 @@ class Json
     /**
      * Get file content.
      *
-     * @return string
      * @throws FileNotFoundException
+     *
+     * @return string
      */
     public function getContents(): string
     {
@@ -120,8 +123,10 @@ class Json
 
     /**
      * Get file contents as array.
-     * @return array
+     *
      * @throws Exception
+     *
+     * @return array
      */
     public function getAttributes(): array
     {
@@ -129,7 +134,7 @@ class Json
 
         // any JSON parsing errors should throw an exception
         if (json_last_error() > 0) {
-            throw new InvalidJsonException('Error processing file: ' . $this->getPath() . '. Error: ' . json_last_error_msg());
+            throw new InvalidJsonException('Error processing file: '.$this->getPath().'. Error: '.json_last_error_msg());
         }
 
         if (config('plugin.cache.enabled') === false) {
@@ -144,7 +149,7 @@ class Json
     /**
      * Convert the given array data to pretty json.
      *
-     * @param  array|null  $data
+     * @param array|null $data
      *
      * @return string
      */
@@ -237,8 +242,9 @@ class Json
     /**
      * Handle call to __toString method.
      *
-     * @return string
      * @throws FileNotFoundException
+     *
+     * @return string
      */
     public function __toString(): string
     {

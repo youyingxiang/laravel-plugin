@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Exceptions;
 
 class InvalidActivatorClass extends \Exception

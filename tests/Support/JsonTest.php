@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Support;
 
 use Yxx\LaravelPlugin\Exceptions\InvalidJsonException;
@@ -15,22 +16,22 @@ class JsonTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $path = __DIR__ . '/../stubs/valid/plugin.json';
+        $path = __DIR__.'/../stubs/valid/plugin.json';
         $this->json = new Json($path, $this->app['files']);
     }
 
     public function test_it_gets_the_file_path()
     {
-        $path = __DIR__ . '/../stubs/valid/plugin.json';
+        $path = __DIR__.'/../stubs/valid/plugin.json';
         $this->assertEquals($path, $this->json->getPath());
     }
 
     public function test_it_throws_an_exception_with_invalid_json()
     {
-        $path = __DIR__ . '/../stubs/InvalidJsonPlugin/plugin.json';
+        $path = __DIR__.'/../stubs/InvalidJsonPlugin/plugin.json';
 
         $this->expectException(InvalidJsonException::class);
-        $this->expectExceptionMessage('Error processing file: ' . $path . '. Error: Syntax error');
+        $this->expectExceptionMessage('Error processing file: '.$path.'. Error: Syntax error');
 
         new Json($path, $this->app['files']);
     }
@@ -59,16 +60,15 @@ class JsonTest extends TestCase
 
     public function test_it_makes_json_class()
     {
-        $path = __DIR__ . '/../stubs/valid/plugin.json';
+        $path = __DIR__.'/../stubs/valid/plugin.json';
         $json = Json::make($path, $this->app['files']);
 
         $this->assertInstanceOf(Json::class, $json);
     }
 
-
     public function test_it_sets_a_path()
     {
-        $path = __DIR__ . '/../stubs/valid/plugin.json';
+        $path = __DIR__.'/../stubs/valid/plugin.json';
         $this->assertEquals($path, $this->json->getPath());
 
         $this->json->setPath('some/path.json');
@@ -129,5 +129,4 @@ class JsonTest extends TestCase
 }';
         $this->assertEquals($expected, $this->json);
     }
-
 }

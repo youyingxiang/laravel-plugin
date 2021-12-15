@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Activators;
 
 use Illuminate\Cache\CacheManager;
@@ -12,21 +13,21 @@ use Yxx\LaravelPlugin\Support\Plugin;
 class FileActivator implements ActivatorInterface
 {
     /**
-     * Laravel cache instance
+     * Laravel cache instance.
      *
      * @var CacheManager
      */
     private CacheManager $cache;
 
     /**
-     * Laravel Filesystem instance
+     * Laravel Filesystem instance.
      *
      * @var Filesystem
      */
     private Filesystem $files;
 
     /**
-     * Laravel config instance
+     * Laravel config instance.
      *
      * @var Config
      */
@@ -43,14 +44,14 @@ class FileActivator implements ActivatorInterface
     private string $cacheLifetime;
 
     /**
-     * Array of plugins activation statuses
+     * Array of plugins activation statuses.
      *
      * @var array
      */
     private array $pluginsStatuses;
 
     /**
-     * File used to store activation statuses
+     * File used to store activation statuses.
      *
      * @var string
      */
@@ -68,7 +69,7 @@ class FileActivator implements ActivatorInterface
     }
 
     /**
-     * Get the path of the file where statuses are stored
+     * Get the path of the file where statuses are stored.
      *
      * @return string
      */
@@ -149,7 +150,7 @@ class FileActivator implements ActivatorInterface
     }
 
     /**
-     * Writes the activation statuses in a file, as json
+     * Writes the activation statuses in a file, as json.
      */
     private function writeJson(): void
     {
@@ -158,8 +159,10 @@ class FileActivator implements ActivatorInterface
 
     /**
      * Reads the json file that contains the activation statuses.
-     * @return array
+     *
      * @throws FileNotFoundException
+     *
+     * @return array
      */
     private function readJson(): array
     {
@@ -173,8 +176,10 @@ class FileActivator implements ActivatorInterface
     /**
      * Get plugins statuses, either from the cache or from
      * the json statuses file if the cache is disabled.
-     * @return array
+     *
      * @throws FileNotFoundException
+     *
+     * @return array
      */
     private function getPluginsStatuses(): array
     {
@@ -188,19 +193,20 @@ class FileActivator implements ActivatorInterface
     }
 
     /**
-     * Reads a config parameter under the 'activators.file' key
+     * Reads a config parameter under the 'activators.file' key.
      *
-     * @param  string $key
-     * @param  $default
+     * @param string $key
+     * @param        $default
+     *
      * @return mixed
      */
     private function config(string $key, $default = null)
     {
-        return $this->config->get('plugins.activators.file.' . $key, $default);
+        return $this->config->get('plugins.activators.file.'.$key, $default);
     }
 
     /**
-     * Flushes the plugins activation statuses cache
+     * Flushes the plugins activation statuses cache.
      */
     private function flushCache(): void
     {

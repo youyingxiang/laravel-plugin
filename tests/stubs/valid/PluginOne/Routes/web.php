@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('pluginone')->group(function() {
+Route::prefix('pluginone')->group(function () {
     Route::get('/', 'PluginOneController@index');
 });

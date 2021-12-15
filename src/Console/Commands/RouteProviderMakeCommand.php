@@ -1,6 +1,6 @@
 <?php
-namespace Yxx\LaravelPlugin\Console\Commands;
 
+namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -83,11 +83,11 @@ class RouteProviderMakeCommand extends GeneratorCommand
      */
     protected function getDestinationFilePath(): string
     {
-        $path = $this->getPlugin()->getPath() . "/";
+        $path = $this->getPlugin()->getPath().'/';
 
         $generatorPath = GenerateConfigReader::read('provider');
 
-        return $path . $generatorPath->getPath() . '/' . $this->getFileName() . '.php';
+        return $path.$generatorPath->getPath().'/'.$this->getFileName().'.php';
     }
 
     /**
@@ -95,7 +95,7 @@ class RouteProviderMakeCommand extends GeneratorCommand
      */
     protected function getWebRoutesPath(): string
     {
-        return '/' . $this->laravel['plugins.repository']->config('stubs.files.routes/web', 'Routes/web.php');
+        return '/'.$this->laravel['plugins.repository']->config('stubs.files.routes/web', 'Routes/web.php');
     }
 
     /**
@@ -103,10 +103,10 @@ class RouteProviderMakeCommand extends GeneratorCommand
      */
     protected function getApiRoutesPath(): string
     {
-        return '/' . $this->laravel['plugins.repository']->config('stubs.files.routes/api', 'Routes/api.php');
+        return '/'.$this->laravel['plugins.repository']->config('stubs.files.routes/api', 'Routes/api.php');
     }
 
-    public function getDefaultNamespace() : string
+    public function getDefaultNamespace(): string
     {
         $repository = $this->laravel['plugins.repository'];
 

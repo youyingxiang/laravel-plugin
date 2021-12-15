@@ -7,12 +7,12 @@ use Illuminate\Support\ServiceProvider;
 class PluginOneServiceProvider extends ServiceProvider
 {
     /**
-     * @var string $pluginName
+     * @var string
      */
     protected string $pluginName = 'PluginOne';
 
     /**
-     * @var string $pluginNameLower
+     * @var string
      */
     protected string $pluginNameLower = 'pluginone';
 
@@ -46,10 +46,11 @@ class PluginOneServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            plugin_path($this->pluginName, 'Config/config.php') => config_path($this->pluginNameLower . '.php'),
+            plugin_path($this->pluginName, 'Config/config.php') => config_path($this->pluginNameLower.'.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            plugin_path($this->pluginName, 'Config/config.php'), $this->pluginNameLower
+            plugin_path($this->pluginName, 'Config/config.php'),
+            $this->pluginNameLower
         );
     }
 
@@ -60,13 +61,13 @@ class PluginOneServiceProvider extends ServiceProvider
      */
     public function registerViews()
     {
-        $viewPath = resource_path('views/plugins/' . $this->pluginNameLower);
+        $viewPath = resource_path('views/plugins/'.$this->pluginNameLower);
 
         $sourcePath = plugin_path($this->pluginName, 'Resources/views');
 
         $this->publishes([
-            $sourcePath => $viewPath
-        ], ['views', $this->pluginNameLower . '-plugin-views']);
+            $sourcePath => $viewPath,
+        ], ['views', $this->pluginNameLower.'-plugin-views']);
 
         $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->pluginNameLower);
     }
@@ -78,7 +79,7 @@ class PluginOneServiceProvider extends ServiceProvider
      */
     public function registerTranslations()
     {
-        $langPath = resource_path('lang/plugins/' . $this->pluginNameLower);
+        $langPath = resource_path('lang/plugins/'.$this->pluginNameLower);
 
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, $this->pluginNameLower);
@@ -101,10 +102,11 @@ class PluginOneServiceProvider extends ServiceProvider
     {
         $paths = [];
         foreach (config('view.paths') as $path) {
-            if (is_dir($path . '/plugins/' . $this->pluginNameLower)) {
-                $paths[] = $path . '/plugins/' . $this->pluginNameLower;
+            if (is_dir($path.'/plugins/'.$this->pluginNameLower)) {
+                $paths[] = $path.'/plugins/'.$this->pluginNameLower;
             }
         }
+
         return $paths;
     }
 }

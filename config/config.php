@@ -24,24 +24,24 @@ return [
 
     'stubs' => [
         'enabled' => false,
-        'files' => [
-            'routes/web' => 'Routes/web.php',
-            'routes/api' => 'Routes/api.php',
-            'views/index' => 'Resources/views/index.blade.php',
-            'views/master' => 'Resources/views/layouts/master.blade.php',
+        'files'   => [
+            'routes/web'      => 'Routes/web.php',
+            'routes/api'      => 'Routes/api.php',
+            'views/index'     => 'Resources/views/index.blade.php',
+            'views/master'    => 'Resources/views/layouts/master.blade.php',
             'scaffold/config' => 'Config/config.php',
-            'assets/js/app' => 'Resources/assets/js/app.js',
+            'assets/js/app'   => 'Resources/assets/js/app.js',
             'assets/sass/app' => 'Resources/assets/sass/app.scss',
-            'webpack' => 'webpack.mix.js',
-            'package' => 'package.json',
+            'webpack'         => 'webpack.mix.js',
+            'package'         => 'package.json',
         ],
         'replacements' => [
-            'routes/web' => ['LOWER_NAME', 'STUDLY_NAME'],
-            'routes/api' => ['LOWER_NAME'],
-            'webpack' => ['LOWER_NAME'],
-            'json' => ['LOWER_NAME', 'STUDLY_NAME', 'PLUGIN_NAMESPACE', 'PROVIDER_NAMESPACE'],
-            'views/index' => ['LOWER_NAME'],
-            'views/master' => ['LOWER_NAME', 'STUDLY_NAME'],
+            'routes/web'      => ['LOWER_NAME', 'STUDLY_NAME'],
+            'routes/api'      => ['LOWER_NAME'],
+            'webpack'         => ['LOWER_NAME'],
+            'json'            => ['LOWER_NAME', 'STUDLY_NAME', 'PLUGIN_NAMESPACE', 'PROVIDER_NAMESPACE'],
+            'views/index'     => ['LOWER_NAME'],
+            'views/master'    => ['LOWER_NAME', 'STUDLY_NAME'],
             'scaffold/config' => ['STUDLY_NAME'],
         ],
         'gitkeep' => true,
@@ -74,14 +74,14 @@ return [
         | Set the generate key to false to not generate that folder
         */
         'generator' => [
-            'config' => ['path' => 'Config', 'generate' => true],
-            'seeder' => ['path' => 'Database/Seeders', 'generate' => true],
-            'routes' => ['path' => 'Routes', 'generate' => true],
+            'config'     => ['path' => 'Config', 'generate' => true],
+            'seeder'     => ['path' => 'Database/Seeders', 'generate' => true],
+            'routes'     => ['path' => 'Routes', 'generate' => true],
             'controller' => ['path' => 'Http/Controllers', 'generate' => true],
-            'provider' => ['path' => 'Providers', 'generate' => true],
-            'assets' => ['path' => 'Resources/assets', 'generate' => true],
-            'lang' => ['path' => 'Resources/lang', 'generate' => true],
-            'views' => ['path' => 'Resources/views', 'generate' => true],
+            'provider'   => ['path' => 'Providers', 'generate' => true],
+            'assets'     => ['path' => 'Resources/assets', 'generate' => true],
+            'lang'       => ['path' => 'Resources/lang', 'generate' => true],
+            'views'      => ['path' => 'Resources/views', 'generate' => true],
         ],
     ],
 
@@ -97,7 +97,6 @@ return [
     */
     'commands' => [],
 
-
     /*
     |--------------------------------------------------------------------------
     | Caching
@@ -107,8 +106,8 @@ return [
     |
     */
     'cache' => [
-        'enabled' => false,
-        'key' => 'laravel-plugin',
+        'enabled'  => false,
+        'key'      => 'laravel-plugin',
         'lifetime' => 60,
     ],
     /*
@@ -121,7 +120,7 @@ return [
     'register' => [
         'translations' => true,
         /**
-         * load files on boot or register method
+         * load files on boot or register method.
          *
          * Note: boot not compatible with asgardcms
          *
@@ -141,9 +140,9 @@ return [
     */
     'activators' => [
         'file' => [
-            'class' => \Yxx\LaravelPlugin\Activators\FileActivator::class,
-            'statuses-file' => base_path('plugin_statuses.json'),
-            'cache-key' => 'activator.installed',
+            'class'          => \Yxx\LaravelPlugin\Activators\FileActivator::class,
+            'statuses-file'  => base_path('plugin_statuses.json'),
+            'cache-key'      => 'activator.installed',
             'cache-lifetime' => 604800,
         ],
     ],

@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Providers;
 
 use Illuminate\Support\ServiceProvider;

@@ -1,7 +1,8 @@
 <?php
+
 return [
-    'name' => 'Name',
-    'status' => 'Status',
+    'name'     => 'Name',
+    'status'   => 'Status',
     'priority' => 'Priority',
-    'path' => 'Path'
+    'path'     => 'Path',
 ];

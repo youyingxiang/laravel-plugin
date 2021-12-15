@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Traits;
 
 use Yxx\LaravelPlugin\Support\Plugin;
@@ -6,6 +7,7 @@ use Yxx\LaravelPlugin\Support\Plugin;
 trait PluginCommandTrait
 {
     protected Plugin $plugin;
+
     /**
      * Get the plugin name.
      *

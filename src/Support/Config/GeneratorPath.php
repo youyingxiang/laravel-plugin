@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support\Config;
 
 class GeneratorPath
@@ -26,7 +27,7 @@ class GeneratorPath
         return $this->path;
     }
 
-    public function generate() : bool
+    public function generate(): bool
     {
         return $this->generate;
     }

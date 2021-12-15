@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Providers;
 
 use Carbon\Laravel\ServiceProvider;

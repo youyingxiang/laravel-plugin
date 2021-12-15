@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Support\Str;
@@ -6,12 +7,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Yxx\LaravelPlugin\Support\Config\GenerateConfigReader;
 use Yxx\LaravelPlugin\Support\Stub;
-use Yxx\LaravelPlugin\Traits\PluginCommandTrait;
 use Yxx\LaravelPlugin\Traits\CanClearPluginsCache;
+use Yxx\LaravelPlugin\Traits\PluginCommandTrait;
 
 class SeedMakeCommand extends GeneratorCommand
 {
-    use PluginCommandTrait, CanClearPluginsCache;
+    use PluginCommandTrait;
+    use CanClearPluginsCache;
 
     protected string $argumentName = 'name';
 
@@ -67,8 +69,8 @@ class SeedMakeCommand extends GeneratorCommand
         $plugin = $this->getPlugin();
 
         return (new Stub('/seeder.stub', [
-            'NAME' => $this->getSeederName(),
-            'PLUGIN' => $this->getPluginName(),
+            'NAME'      => $this->getSeederName(),
+            'PLUGIN'    => $this->getPluginName(),
             'NAMESPACE' => $this->getClassNamespace($plugin),
         ]))->render();
     }
@@ -80,11 +82,11 @@ class SeedMakeCommand extends GeneratorCommand
     {
         $this->clearCache();
 
-        $path = $this->getPlugin()->getPath() . "/";
+        $path = $this->getPlugin()->getPath().'/';
 
         $seederPath = GenerateConfigReader::read('seeder');
 
-        return $path . $seederPath->getPath() . '/' . $this->getSeederName() . '.php';
+        return $path.$seederPath->getPath().'/'.$this->getSeederName().'.php';
     }
 
     /**
@@ -96,7 +98,7 @@ class SeedMakeCommand extends GeneratorCommand
     {
         $end = $this->option('master') ? 'DatabaseSeeder' : 'TableSeeder';
 
-        return Str::studly($this->argument('name')) . $end;
+        return Str::studly($this->argument('name')).$end;
     }
 
     /**
@@ -104,7 +106,7 @@ class SeedMakeCommand extends GeneratorCommand
      *
      * @return string
      */
-    public function getDefaultNamespace() : string
+    public function getDefaultNamespace(): string
     {
         $repository = $this->laravel['plugins.repository'];
 

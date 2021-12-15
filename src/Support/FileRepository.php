@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support;
 
 use Exception;
@@ -67,6 +68,7 @@ class FileRepository implements RepositoryInterface
 
     /**
      * The constructor.
+     *
      * @param Application $app
      * @param string|null $path
      */
@@ -81,10 +83,11 @@ class FileRepository implements RepositoryInterface
     }
 
     /**
-     * @param  mixed  ...$args
+     * @param mixed ...$args
+     *
      * @return Plugin
      */
-    protected function createPlugin(...$args):Plugin
+    protected function createPlugin(...$args): Plugin
     {
         return new Plugin(...$args);
     }
@@ -108,18 +111,17 @@ class FileRepository implements RepositoryInterface
      *
      * @return array
      */
-    public function getPaths() : array
+    public function getPaths(): array
     {
         return $this->paths;
     }
-
 
     /**
      * Get scanned plugins paths.
      *
      * @return array
      */
-    public function getScanPaths() : array
+    public function getScanPaths(): array
     {
         $paths = $this->paths;
 
@@ -135,8 +137,9 @@ class FileRepository implements RepositoryInterface
     /**
      * Get & scan all plugins.
      *
-     * @return array
      * @throws Exception
+     *
+     * @return array
      */
     public function scan(): array
     {
@@ -162,10 +165,11 @@ class FileRepository implements RepositoryInterface
     /**
      * Get all plugins.
      *
-     * @return array
      * @throws Exception
+     *
+     * @return array
      */
-    public function all() : array
+    public function all(): array
     {
         if (!$this->config('cache.enabled')) {
             return $this->scan();
@@ -173,7 +177,6 @@ class FileRepository implements RepositoryInterface
 
         return $this->formatCached($this->getCached());
     }
-
 
     /**
      * Format the cached data as array of plugins.
@@ -207,14 +210,14 @@ class FileRepository implements RepositoryInterface
         });
     }
 
-
     /**
      * Get all plugins as collection instance.
      *
-     * @return Collection
      * @throws Exception
+     *
+     * @return Collection
      */
-    public function toCollection() : Collection
+    public function toCollection(): Collection
     {
         return new Collection($this->scan());
     }
@@ -224,10 +227,11 @@ class FileRepository implements RepositoryInterface
      *
      * @param bool $status
      *
-     * @return array
      * @throws Exception
+     *
+     * @return array
      */
-    public function getByStatus(bool $status) : array
+    public function getByStatus(bool $status): array
     {
         $plugins = [];
 
@@ -237,6 +241,7 @@ class FileRepository implements RepositoryInterface
                 $plugins[$name] = $plugin;
             }
         }
+
         return $plugins;
     }
 
@@ -245,22 +250,23 @@ class FileRepository implements RepositoryInterface
      *
      * @param $name
      *
-     * @return bool
      * @throws Exception
+     *
+     * @return bool
      */
-    public function has($name) : bool
+    public function has($name): bool
     {
         return array_key_exists($name, $this->all());
     }
 
-
     /**
      * Get list of enabled plugins.
      *
-     * @return array
      * @throws Exception
+     *
+     * @return array
      */
-    public function allEnabled() : array
+    public function allEnabled(): array
     {
         return $this->getByStatus(true);
     }
@@ -268,10 +274,11 @@ class FileRepository implements RepositoryInterface
     /**
      * Get list of disabled plugins.
      *
-     * @return array
      * @throws Exception
+     *
+     * @return array
      */
-    public function allDisabled() : array
+    public function allDisabled(): array
     {
         return $this->getByStatus(false);
     }
@@ -279,10 +286,11 @@ class FileRepository implements RepositoryInterface
     /**
      * Get count from all plugins.
      *
-     * @return int
      * @throws Exception
+     *
+     * @return int
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->all());
     }
@@ -290,12 +298,13 @@ class FileRepository implements RepositoryInterface
     /**
      * Get all ordered plugins.
      *
-     * @param  string  $direction
+     * @param string $direction
+     *
+     * @throws Exception
      *
      * @return array
-     * @throws Exception
      */
-    public function getOrdered($direction = 'asc') : array
+    public function getOrdered($direction = 'asc'): array
     {
         $plugins = $this->allEnabled();
 
@@ -317,13 +326,14 @@ class FileRepository implements RepositoryInterface
     /**
      * @return string
      */
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path ?: $this->config('paths.plugins', base_path('plugins'));
     }
 
     /**
      * @inheritDoc
+     *
      * @throws Exception
      */
     public function register(): void
@@ -336,6 +346,7 @@ class FileRepository implements RepositoryInterface
 
     /**
      * @inheritDoc
+     *
      * @throws Exception
      */
     public function boot(): void
@@ -345,9 +356,9 @@ class FileRepository implements RepositoryInterface
         }
     }
 
-
     /**
      * @inheritDoc
+     *
      * @throws Exception
      */
     public function find(string $name): ?Plugin
@@ -363,6 +374,7 @@ class FileRepository implements RepositoryInterface
 
     /**
      * @inheritDoc
+     *
      * @throws Exception
      */
     public function findByAlias(string $alias): ?Plugin
@@ -378,6 +390,7 @@ class FileRepository implements RepositoryInterface
 
     /**
      * @inheritDoc
+     *
      * @throws Exception
      */
     public function findRequirements($name): array
@@ -398,10 +411,10 @@ class FileRepository implements RepositoryInterface
      *
      * @param $name
      *
-     * @return Plugin
-     *
      * @throws PluginNotFoundException
      * @throws Exception
+     *
+     * @return Plugin
      */
     public function findOrFail(string $name): Plugin
     {
@@ -419,10 +432,11 @@ class FileRepository implements RepositoryInterface
      *
      * @param $status
      *
-     * @return Collection
      * @throws Exception
+     *
+     * @return Collection
      */
-    public function collections($status = 1) : Collection
+    public function collections($status = 1): Collection
     {
         return new Collection($this->getByStatus($status));
     }
@@ -432,24 +446,25 @@ class FileRepository implements RepositoryInterface
      *
      * @param string $pluginName
      *
-     * @return string
      * @throws Exception
+     *
+     * @return string
      */
     public function getPluginPath(string $pluginName): string
     {
         try {
-            return $this->findOrFail($pluginName)->getPath() . '/';
+            return $this->findOrFail($pluginName)->getPath().'/';
         } catch (PluginNotFoundException $e) {
-            return $this->getPath() . '/' . Str::studly($pluginName) . '/';
+            return $this->getPath().'/'.Str::studly($pluginName).'/';
         }
     }
 
     /**
      * @inheritDoc
      */
-    public function assetPath(string $plugin) : string
+    public function assetPath(string $plugin): string
     {
-        return $this->config('paths.assets') . '/' . $plugin;
+        return $this->config('paths.assets').'/'.$plugin;
     }
 
     /**
@@ -457,7 +472,7 @@ class FileRepository implements RepositoryInterface
      */
     public function config(string $key, $default = null)
     {
-        return $this->config->get('plugins.' . $key, $default);
+        return $this->config->get('plugins.'.$key, $default);
     }
 
     /**
@@ -465,7 +480,7 @@ class FileRepository implements RepositoryInterface
      *
      * @return string
      */
-    public function getUsedStoragePath() : string
+    public function getUsedStoragePath(): string
     {
         $directory = storage_path('app/plugins');
         if ($this->getFiles()->exists($directory) === false) {
@@ -506,10 +521,12 @@ class FileRepository implements RepositoryInterface
 
     /**
      * Get plugins used for cli session.
-     * @return string
+     *
      * @throws PluginNotFoundException|FileNotFoundException
+     *
+     * @return string
      */
-    public function getUsedNow() : string
+    public function getUsedNow(): string
     {
         return $this->findOrFail($this->getFiles()->get($this->getUsedStoragePath()));
     }
@@ -529,27 +546,30 @@ class FileRepository implements RepositoryInterface
      *
      * @return string
      */
-    public function getAssetsPath() : string
+    public function getAssetsPath(): string
     {
         return $this->config('paths.assets');
     }
 
     /**
      * Get asset url from a specific plugins.
+     *
      * @param string $asset
-     * @return string
+     *
      * @throws InvalidAssetPath
+     *
+     * @return string
      */
-    public function asset(string $asset) : string
+    public function asset(string $asset): string
     {
         if (Str::contains($asset, ':') === false) {
             throw InvalidAssetPath::missingPluginName($asset);
         }
         list($name, $url) = explode(':', $asset);
 
-        $baseUrl = str_replace(public_path() . DIRECTORY_SEPARATOR, '', $this->getAssetsPath());
+        $baseUrl = str_replace(public_path().DIRECTORY_SEPARATOR, '', $this->getAssetsPath());
 
-        $url = $this->url->asset($baseUrl . "/{$name}/" . $url);
+        $url = $this->url->asset($baseUrl."/{$name}/".$url);
 
         return str_replace(['http://', 'https://'], '//', $url);
     }
@@ -557,7 +577,7 @@ class FileRepository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function isEnabled(string $name) : bool
+    public function isEnabled(string $name): bool
     {
         return $this->findOrFail($name)->isEnabled();
     }
@@ -565,16 +585,19 @@ class FileRepository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function isDisabled(string $name) : bool
+    public function isDisabled(string $name): bool
     {
         return !$this->isEnabled($name);
     }
 
     /**
      * Enabling a specific plugin.
-     * @param  string  $name
-     * @return void
+     *
+     * @param string $name
+     *
      * @throws PluginNotFoundException
+     *
+     * @return void
      */
     public function enable(string $name): void
     {
@@ -583,9 +606,12 @@ class FileRepository implements RepositoryInterface
 
     /**
      * Disabling a specific plugin.
+     *
      * @param string $name
-     * @return void
+     *
      * @throws PluginNotFoundException
+     *
+     * @return void
      */
     public function disable(string $name)
     {
@@ -595,7 +621,7 @@ class FileRepository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function delete(string $name) : bool
+    public function delete(string $name): bool
     {
         return $this->findOrFail($name)->delete();
     }

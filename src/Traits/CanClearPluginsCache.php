@@ -1,10 +1,11 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Traits;
 
-Trait CanClearPluginsCache
+trait CanClearPluginsCache
 {
     /**
-     * Clear the plugins cache if it is enabled
+     * Clear the plugins cache if it is enabled.
      */
     public function clearCache(): void
     {

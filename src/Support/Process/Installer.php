@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support\Process;
 
 use Illuminate\Console\Command;
@@ -24,6 +25,7 @@ class Installer
 
     /**
      * The plugin repository instance.
+     *
      * @var RepositoryInterface
      */
     protected RepositoryInterface $repository;
@@ -62,10 +64,10 @@ class Installer
     /**
      * The constructor.
      *
-     * @param string $name
+     * @param string      $name
      * @param string|null $version
      * @param string|null $type
-     * @param bool   $tree
+     * @param bool        $tree
      */
     public function __construct(string $name, string $version = null, string $type = null, bool $tree = false)
     {
@@ -91,7 +93,9 @@ class Installer
 
     /**
      * Set the plugin repository instance.
+     *
      * @param RepositoryInterface $repository
+     *
      * @return $this
      */
     public function setRepository(RepositoryInterface $repository): Installer
@@ -249,10 +253,10 @@ class Installer
     public function getPackageName(): string
     {
         if (is_null($this->version)) {
-            return $this->name . ':dev-master';
+            return $this->name.':dev-master';
         }
 
-        return $this->name . ':' . $this->version;
+        return $this->name.':'.$this->version;
     }
 
     /**

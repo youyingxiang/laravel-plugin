@@ -2,7 +2,6 @@
 
 namespace Yxx\LaravelPlugin\Support\Process;
 
-
 use Yxx\LaravelPlugin\Support\Plugin;
 
 class Updater extends Runner

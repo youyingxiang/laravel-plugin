@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support\Generators;
 
 use Exception;
@@ -43,7 +44,7 @@ class PluginGenerator implements GeneratorInterface
     protected ?Console $console;
 
     /**
-     * The activator instance
+     * The activator instance.
      *
      * @var ActivatorInterface|null
      */
@@ -72,12 +73,13 @@ class PluginGenerator implements GeneratorInterface
 
     /**
      * The constructor.
-     * @param  string  $name
-     * @param  FileRepository|null  $pluginRepository
-     * @param  Config|null  $config
-     * @param  Filesystem|null  $filesystem
-     * @param  Console|null  $console
-     * @param  ActivatorInterface|null  $activator
+     *
+     * @param string                  $name
+     * @param FileRepository|null     $pluginRepository
+     * @param Config|null             $config
+     * @param Filesystem|null         $filesystem
+     * @param Console|null            $console
+     * @param ActivatorInterface|null $activator
      */
     public function __construct(
         string $name,
@@ -144,7 +146,7 @@ class PluginGenerator implements GeneratorInterface
     }
 
     /**
-     * Set the plugins activator
+     * Set the plugins activator.
      *
      * @param ActivatorInterface $activator
      *
@@ -218,7 +220,8 @@ class PluginGenerator implements GeneratorInterface
     /**
      * Set the plugin instance.
      *
-     * @param  FileRepository  $pluginRepository
+     * @param FileRepository $pluginRepository
+     *
      * @return $this
      */
     public function setPluginRepository(FileRepository $pluginRepository): PluginGenerator
@@ -264,9 +267,10 @@ class PluginGenerator implements GeneratorInterface
 
     /**
      * Generate the plugin.
+     *
      * @throws Exception
      */
-    public function generate() : int
+    public function generate(): int
     {
         $name = $this->getName();
 
@@ -299,16 +303,16 @@ class PluginGenerator implements GeneratorInterface
     {
         if (GenerateConfigReader::read('seeder')->generate() === true) {
             $this->console->call('plugin:make-seed', [
-                'name' => $this->getName(),
-                'plugin' => $this->getName(),
+                'name'     => $this->getName(),
+                'plugin'   => $this->getName(),
                 '--master' => true,
             ]);
         }
 
         if (GenerateConfigReader::read('provider')->generate() === true) {
             $this->console->call('plugin:make-provider', [
-                'name' => $this->getName() . 'ServiceProvider',
-                'plugin' => $this->getName(),
+                'name'     => $this->getName().'ServiceProvider',
+                'plugin'   => $this->getName(),
                 '--master' => true,
             ]);
             $this->console->call('plugin:route-provider', [
@@ -318,19 +322,20 @@ class PluginGenerator implements GeneratorInterface
 
         if (GenerateConfigReader::read('controller')->generate() === true) {
             $this->console->call('plugin:make-controller', [
-                'controller' => $this->getName() . 'Controller',
-                'plugin' => $this->getName(),
+                'controller' => $this->getName().'Controller',
+                'plugin'     => $this->getName(),
             ]);
         }
     }
 
     /**
-     * Generate the plugin.json file
+     * Generate the plugin.json file.
+     *
      * @throws Exception
      */
     private function generatePluginJsonFile()
     {
-        $path = $this->pluginRepository->getPluginPath($this->getName()) . 'plugin.json';
+        $path = $this->pluginRepository->getPluginPath($this->getName()).'plugin.json';
 
         if (!$this->filesystem->isDirectory($dir = dirname($path))) {
             $this->filesystem->makeDirectory($dir, 0775, true);
@@ -343,6 +348,7 @@ class PluginGenerator implements GeneratorInterface
 
     /**
      * Generate the folders.
+     *
      * @throws Exception
      */
     public function generateFolders(): void
@@ -354,7 +360,7 @@ class PluginGenerator implements GeneratorInterface
                 continue;
             }
 
-            $path = $this->pluginRepository->getPluginPath($this->getName()) . $folder->getPath();
+            $path = $this->pluginRepository->getPluginPath($this->getName()).$folder->getPath();
 
             $this->filesystem->makeDirectory($path, 0755, true);
             if (config('plugins.stubs.gitkeep')) {
@@ -365,12 +371,13 @@ class PluginGenerator implements GeneratorInterface
 
     /**
      * Generate the files.
+     *
      * @throws Exception
      */
     public function generateFiles(): void
     {
         foreach ($this->getFiles() as $stub => $file) {
-            $path = $this->pluginRepository->getPluginPath($this->getName()) . $file;
+            $path = $this->pluginRepository->getPluginPath($this->getName()).$file;
 
             if (!$this->filesystem->isDirectory($dir = dirname($path))) {
                 $this->filesystem->makeDirectory($dir, 0775, true);
@@ -389,7 +396,7 @@ class PluginGenerator implements GeneratorInterface
      */
     public function generateGitKeep(string $path): void
     {
-        $this->filesystem->put($path . '/.gitkeep', '');
+        $this->filesystem->put($path.'/.gitkeep', '');
     }
 
     /**
@@ -402,7 +409,7 @@ class PluginGenerator implements GeneratorInterface
     protected function getStubContents(string $stub): string
     {
         return (new Stub(
-            '/' . $stub . '.stub',
+            '/'.$stub.'.stub',
             $this->getReplacement($stub)
         )
         )->render();
@@ -433,7 +440,7 @@ class PluginGenerator implements GeneratorInterface
             }
         }
         foreach ($keys as $key) {
-            if (method_exists($this, $method = 'get' . ucfirst(Str::studly(strtolower($key))) . 'Replacement')) {
+            if (method_exists($this, $method = 'get'.ucfirst(Str::studly(strtolower($key))).'Replacement')) {
                 $replaces[$key] = $this->$method();
             } else {
                 $replaces[$key] = null;

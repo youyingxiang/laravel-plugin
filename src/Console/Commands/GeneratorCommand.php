@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -32,7 +33,7 @@ abstract class GeneratorCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle() : int
+    public function handle(): int
     {
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
 
@@ -70,7 +71,7 @@ abstract class GeneratorCommand extends Command
      *
      * @return string
      */
-    public function getDefaultNamespace() : string
+    public function getDefaultNamespace(): string
     {
         return '';
     }
@@ -90,11 +91,11 @@ abstract class GeneratorCommand extends Command
 
         $namespace = $this->laravel['plugins.repository']->config('namespace');
 
-        $namespace .= '\\' . $plugin->getStudlyName();
+        $namespace .= '\\'.$plugin->getStudlyName();
 
-        $namespace .= '\\' . $this->getDefaultNamespace();
+        $namespace .= '\\'.$this->getDefaultNamespace();
 
-        $namespace .= '\\' . $extra;
+        $namespace .= '\\'.$extra;
 
         $namespace = str_replace('/', '\\', $namespace);
 

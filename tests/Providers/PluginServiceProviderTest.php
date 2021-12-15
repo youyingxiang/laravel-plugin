@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Providers;
 
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;

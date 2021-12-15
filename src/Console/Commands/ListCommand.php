@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -24,9 +25,10 @@ class ListCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle() : int
+    public function handle(): int
     {
         $this->table([__('plugins.name'), __('plugins.status'), __('plugins.priority'), __('plugins.path')], $this->getRows());
+
         return 0;
     }
 

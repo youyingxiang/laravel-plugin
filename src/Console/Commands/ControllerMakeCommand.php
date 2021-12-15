@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Support\Str;
@@ -40,11 +41,11 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     public function getDestinationFilePath(): string
     {
-        $path = $this->getPlugin()->getPath() . "/";
+        $path = $this->getPlugin()->getPath().'/';
 
         $controllerPath = GenerateConfigReader::read('controller');
 
-        return $path . $controllerPath->getPath() . '/' . $this->getControllerName() . '.php';
+        return $path.$controllerPath->getPath().'/'.$this->getControllerName().'.php';
     }
 
     /**
@@ -114,7 +115,7 @@ class ControllerMakeCommand extends GeneratorCommand
         return class_basename($this->getControllerName());
     }
 
-    public function getDefaultNamespace() : string
+    public function getDefaultNamespace(): string
     {
         $repository = $this->laravel['plugins.repository'];
 
@@ -122,7 +123,8 @@ class ControllerMakeCommand extends GeneratorCommand
     }
 
     /**
-     * Get the stub file name based on the options
+     * Get the stub file name based on the options.
+     *
      * @return string
      */
     protected function getStubName(): string

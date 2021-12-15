@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Providers;
 
 use Illuminate\Support\ServiceProvider;
@@ -24,7 +25,7 @@ class PluginServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../../config/config.php', 'plugins');
+        $this->mergeConfigFrom(__DIR__.'/../../config/config.php', 'plugins');
         $this->setPsr4();
         $this->registerServices();
         $this->setupStubPath();
@@ -41,8 +42,8 @@ class PluginServiceProvider extends ServiceProvider
 
     protected function setPsr4(): void
     {
-        if (file_exists(base_path()."/vendor/autoload.php")) {
-            $loader = require base_path()."/vendor/autoload.php";
+        if (file_exists(base_path().'/vendor/autoload.php')) {
+            $loader = require base_path().'/vendor/autoload.php';
             $namespace = $this->app['config']->get('plugins.namespace');
             $path = $this->app['config']->get('plugins.paths.plugins');
             $loader->setPsr4("{$namespace}\\", ["{$path}/"]);
@@ -54,7 +55,7 @@ class PluginServiceProvider extends ServiceProvider
      */
     public function setupStubPath(): void
     {
-        $path = $this->app['config']->get('plugin.stubs.path') ?? __DIR__ . '/../../stubs';
+        $path = $this->app['config']->get('plugin.stubs.path') ?? __DIR__.'/../../stubs';
         Stub::setBasePath($path);
 
         $this->app->booted(function ($app) {
@@ -66,7 +67,7 @@ class PluginServiceProvider extends ServiceProvider
         });
     }
 
-    protected function registerServices():void
+    protected function registerServices(): void
     {
         $this->app->singleton(RepositoryInterface::class, function ($app) {
             $path = $app['config']->get('plugins.paths.plugins');
@@ -75,7 +76,7 @@ class PluginServiceProvider extends ServiceProvider
         });
         $this->app->singleton(ActivatorInterface::class, function ($app) {
             $activator = $app['config']->get('plugins.activator');
-            $class = $app['config']->get('plugins.activators.' . $activator)['class'];
+            $class = $app['config']->get('plugins.activators.'.$activator)['class'];
 
             if ($class === null) {
                 throw InvalidActivatorClass::missingConfig();
@@ -90,7 +91,7 @@ class PluginServiceProvider extends ServiceProvider
     /**
      * Register providers.
      */
-    protected function registerProviders():void
+    protected function registerProviders(): void
     {
         $this->app->register(ConsoleServiceProvider::class);
         $this->app->register(ContractsServiceProvider::class);
@@ -106,16 +107,15 @@ class PluginServiceProvider extends ServiceProvider
         return [RepositoryInterface::class, 'plugins.repository'];
     }
 
-    private function registerPublishing():void
+    private function registerPublishing(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../../config/config.php' => config_path('plugins.php'),
+                __DIR__.'/../../config/config.php' => config_path('plugins.php'),
             ], 'laravel-plugin-config');
             $this->publishes([
-                __DIR__.'/../../resources/lang' => resource_path('lang')
+                __DIR__.'/../../resources/lang' => resource_path('lang'),
             ], 'laravel-plugin-lang');
         }
     }
-
 }

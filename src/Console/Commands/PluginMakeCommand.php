@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Exception;
@@ -26,9 +27,10 @@ class PluginMakeCommand extends Command
 
     /**
      * Execute the console command.
+     *
      * @throws Exception
      */
-    public function handle() : int
+    public function handle(): int
     {
         $names = $this->argument('name');
         $success = true;

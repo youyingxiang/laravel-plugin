@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Exceptions;
 
 class InvalidAssetPath extends \Exception

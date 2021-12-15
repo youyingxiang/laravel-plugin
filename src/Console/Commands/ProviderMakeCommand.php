@@ -1,11 +1,11 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Yxx\LaravelPlugin\Support\Config\GenerateConfigReader;
-use Yxx\LaravelPlugin\Support\Plugin;
 use Yxx\LaravelPlugin\Support\Stub;
 use Yxx\LaravelPlugin\Traits\PluginCommandTrait;
 
@@ -34,8 +34,7 @@ class ProviderMakeCommand extends GeneratorCommand
      */
     protected $description = 'Create a new service provider class for the specified plugin.';
 
-
-    public function getDefaultNamespace() : string
+    public function getDefaultNamespace(): string
     {
         $repository = $this->laravel['plugins.repository'];
 
@@ -76,7 +75,7 @@ class ProviderMakeCommand extends GeneratorCommand
 
         $plugin = $this->getPlugin();
 
-        return (new Stub('/' . $stub . '.stub', [
+        return (new Stub('/'.$stub.'.stub', [
             'NAMESPACE'         => $this->getClassNamespace($plugin),
             'CLASS'             => $this->getClass(),
             'LOWER_NAME'        => $plugin->getLowerName(),
@@ -97,11 +96,11 @@ class ProviderMakeCommand extends GeneratorCommand
      */
     protected function getDestinationFilePath(): string
     {
-        $path = $this->getPlugin()->getPath() . "/";
+        $path = $this->getPlugin()->getPath().'/';
 
         $generatorPath = GenerateConfigReader::read('provider');
 
-        return $path . $generatorPath->getPath() . '/' . $this->getFileName() . '.php';
+        return $path.$generatorPath->getPath().'/'.$this->getFileName().'.php';
     }
 
     /**

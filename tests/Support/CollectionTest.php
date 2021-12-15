@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Support;
 
 use Yxx\LaravelPlugin\Support\Collection;
@@ -9,8 +10,8 @@ class CollectionTest extends TestCase
 {
     public function test_to_array_sets_path_attribute()
     {
-        $pluginOnePath = __DIR__ . '/../stubs/valid/PluginOne';
-        $pluginTwoPath = __DIR__ . '/../stubs/valid/PluginTwo';
+        $pluginOnePath = __DIR__.'/../stubs/valid/PluginOne';
+        $pluginTwoPath = __DIR__.'/../stubs/valid/PluginTwo';
         $plugins = [
             new Plugin($this->app, 'PluginOne', $pluginOnePath),
             new Plugin($this->app, 'PluginTwo', $pluginTwoPath),
@@ -27,8 +28,8 @@ class CollectionTest extends TestCase
     /** @test */
     public function getItemsReturnsTheCollectionItems()
     {
-        $pluginOnePath = __DIR__ . '/../stubs/valid/PluginOne';
-        $pluginTwoPath = __DIR__ . '/../stubs/valid/PluginTwo';
+        $pluginOnePath = __DIR__.'/../stubs/valid/PluginOne';
+        $pluginTwoPath = __DIR__.'/../stubs/valid/PluginTwo';
 
         $plugins = [
             new Plugin($this->app, 'PluginOne', $pluginOnePath),

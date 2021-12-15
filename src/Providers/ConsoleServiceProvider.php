@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Providers;
 
 use Carbon\Laravel\ServiceProvider;
@@ -17,13 +18,15 @@ use Yxx\LaravelPlugin\Console\Commands\SeedMakeCommand;
 class ConsoleServiceProvider extends ServiceProvider
 {
     /**
-     * Namespace of the console commands
+     * Namespace of the console commands.
+     *
      * @var string
      */
-    protected string $consoleNamespace = "Yxx\\LaravelPlugin\\Console\\Commands";
+    protected string $consoleNamespace = 'Yxx\\LaravelPlugin\\Console\\Commands';
 
     /**
-     * The available commands
+     * The available commands.
+     *
      * @var array
      */
     protected array $commands = [
@@ -49,7 +52,7 @@ class ConsoleServiceProvider extends ServiceProvider
         foreach ((config('plugins.commands') ?: $this->commands) as $command) {
             $commands[] = Str::contains($command, $this->consoleNamespace) ?
                 $command :
-                $this->consoleNamespace . "\\" . $command;
+                $this->consoleNamespace.'\\'.$command;
         }
 
         return $commands;
