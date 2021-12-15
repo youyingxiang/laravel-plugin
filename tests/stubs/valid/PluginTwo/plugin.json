@@ -1,0 +1,13 @@
+{
+  "name": "PluginTwo",
+  "alias": "plugin_two",
+  "description": "Test plugin two demo",
+  "version": "0.1",
+  "keywords": [],
+  "order": 1,
+  "providers": [
+  ],
+  "aliases": [],
+  "files": [],
+  "requires": []
+}

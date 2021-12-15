@@ -1,5 +1,7 @@
 {
     "name": "yxx/laravel-plugin",
+    "license": "MIT",
+    "minimum-stability": "stable",
     "authors": [
         {
             "name": "youyingxiang",
@@ -20,7 +22,7 @@
         }
     },
     "require": {
-        "php": ">=7.3.0",
+        "php": ">=7.4.0",
         "laravel/framework": "~6.0|~7.0|~8.0"
     },
     "require-dev": {

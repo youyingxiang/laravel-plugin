@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Yxx\LaravelPlugin\Exceptions\InvalidJsonException;
 
 class Json
 {

@@ -1,0 +1,13 @@
+{
+    "name": "PluginOne",
+    "alias": "pluginone",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Plugins\\PluginOne\\Providers\\PluginOneServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

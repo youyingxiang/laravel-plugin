@@ -26,7 +26,7 @@ class ListCommand extends Command
      */
     public function handle() : int
     {
-        $this->table([__('plugins::list.name'), __('plugins::list.status'), __('plugins::list.priority'), __('plugins::list.path')], $this->getRows());
+        $this->table([__('plugins.name'), __('plugins.status'), __('plugins.priority'), __('plugins.path')], $this->getRows());
         return 0;
     }
 

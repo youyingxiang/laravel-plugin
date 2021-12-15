@@ -15,8 +15,8 @@ class PluginServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerTranslation();
         $this->registerPlugins();
+        $this->registerPublishing();
     }
 
     /**
@@ -24,7 +24,7 @@ class PluginServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerNamespaces();
+        $this->mergeConfigFrom(__DIR__ . '/../../config/config.php', 'plugins');
         $this->setPsr4();
         $this->registerServices();
         $this->setupStubPath();
@@ -41,23 +41,12 @@ class PluginServiceProvider extends ServiceProvider
 
     protected function setPsr4(): void
     {
-        $loader = require base_path()."/vendor/autoload.php";
-        $namespace = $this->app['config']->get('plugins.namespace');
-        $path = $this->app['config']->get('plugins.paths.plugins');
-        $loader->setPsr4("{$namespace}\\", ["{$path}/"]);
-    }
-
-    /**
-     * Register package's namespaces.
-     */
-    protected function registerNamespaces(): void
-    {
-        $configPath = __DIR__ . '/../../config/config.php';
-
-        $this->mergeConfigFrom($configPath, 'plugins');
-        $this->publishes([
-            $configPath => config_path('plugins.php'),
-        ], 'config');
+        if (file_exists(base_path()."/vendor/autoload.php")) {
+            $loader = require base_path()."/vendor/autoload.php";
+            $namespace = $this->app['config']->get('plugins.namespace');
+            $path = $this->app['config']->get('plugins.paths.plugins');
+            $loader->setPsr4("{$namespace}\\", ["{$path}/"]);
+        }
     }
 
     /**
@@ -95,6 +84,7 @@ class PluginServiceProvider extends ServiceProvider
             return new $class($app);
         });
         $this->app->alias(RepositoryInterface::class, 'plugins.repository');
+        $this->app->alias(ActivatorInterface::class, 'plugins.activator');
     }
 
     /**
@@ -106,15 +96,6 @@ class PluginServiceProvider extends ServiceProvider
         $this->app->register(ContractsServiceProvider::class);
     }
 
-    protected function registerTranslation(): void
-    {
-        $langPath = __DIR__ . '/../../resources/lang';
-
-        if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, "plugins");
-        }
-    }
-
     /**
      * Get the services provided by the provider.
      *
@@ -123,6 +104,18 @@ class PluginServiceProvider extends ServiceProvider
     public function provides()
     {
         return [RepositoryInterface::class, 'plugins.repository'];
+    }
+
+    private function registerPublishing():void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../../config/config.php' => config_path('plugins.php'),
+            ], 'laravel-plugin-config');
+            $this->publishes([
+                __DIR__.'/../../resources/lang' => resource_path('lang')
+            ], 'laravel-plugin-lang');
+        }
     }
 
 }

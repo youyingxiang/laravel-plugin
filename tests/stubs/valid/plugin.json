@@ -1,0 +1,20 @@
+{
+  "name": "Test",
+  "alias": "test",
+  "description": "Test demo plugin",
+  "version": "0.1",
+  "keywords": [
+    "test",
+    "stub",
+    "plugin"
+  ],
+  "active": 1,
+  "order": 1,
+  "providers": [
+    "Plugins\\Test\\Providers\\TestServiceProvider",
+    "Plugins\\Test\\Providers\\TestServiceProvider"
+  ],
+  "aliases":{},
+  "files": [
+  ]
+}
