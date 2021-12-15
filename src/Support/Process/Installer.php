@@ -64,10 +64,10 @@ class Installer
     /**
      * The constructor.
      *
-     * @param string      $name
-     * @param string|null $version
-     * @param string|null $type
-     * @param bool        $tree
+     * @param  string  $name
+     * @param  string|null  $version
+     * @param  string|null  $type
+     * @param  bool  $tree
      */
     public function __construct(string $name, string $version = null, string $type = null, bool $tree = false)
     {
@@ -80,8 +80,7 @@ class Installer
     /**
      * Set destination path.
      *
-     * @param string $path
-     *
+     * @param  string  $path
      * @return $this
      */
     public function setPath(string $path): Installer
@@ -94,8 +93,7 @@ class Installer
     /**
      * Set the plugin repository instance.
      *
-     * @param RepositoryInterface $repository
-     *
+     * @param  RepositoryInterface  $repository
      * @return $this
      */
     public function setRepository(RepositoryInterface $repository): Installer
@@ -108,8 +106,7 @@ class Installer
     /**
      * Set console command instance.
      *
-     * @param Command $console
-     *
+     * @param  Command  $console
      * @return $this
      */
     public function setConsole(Command $console): Installer
@@ -122,8 +119,7 @@ class Installer
     /**
      * Set process timeout.
      *
-     * @param int $timeout
-     *
+     * @param  int  $timeout
      * @return $this
      */
     public function setTimeout(int $timeout): Installer

@@ -28,8 +28,8 @@ class Stub
     /**
      * The constructor.
      *
-     * @param string $path
-     * @param array  $replaces
+     * @param  string  $path
+     * @param  array  $replaces
      */
     public function __construct(string $path, array $replaces = [])
     {
@@ -40,9 +40,8 @@ class Stub
     /**
      * Create new self instance.
      *
-     * @param string $path
-     * @param array  $replaces
-     *
+     * @param  string  $path
+     * @param  array  $replaces
      * @return self
      */
     public static function create(string $path, array $replaces = []): Stub
@@ -53,8 +52,7 @@ class Stub
     /**
      * Set stub path.
      *
-     * @param string $path
-     *
+     * @param  string  $path
      * @return self
      */
     public function setPath(string $path): Stub
@@ -77,7 +75,7 @@ class Stub
     /**
      * Set base path.
      *
-     * @param string $path
+     * @param  string  $path
      */
     public static function setBasePath(string $path): void
     {
@@ -123,9 +121,8 @@ class Stub
     /**
      * Save stub to specific path.
      *
-     * @param string $path
-     * @param string $filename
-     *
+     * @param  string  $path
+     * @param  string  $filename
      * @return bool
      */
     public function saveTo(string $path, string $filename)
@@ -136,8 +133,7 @@ class Stub
     /**
      * Set replacements array.
      *
-     * @param array $replaces
-     *
+     * @param  array  $replaces
      * @return $this
      */
     public function replace(array $replaces = []): Stub

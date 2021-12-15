@@ -111,7 +111,7 @@ class FileActivator implements ActivatorInterface
      */
     public function hasStatus(Plugin $plugin, bool $status): bool
     {
-        if (!isset($this->pluginsStatuses[$plugin->getName()])) {
+        if (! isset($this->pluginsStatuses[$plugin->getName()])) {
             return $status === false;
         }
 
@@ -141,7 +141,7 @@ class FileActivator implements ActivatorInterface
      */
     public function delete(Plugin $plugin): void
     {
-        if (!isset($this->pluginsStatuses[$plugin->getName()])) {
+        if (! isset($this->pluginsStatuses[$plugin->getName()])) {
             return;
         }
         unset($this->pluginsStatuses[$plugin->getName()]);
@@ -160,13 +160,13 @@ class FileActivator implements ActivatorInterface
     /**
      * Reads the json file that contains the activation statuses.
      *
-     * @throws FileNotFoundException
-     *
      * @return array
+     *
+     * @throws FileNotFoundException
      */
     private function readJson(): array
     {
-        if (!$this->files->exists($this->statusesFile)) {
+        if (! $this->files->exists($this->statusesFile)) {
             return [];
         }
 
@@ -177,13 +177,13 @@ class FileActivator implements ActivatorInterface
      * Get plugins statuses, either from the cache or from
      * the json statuses file if the cache is disabled.
      *
-     * @throws FileNotFoundException
-     *
      * @return array
+     *
+     * @throws FileNotFoundException
      */
     private function getPluginsStatuses(): array
     {
-        if (!$this->config->get('plugins.cache.enabled')) {
+        if (! $this->config->get('plugins.cache.enabled')) {
             return $this->readJson();
         }
 
@@ -195,9 +195,8 @@ class FileActivator implements ActivatorInterface
     /**
      * Reads a config parameter under the 'activators.file' key.
      *
-     * @param string $key
-     * @param        $default
-     *
+     * @param  string  $key
+     * @param  $default
      * @return mixed
      */
     private function config(string $key, $default = null)

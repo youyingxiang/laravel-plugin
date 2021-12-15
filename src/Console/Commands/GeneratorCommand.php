@@ -37,7 +37,7 @@ abstract class GeneratorCommand extends Command
     {
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
 
-        if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
+        if (! $this->laravel['files']->isDirectory($dir = dirname($path))) {
             $this->laravel['files']->makeDirectory($dir, 0777, true);
         }
         $contents = $this->getTemplateContents();
@@ -79,8 +79,7 @@ abstract class GeneratorCommand extends Command
     /**
      * Get class namespace.
      *
-     * @param Plugin $plugin
-     *
+     * @param  Plugin  $plugin
      * @return string
      */
     public function getClassNamespace(Plugin $plugin): string

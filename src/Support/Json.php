@@ -34,8 +34,8 @@ class Json
     /**
      * The constructor.
      *
-     * @param mixed           $path
-     * @param Filesystem|null $filesystem
+     * @param  mixed  $path
+     * @param  Filesystem|null  $filesystem
      *
      * @throws Exception
      */
@@ -59,8 +59,7 @@ class Json
     /**
      * Set filesystem.
      *
-     * @param Filesystem $filesystem
-     *
+     * @param  Filesystem  $filesystem
      * @return $this
      */
     public function setFilesystem(Filesystem $filesystem): Json
@@ -83,8 +82,7 @@ class Json
     /**
      * Set path.
      *
-     * @param mixed $path
-     *
+     * @param  mixed  $path
      * @return $this
      */
     public function setPath(string $path): Json
@@ -97,12 +95,11 @@ class Json
     /**
      * Make new instance.
      *
-     * @param string          $path
-     * @param Filesystem|null $filesystem
+     * @param  string  $path
+     * @param  Filesystem|null  $filesystem
+     * @return static
      *
      * @throws Exception
-     *
-     * @return static
      */
     public static function make(string $path, Filesystem $filesystem = null): Json
     {
@@ -112,9 +109,9 @@ class Json
     /**
      * Get file content.
      *
-     * @throws FileNotFoundException
-     *
      * @return string
+     *
+     * @throws FileNotFoundException
      */
     public function getContents(): string
     {
@@ -124,9 +121,9 @@ class Json
     /**
      * Get file contents as array.
      *
-     * @throws Exception
-     *
      * @return array
+     *
+     * @throws Exception
      */
     public function getAttributes(): array
     {
@@ -149,8 +146,7 @@ class Json
     /**
      * Convert the given array data to pretty json.
      *
-     * @param array|null $data
-     *
+     * @param  array|null  $data
      * @return string
      */
     public function toJsonPretty(?array $data = null): string
@@ -161,8 +157,7 @@ class Json
     /**
      * Update json contents from array data.
      *
-     * @param array $data
-     *
+     * @param  array  $data
      * @return bool
      */
     public function update(array $data): bool
@@ -175,9 +170,8 @@ class Json
     /**
      * Set a specific key & value.
      *
-     * @param string $key
-     * @param mixed  $value
-     *
+     * @param  string  $key
+     * @param  mixed  $value
      * @return $this
      */
     public function set(string $key, $value): Json
@@ -200,8 +194,7 @@ class Json
     /**
      * Handle magic method __get.
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return mixed
      */
     public function __get($key)
@@ -213,8 +206,7 @@ class Json
      * Get the specified attribute from json file.
      *
      * @param $key
-     * @param null $default
-     *
+     * @param  null  $default
      * @return mixed
      */
     public function get(string $key, $default = null)
@@ -225,9 +217,8 @@ class Json
     /**
      * Handle call to __call method.
      *
-     * @param string $method
-     * @param array  $arguments
-     *
+     * @param  string  $method
+     * @param  array  $arguments
      * @return mixed
      */
     public function __call(string $method, array $arguments = [])
@@ -242,9 +233,9 @@ class Json
     /**
      * Handle call to __toString method.
      *
-     * @throws FileNotFoundException
-     *
      * @return string
+     *
+     * @throws FileNotFoundException
      */
     public function __toString(): string
     {

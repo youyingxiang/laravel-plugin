@@ -43,7 +43,7 @@ class PluginMakeCommand extends Command
                 ->setActivator($this->laravel[ActivatorInterface::class])
                 ->setConsole($this)
                 ->setForce($this->option('force'))
-                ->setActive(!$this->option('disabled'))
+                ->setActive(! $this->option('disabled'))
                 ->generate();
 
             if ($code === E_ERROR) {

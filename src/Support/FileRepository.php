@@ -69,8 +69,8 @@ class FileRepository implements RepositoryInterface
     /**
      * The constructor.
      *
-     * @param Application $app
-     * @param string|null $path
+     * @param  Application  $app
+     * @param  string|null  $path
      */
     public function __construct(Application $app, string $path = null)
     {
@@ -83,8 +83,7 @@ class FileRepository implements RepositoryInterface
     }
 
     /**
-     * @param mixed ...$args
-     *
+     * @param  mixed  ...$args
      * @return Plugin
      */
     protected function createPlugin(...$args): Plugin
@@ -95,8 +94,7 @@ class FileRepository implements RepositoryInterface
     /**
      * Add other plugin location.
      *
-     * @param string $path
-     *
+     * @param  string  $path
      * @return $this
      */
     public function addLocation($path)
@@ -137,9 +135,9 @@ class FileRepository implements RepositoryInterface
     /**
      * Get & scan all plugins.
      *
-     * @throws Exception
-     *
      * @return array
+     *
+     * @throws Exception
      */
     public function scan(): array
     {
@@ -165,13 +163,13 @@ class FileRepository implements RepositoryInterface
     /**
      * Get all plugins.
      *
-     * @throws Exception
-     *
      * @return array
+     *
+     * @throws Exception
      */
     public function all(): array
     {
-        if (!$this->config('cache.enabled')) {
+        if (! $this->config('cache.enabled')) {
             return $this->scan();
         }
 
@@ -181,8 +179,7 @@ class FileRepository implements RepositoryInterface
     /**
      * Format the cached data as array of plugins.
      *
-     * @param array $cached
-     *
+     * @param  array  $cached
      * @return array
      */
     protected function formatCached(array $cached): array
@@ -213,9 +210,9 @@ class FileRepository implements RepositoryInterface
     /**
      * Get all plugins as collection instance.
      *
-     * @throws Exception
-     *
      * @return Collection
+     *
+     * @throws Exception
      */
     public function toCollection(): Collection
     {
@@ -225,11 +222,10 @@ class FileRepository implements RepositoryInterface
     /**
      * Get plugins by status.
      *
-     * @param bool $status
+     * @param  bool  $status
+     * @return array
      *
      * @throws Exception
-     *
-     * @return array
      */
     public function getByStatus(bool $status): array
     {
@@ -249,10 +245,9 @@ class FileRepository implements RepositoryInterface
      * Determine whether the given plugins exist.
      *
      * @param $name
+     * @return bool
      *
      * @throws Exception
-     *
-     * @return bool
      */
     public function has($name): bool
     {
@@ -262,9 +257,9 @@ class FileRepository implements RepositoryInterface
     /**
      * Get list of enabled plugins.
      *
-     * @throws Exception
-     *
      * @return array
+     *
+     * @throws Exception
      */
     public function allEnabled(): array
     {
@@ -274,9 +269,9 @@ class FileRepository implements RepositoryInterface
     /**
      * Get list of disabled plugins.
      *
-     * @throws Exception
-     *
      * @return array
+     *
+     * @throws Exception
      */
     public function allDisabled(): array
     {
@@ -286,9 +281,9 @@ class FileRepository implements RepositoryInterface
     /**
      * Get count from all plugins.
      *
-     * @throws Exception
-     *
      * @return int
+     *
+     * @throws Exception
      */
     public function count(): int
     {
@@ -298,11 +293,10 @@ class FileRepository implements RepositoryInterface
     /**
      * Get all ordered plugins.
      *
-     * @param string $direction
+     * @param  string  $direction
+     * @return array
      *
      * @throws Exception
-     *
-     * @return array
      */
     public function getOrdered($direction = 'asc'): array
     {
@@ -410,11 +404,10 @@ class FileRepository implements RepositoryInterface
      * Find a specific plugin, if there return that, otherwise throw exception.
      *
      * @param $name
+     * @return Plugin
      *
      * @throws PluginNotFoundException
      * @throws Exception
-     *
-     * @return Plugin
      */
     public function findOrFail(string $name): Plugin
     {
@@ -431,10 +424,9 @@ class FileRepository implements RepositoryInterface
      * Get all plugin as laravel collection instance.
      *
      * @param $status
+     * @return Collection
      *
      * @throws Exception
-     *
-     * @return Collection
      */
     public function collections($status = 1): Collection
     {
@@ -444,11 +436,10 @@ class FileRepository implements RepositoryInterface
     /**
      * Get plugin path for a specific plugin.
      *
-     * @param string $pluginName
+     * @param  string  $pluginName
+     * @return string
      *
      * @throws Exception
-     *
-     * @return string
      */
     public function getPluginPath(string $pluginName): string
     {
@@ -488,7 +479,7 @@ class FileRepository implements RepositoryInterface
         }
 
         $path = storage_path('app/plugins/plugins.used');
-        if (!$this->getFiles()->exists($path)) {
+        if (! $this->getFiles()->exists($path)) {
             $this->getFiles()->put($path, '');
         }
 
@@ -522,9 +513,9 @@ class FileRepository implements RepositoryInterface
     /**
      * Get plugins used for cli session.
      *
-     * @throws PluginNotFoundException|FileNotFoundException
-     *
      * @return string
+     *
+     * @throws PluginNotFoundException|FileNotFoundException
      */
     public function getUsedNow(): string
     {
@@ -554,18 +545,17 @@ class FileRepository implements RepositoryInterface
     /**
      * Get asset url from a specific plugins.
      *
-     * @param string $asset
+     * @param  string  $asset
+     * @return string
      *
      * @throws InvalidAssetPath
-     *
-     * @return string
      */
     public function asset(string $asset): string
     {
         if (Str::contains($asset, ':') === false) {
             throw InvalidAssetPath::missingPluginName($asset);
         }
-        list($name, $url) = explode(':', $asset);
+        [$name, $url] = explode(':', $asset);
 
         $baseUrl = str_replace(public_path().DIRECTORY_SEPARATOR, '', $this->getAssetsPath());
 
@@ -587,17 +577,16 @@ class FileRepository implements RepositoryInterface
      */
     public function isDisabled(string $name): bool
     {
-        return !$this->isEnabled($name);
+        return ! $this->isEnabled($name);
     }
 
     /**
      * Enabling a specific plugin.
      *
-     * @param string $name
+     * @param  string  $name
+     * @return void
      *
      * @throws PluginNotFoundException
-     *
-     * @return void
      */
     public function enable(string $name): void
     {
@@ -607,11 +596,10 @@ class FileRepository implements RepositoryInterface
     /**
      * Disabling a specific plugin.
      *
-     * @param string $name
+     * @param  string  $name
+     * @return void
      *
      * @throws PluginNotFoundException
-     *
-     * @return void
      */
     public function disable(string $name)
     {
@@ -629,7 +617,7 @@ class FileRepository implements RepositoryInterface
     /**
      * Update dependencies for the specified plugin.
      *
-     * @param string $plugin
+     * @param  string  $plugin
      */
     public function update(string $plugin)
     {
@@ -639,11 +627,10 @@ class FileRepository implements RepositoryInterface
     /**
      * Install the specified plugin.
      *
-     * @param string $name
-     * @param string $version
-     * @param string $type
-     * @param bool   $subtree
-     *
+     * @param  string  $name
+     * @param  string  $version
+     * @param  string  $type
+     * @param  bool  $subtree
      * @return Process
      */
     public function install(string $name, string $version = 'dev-master', string $type = 'composer', bool $subtree = false): Process
@@ -674,8 +661,7 @@ class FileRepository implements RepositoryInterface
     /**
      * Set stub path.
      *
-     * @param string $stubPath
-     *
+     * @param  string  $stubPath
      * @return $this
      */
     public function setStubPath(string $stubPath): FileRepository

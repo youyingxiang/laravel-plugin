@@ -9,23 +9,22 @@ interface ActivatorInterface
     /**
      * Enables a Plugin.
      *
-     * @param Plugin $plugin
+     * @param  Plugin  $plugin
      */
     public function enable(Plugin $plugin): void;
 
     /**
      * Disables a Plugin.
      *
-     * @param Plugin $plugin
+     * @param  Plugin  $plugin
      */
     public function disable(Plugin $plugin): void;
 
     /**
      * Determine whether the given status same with a Plugin status.
      *
-     * @param Plugin $plugin
-     * @param bool   $status
-     *
+     * @param  Plugin  $plugin
+     * @param  bool  $status
      * @return bool
      */
     public function hasStatus(Plugin $plugin, bool $status): bool;
@@ -33,23 +32,23 @@ interface ActivatorInterface
     /**
      * Set active state for a Plugin.
      *
-     * @param Plugin $plugin
-     * @param bool   $active
+     * @param  Plugin  $plugin
+     * @param  bool  $active
      */
     public function setActive(Plugin $plugin, bool $active): void;
 
     /**
      * Sets a Plugin status by its name.
      *
-     * @param string $name
-     * @param bool   $active
+     * @param  string  $name
+     * @param  bool  $active
      */
     public function setActiveByName(string $name, bool $active): void;
 
     /**
      * Deletes a Plugin activation status.
      *
-     * @param Plugin $plugin
+     * @param  Plugin  $plugin
      */
     public function delete(Plugin $plugin): void;
 

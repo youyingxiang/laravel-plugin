@@ -74,12 +74,12 @@ class PluginGenerator implements GeneratorInterface
     /**
      * The constructor.
      *
-     * @param string                  $name
-     * @param FileRepository|null     $pluginRepository
-     * @param Config|null             $config
-     * @param Filesystem|null         $filesystem
-     * @param Console|null            $console
-     * @param ActivatorInterface|null $activator
+     * @param  string  $name
+     * @param  FileRepository|null  $pluginRepository
+     * @param  Config|null  $config
+     * @param  Filesystem|null  $filesystem
+     * @param  Console|null  $console
+     * @param  ActivatorInterface|null  $activator
      */
     public function __construct(
         string $name,
@@ -100,8 +100,7 @@ class PluginGenerator implements GeneratorInterface
     /**
      * Set active flag.
      *
-     * @param bool $active
-     *
+     * @param  bool  $active
      * @return $this
      */
     public function setActive(bool $active): PluginGenerator
@@ -134,8 +133,7 @@ class PluginGenerator implements GeneratorInterface
     /**
      * Set the laravel config instance.
      *
-     * @param Config $config
-     *
+     * @param  Config  $config
      * @return $this
      */
     public function setConfig(Config $config): PluginGenerator
@@ -148,8 +146,7 @@ class PluginGenerator implements GeneratorInterface
     /**
      * Set the plugins activator.
      *
-     * @param ActivatorInterface $activator
-     *
+     * @param  ActivatorInterface  $activator
      * @return $this
      */
     public function setActivator(ActivatorInterface $activator): PluginGenerator
@@ -172,8 +169,7 @@ class PluginGenerator implements GeneratorInterface
     /**
      * Set the laravel filesystem instance.
      *
-     * @param Filesystem $filesystem
-     *
+     * @param  Filesystem  $filesystem
      * @return $this
      */
     public function setFilesystem(Filesystem $filesystem): PluginGenerator
@@ -196,8 +192,7 @@ class PluginGenerator implements GeneratorInterface
     /**
      * Set the laravel console instance.
      *
-     * @param Console $console
-     *
+     * @param  Console  $console
      * @return $this
      */
     public function setConsole(Console $console): PluginGenerator
@@ -220,8 +215,7 @@ class PluginGenerator implements GeneratorInterface
     /**
      * Set the plugin instance.
      *
-     * @param FileRepository $pluginRepository
-     *
+     * @param  FileRepository  $pluginRepository
      * @return $this
      */
     public function setPluginRepository(FileRepository $pluginRepository): PluginGenerator
@@ -254,8 +248,7 @@ class PluginGenerator implements GeneratorInterface
     /**
      * Set force status.
      *
-     * @param bool|int $force
-     *
+     * @param  bool|int  $force
      * @return $this
      */
     public function setForce(bool $force): PluginGenerator
@@ -337,7 +330,7 @@ class PluginGenerator implements GeneratorInterface
     {
         $path = $this->pluginRepository->getPluginPath($this->getName()).'plugin.json';
 
-        if (!$this->filesystem->isDirectory($dir = dirname($path))) {
+        if (! $this->filesystem->isDirectory($dir = dirname($path))) {
             $this->filesystem->makeDirectory($dir, 0775, true);
         }
 
@@ -379,7 +372,7 @@ class PluginGenerator implements GeneratorInterface
         foreach ($this->getFiles() as $stub => $file) {
             $path = $this->pluginRepository->getPluginPath($this->getName()).$file;
 
-            if (!$this->filesystem->isDirectory($dir = dirname($path))) {
+            if (! $this->filesystem->isDirectory($dir = dirname($path))) {
                 $this->filesystem->makeDirectory($dir, 0775, true);
             }
 
@@ -392,7 +385,7 @@ class PluginGenerator implements GeneratorInterface
     /**
      * Generate git keep to the specified path.
      *
-     * @param string $path
+     * @param  string  $path
      */
     public function generateGitKeep(string $path): void
     {
@@ -402,8 +395,7 @@ class PluginGenerator implements GeneratorInterface
     /**
      * Get the contents of the specified stub file by given stub name.
      *
-     * @param string $stub
-     *
+     * @param  string  $stub
      * @return string
      */
     protected function getStubContents(string $stub): string
@@ -418,15 +410,14 @@ class PluginGenerator implements GeneratorInterface
     /**
      * Get array replacement for the specified stub.
      *
-     * @param string $stub
-     *
+     * @param  string  $stub
      * @return array
      */
     protected function getReplacement(string $stub): array
     {
         $replacements = $this->pluginRepository->config('stubs.replacements');
 
-        if (!isset($replacements[$stub])) {
+        if (! isset($replacements[$stub])) {
             return [];
         }
 

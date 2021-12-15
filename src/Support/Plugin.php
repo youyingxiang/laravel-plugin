@@ -66,9 +66,9 @@ class Plugin
     /**
      * Plugin constructor.
      *
-     * @param ApplicationContract $app
-     * @param string              $name
-     * @param string              $path
+     * @param  ApplicationContract  $app
+     * @param  string  $name
+     * @param  string  $path
      */
     public function __construct(ApplicationContract $app, string $name, string $path)
     {
@@ -112,7 +112,7 @@ class Plugin
     {
         // This checks if we are running on a Laravel Vapor managed instance
         // and sets the path to a writable one (services path is not on a writable storage in Vapor).
-        if (!is_null(env('VAPOR_MAINTENANCE_MODE', null))) {
+        if (! is_null(env('VAPOR_MAINTENANCE_MODE', null))) {
             return Str::replaceLast('config.php', $this->getSnakeName().'_plugin.php', $this->app->getCachedConfigPath());
         }
 
@@ -226,8 +226,7 @@ class Plugin
     /**
      * Set path.
      *
-     * @param string $path
-     *
+     * @param  string  $path
      * @return Plugin
      */
     public function setPath(string $path): Plugin
@@ -256,8 +255,7 @@ class Plugin
     /**
      * Get json contents from the cache, setting as needed.
      *
-     * @param string|null $file
-     *
+     * @param  string|null  $file
      * @return Json
      */
     public function json(?string $file = null): Json
@@ -274,9 +272,8 @@ class Plugin
     /**
      * Get a specific data from json file by given the key.
      *
-     * @param string $key
-     * @param null   $default
-     *
+     * @param  string  $key
+     * @param  null  $default
      * @return mixed
      */
     public function get(string $key, $default = null)
@@ -288,8 +285,7 @@ class Plugin
      * Get a specific data from composer.json file by given the key.
      *
      * @param $key
-     * @param null $default
-     *
+     * @param  null  $default
      * @return mixed
      */
     public function getComposerAttr($key, $default = null)
@@ -300,7 +296,7 @@ class Plugin
     /**
      * Register the Plugin event.
      *
-     * @param string $event
+     * @param  string  $event
      */
     protected function fireEvent($event): void
     {
@@ -320,8 +316,7 @@ class Plugin
     /**
      * Determine whether the given status same with the current plugin status.
      *
-     * @param bool $status
-     *
+     * @param  bool  $status
      * @return bool
      */
     public function isStatus(bool $status): bool
@@ -346,14 +341,13 @@ class Plugin
      */
     public function isDisabled(): bool
     {
-        return !$this->isEnabled();
+        return ! $this->isEnabled();
     }
 
     /**
      * Set active state for current plugin.
      *
-     * @param bool $active
-     *
+     * @param  bool  $active
      * @return void
      */
     public function setActive(bool $active): void
@@ -402,8 +396,7 @@ class Plugin
     /**
      * Get extra path.
      *
-     * @param string $path
-     *
+     * @param  string  $path
      * @return string
      */
     public function getExtraPath(string $path): string
@@ -429,9 +422,8 @@ class Plugin
     /**
      * Register a translation file namespace.
      *
-     * @param string $path
-     * @param string $namespace
-     *
+     * @param  string  $path
+     * @param  string  $namespace
      * @return void
      */
     private function loadTranslationsFrom(string $path, string $namespace): void

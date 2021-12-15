@@ -36,9 +36,9 @@ class FileGenerator implements GeneratorInterface
     /**
      * The constructor.
      *
-     * @param string          $path
-     * @param string          $contents
-     * @param Filesystem|null $filesystem
+     * @param  string  $path
+     * @param  string  $contents
+     * @param  Filesystem|null  $filesystem
      */
     public function __construct(string $path, string $contents, Filesystem $filesystem = null)
     {
@@ -60,8 +60,7 @@ class FileGenerator implements GeneratorInterface
     /**
      * Set contents.
      *
-     * @param mixed $contents
-     *
+     * @param  mixed  $contents
      * @return $this
      */
     public function setContents(string $contents): FileGenerator
@@ -84,8 +83,7 @@ class FileGenerator implements GeneratorInterface
     /**
      * Set filesystem.
      *
-     * @param Filesystem $filesystem
-     *
+     * @param  Filesystem  $filesystem
      * @return $this
      */
     public function setFilesystem(Filesystem $filesystem): FileGenerator
@@ -108,8 +106,7 @@ class FileGenerator implements GeneratorInterface
     /**
      * Set path.
      *
-     * @param string $path
-     *
+     * @param  string  $path
      * @return $this
      */
     public function setPath(string $path): FileGenerator
@@ -134,7 +131,7 @@ class FileGenerator implements GeneratorInterface
     public function generate(): bool
     {
         $path = $this->getPath();
-        if (!$this->filesystem->exists($path)) {
+        if (! $this->filesystem->exists($path)) {
             return $this->filesystem->put($path, $this->getContents());
         }
         if ($this->overwriteFile === true) {

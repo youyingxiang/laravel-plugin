@@ -21,9 +21,9 @@ class Collection extends BaseCollection
     /**
      * Get the collection of items as a plain array.
      *
-     * @throws Exception
-     *
      * @return array
+     *
+     * @throws Exception
      */
     public function toArray()
     {

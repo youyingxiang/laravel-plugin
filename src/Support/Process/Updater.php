@@ -9,7 +9,7 @@ class Updater extends Runner
     /**
      * Update the dependencies for the specified plugin by given the plugin name.
      *
-     * @param string $name
+     * @param  string  $name
      */
     public function update(string $name)
     {
@@ -33,7 +33,7 @@ class Updater extends Runner
     }
 
     /**
-     * @param Plugin $plugin
+     * @param  Plugin  $plugin
      */
     private function installRequires(Plugin $plugin)
     {
@@ -44,13 +44,13 @@ class Updater extends Runner
             $concatenatedPackages .= "\"{$name}:{$version}\" ";
         }
 
-        if (!empty($concatenatedPackages)) {
+        if (! empty($concatenatedPackages)) {
             $this->run("composer require {$concatenatedPackages}{$this->isComposerSilenced()}");
         }
     }
 
     /**
-     * @param Plugin $plugin
+     * @param  Plugin  $plugin
      */
     private function installDevRequires(Plugin $plugin)
     {
@@ -61,13 +61,13 @@ class Updater extends Runner
             $concatenatedPackages .= "\"{$name}:{$version}\" ";
         }
 
-        if (!empty($concatenatedPackages)) {
+        if (! empty($concatenatedPackages)) {
             $this->run("composer require --dev {$concatenatedPackages}{$this->isComposerSilenced()}");
         }
     }
 
     /**
-     * @param Plugin $plugin
+     * @param  Plugin  $plugin
      */
     private function copyScriptsToMainComposerJson(Plugin $plugin)
     {

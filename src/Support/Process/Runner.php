@@ -20,7 +20,7 @@ class Runner implements RunableInterface
     /**
      * Run the given command.
      *
-     * @param string $command
+     * @param  string  $command
      */
     public function run(string $command)
     {
