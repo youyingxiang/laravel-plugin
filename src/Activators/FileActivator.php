@@ -200,7 +200,7 @@ class FileActivator implements ActivatorInterface
     }
 
     /**
-     * Flushes the modules activation statuses cache
+     * Flushes the plugins activation statuses cache
      */
     private function flushCache(): void
     {

@@ -68,7 +68,7 @@ class SeedMakeCommand extends GeneratorCommand
 
         return (new Stub('/seeder.stub', [
             'NAME' => $this->getSeederName(),
-            'MODULE' => $this->getPluginName(),
+            'PLUGIN' => $this->getPluginName(),
             'NAMESPACE' => $this->getClassNamespace($plugin),
         ]))->render();
     }

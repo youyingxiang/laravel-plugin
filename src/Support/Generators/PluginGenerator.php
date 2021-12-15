@@ -216,7 +216,7 @@ class PluginGenerator implements GeneratorInterface
     }
 
     /**
-     * Set the module instance.
+     * Set the plugin instance.
      *
      * @param  FileRepository  $pluginRepository
      * @return $this

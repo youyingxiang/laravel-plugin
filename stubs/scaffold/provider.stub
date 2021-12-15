@@ -12,7 +12,7 @@ class $CLASS$ extends ServiceProvider
     protected string $pluginName = '$PLUGIN$';
 
     /**
-     * @var string $moduleNameLower
+     * @var string $pluginNameLower
      */
     protected string $pluginNameLower = '$LOWER_NAME$';
 

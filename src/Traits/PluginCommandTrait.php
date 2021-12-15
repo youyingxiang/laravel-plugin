@@ -7,7 +7,7 @@ trait PluginCommandTrait
 {
     protected Plugin $plugin;
     /**
-     * Get the module name.
+     * Get the plugin name.
      *
      * @return string
      */

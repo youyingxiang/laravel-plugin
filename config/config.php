@@ -15,7 +15,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Module Stubs
+    | Plugin Stubs
     |--------------------------------------------------------------------------
     |
     | Default plugin stubs.
@@ -24,7 +24,6 @@ return [
 
     'stubs' => [
         'enabled' => false,
-        //'path' => base_path() . '/vendor/nwidart/laravel-modules/src/Commands/stubs',
         'files' => [
             'routes/web' => 'Routes/web.php',
             'routes/api' => 'Routes/api.php',
@@ -61,7 +60,7 @@ return [
         | Plugins assets path
         |--------------------------------------------------------------------------
         |
-        | Here you may update the modules assets path.
+        | Here you may update the plugin assets path.
         |
         */
 
@@ -114,7 +113,7 @@ return [
     ],
     /*
     |--------------------------------------------------------------------------
-    | Choose what laravel-modules will register as custom namespaces.
+    | Choose what laravel-plugins will register as custom namespaces.
     | Setting one to false will require you to register that part
     | in your own Service Provider class.
     |--------------------------------------------------------------------------
@@ -138,7 +137,7 @@ return [
     |
     | You can define new types of activators here, file, database etc. The only
     | required parameter is 'class'.
-    | The file activator will store the activation status in storage/installed_modules
+    | The file activator will store the activation status in storage/installed_plugins
     */
     'activators' => [
         'file' => [
