@@ -96,7 +96,8 @@ class JsonTest extends TestCase
     "aliases": [],
     "files": []
 }';
-        $this->assertEquals($expected, $this->json->toJsonPretty());
+
+        $this->assertEquals(str_replace("\r\n", "\n", $expected), str_replace("\r\n", "\n", $this->json->toJsonPretty()));
     }
 
     public function test_it_sets_a_key_value()
@@ -127,6 +128,6 @@ class JsonTest extends TestCase
     "aliases": [],
     "files": []
 }';
-        $this->assertEquals($expected, $this->json);
+        $this->assertEquals(str_replace("\r\n", "\n", $expected), str_replace("\r\n", "\n", $this->json));
     }
 }
