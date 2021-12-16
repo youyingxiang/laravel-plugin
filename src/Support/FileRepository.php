@@ -647,15 +647,15 @@ class FileRepository implements RepositoryInterface
      */
     public function getStubPath(): ?string
     {
-        if ($this->stubPath !== null) {
+        if (isset($this->stubPath)) {
             return $this->stubPath;
         }
 
         if ($this->config('stubs.enabled') === true) {
-            return $this->config('stubs.path');
+            return $this->config('stubs.path') ?? __DIR__.'/../../stubs';
         }
 
-        return $this->stubPath;
+        return optional($this)->stubPath;
     }
 
     /**

@@ -1,6 +1,6 @@
 {
     "name": "PluginOne",
-    "alias": "pluginone",
+    "alias": "plugin_one",
     "description": "",
     "keywords": [],
     "priority": 0,
@@ -9,5 +9,7 @@
     ],
     "aliases": {},
     "files": [],
-    "requires": []
+    "requires": [
+        "plugin_two"
+    ]
 }
