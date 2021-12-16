@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Commands;
 
 use Illuminate\Filesystem\Filesystem;
@@ -34,9 +35,7 @@ class ProviderMakeCommandTest extends TestCase
     {
         $code = $this->artisan('plugin:make-provider', ['name' => 'MyBlogServiceProvider', 'plugin' => 'Blog']);
 
-        $this->assertFileExists($this->pluginPath . '/Providers/MyBlogServiceProvider.php');
+        $this->assertFileExists($this->pluginPath.'/Providers/MyBlogServiceProvider.php');
         $this->assertSame(0, $code);
     }
-
-
 }

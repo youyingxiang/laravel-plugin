@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Commands;
 
 use Illuminate\Filesystem\Filesystem;
@@ -7,7 +8,6 @@ use Yxx\LaravelPlugin\Tests\TestCase;
 
 class ListCommandTest extends TestCase
 {
-
     /**
      * @var Filesystem
      */

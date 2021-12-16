@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Commands;
 
 use Illuminate\Filesystem\Filesystem;
@@ -28,15 +29,14 @@ class ControllerMakeCommandTest extends TestCase
     public function test_it_generates_a_new_controller_class()
     {
         $code = $this->artisan('plugin:make-controller', ['controller' => 'MyController', 'plugin' => 'Blog']);
-        $this->assertFileExists($this->pluginPath . '/Http/Controllers/MyController.php');
+        $this->assertFileExists($this->pluginPath.'/Http/Controllers/MyController.php');
         $this->assertSame(0, $code);
     }
 
     public function test_it_appends_controller_to_name_if_not_present()
     {
         $code = $this->artisan('plugin:make-controller', ['controller' => 'My', 'plugin' => 'Blog']);
-        $this->assertFileExists($this->pluginPath . '/Http/Controllers/MyController.php');
+        $this->assertFileExists($this->pluginPath.'/Http/Controllers/MyController.php');
         $this->assertSame(0, $code);
     }
-
 }

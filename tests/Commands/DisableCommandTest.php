@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Commands;
 
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;

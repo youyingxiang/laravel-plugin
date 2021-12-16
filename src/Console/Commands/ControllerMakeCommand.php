@@ -4,7 +4,6 @@ namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Yxx\LaravelPlugin\Support\Config\GenerateConfigReader;
 use Yxx\LaravelPlugin\Support\Stub;
 use Yxx\LaravelPlugin\Traits\PluginCommandTrait;

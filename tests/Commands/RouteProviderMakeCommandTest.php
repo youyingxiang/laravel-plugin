@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Commands;
 
 use Illuminate\Filesystem\Filesystem;
@@ -33,7 +34,7 @@ class RouteProviderMakeCommandTest extends TestCase
     /** @test */
     public function it_generates_a_new_service_provider_class()
     {
-        $path = $this->pluginPath . '/Providers/RouteServiceProvider.php';
+        $path = $this->pluginPath.'/Providers/RouteServiceProvider.php';
         $this->finder->delete($path);
         $code = $this->artisan('plugin:route-provider', ['plugin' => 'Blog']);
 
