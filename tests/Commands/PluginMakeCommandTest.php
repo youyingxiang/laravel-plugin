@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Commands;
 
 use Illuminate\Filesystem\Filesystem;
@@ -49,7 +50,7 @@ class PluginMakeCommandTest extends TestCase
         $code = $this->artisan('plugin:make', ['name' => ['Blog']]);
 
         foreach (config('plugins.paths.generator') as $directory) {
-            $this->assertDirectoryExists($this->pluginPath . '/' . $directory['path']);
+            $this->assertDirectoryExists($this->pluginPath.'/'.$directory['path']);
         }
         $this->assertSame(0, $code);
     }
@@ -59,10 +60,10 @@ class PluginMakeCommandTest extends TestCase
         $code = $this->artisan('plugin:make', ['name' => ['Blog']]);
 
         foreach (config('plugins.stubs.files') as $file) {
-            $path = base_path('plugins/Blog') . '/' . $file;
+            $path = base_path('plugins/Blog').'/'.$file;
             $this->assertTrue($this->finder->exists($path), "[$file] does not exists");
         }
-        $path = base_path('plugins/Blog') . '/plugin.json';
+        $path = base_path('plugins/Blog').'/plugin.json';
         $this->assertTrue($this->finder->exists($path), '[plugin.json] does not exists');
         $this->assertSame(0, $code);
     }
@@ -71,18 +72,16 @@ class PluginMakeCommandTest extends TestCase
     {
         $code = $this->artisan('plugin:make', ['name' => ['Blog']]);
 
-        $path = base_path('plugins/Blog') . '/Providers/BlogServiceProvider.php';
+        $path = base_path('plugins/Blog').'/Providers/BlogServiceProvider.php';
         $this->assertTrue($this->finder->exists($path));
 
-
-        $path = base_path('plugins/Blog') . '/Http/Controllers/BlogController.php';
+        $path = base_path('plugins/Blog').'/Http/Controllers/BlogController.php';
         $this->assertTrue($this->finder->exists($path));
 
-
-        $path = base_path('plugins/Blog') . '/Database/Seeders/BlogDatabaseSeeder.php';
+        $path = base_path('plugins/Blog').'/Database/Seeders/BlogDatabaseSeeder.php';
         $this->assertTrue($this->finder->exists($path));
 
-        $path = base_path('plugins/Blog') . '/Providers/RouteServiceProvider.php';
+        $path = base_path('plugins/Blog').'/Providers/RouteServiceProvider.php';
         $this->assertTrue($this->finder->exists($path));
 
         $this->assertSame(0, $code);
@@ -151,10 +150,10 @@ class PluginMakeCommandTest extends TestCase
 
         $code = $this->artisan('plugin:make', ['name' => ['Blog']]);
 
-        $this->assertDirectoryExists($this->pluginPath . '/Assets');
-        $this->assertDirectoryExists($this->pluginPath . '/Emails');
-        $this->assertDirectoryNotExists($this->pluginPath . '/Rules');
-        $this->assertDirectoryNotExists($this->pluginPath . '/Policies');
+        $this->assertDirectoryExists($this->pluginPath.'/Assets');
+        $this->assertDirectoryExists($this->pluginPath.'/Emails');
+        $this->assertDirectoryNotExists($this->pluginPath.'/Rules');
+        $this->assertDirectoryNotExists($this->pluginPath.'/Policies');
         $this->assertSame(0, $code);
     }
 
@@ -165,8 +164,8 @@ class PluginMakeCommandTest extends TestCase
 
         $code = $this->artisan('plugin:make', ['name' => ['Blog']]);
 
-        $this->assertDirectoryNotExists($this->pluginPath . '/Assets');
-        $this->assertDirectoryNotExists($this->pluginPath . '/Emails');
+        $this->assertDirectoryNotExists($this->pluginPath.'/Assets');
+        $this->assertDirectoryNotExists($this->pluginPath.'/Emails');
         $this->assertSame(0, $code);
     }
 
@@ -177,8 +176,8 @@ class PluginMakeCommandTest extends TestCase
 
         $code = $this->artisan('plugin:make', ['name' => ['Blog']]);
 
-        $this->assertDirectoryNotExists($this->pluginPath . '/Assets');
-        $this->assertDirectoryNotExists($this->pluginPath . '/Emails');
+        $this->assertDirectoryNotExists($this->pluginPath.'/Assets');
+        $this->assertDirectoryNotExists($this->pluginPath.'/Emails');
         $this->assertSame(0, $code);
     }
 
@@ -190,12 +189,11 @@ class PluginMakeCommandTest extends TestCase
 
         $code = $this->artisan('plugin:make', ['name' => ['Blog']]);
 
-        $this->assertDirectoryNotExists($this->pluginPath . '/Database/Seeders');
-        $this->assertDirectoryNotExists($this->pluginPath . '/Providers');
-        $this->assertDirectoryNotExists($this->pluginPath . '/Http/Controllers');
+        $this->assertDirectoryNotExists($this->pluginPath.'/Database/Seeders');
+        $this->assertDirectoryNotExists($this->pluginPath.'/Providers');
+        $this->assertDirectoryNotExists($this->pluginPath.'/Http/Controllers');
         $this->assertSame(0, $code);
     }
-
 
     public function test_it_generates_enabled_plugin()
     {
@@ -212,6 +210,4 @@ class PluginMakeCommandTest extends TestCase
         $this->assertTrue($this->repository->isDisabled('Blog'));
         $this->assertSame(0, $code);
     }
-
-
 }
