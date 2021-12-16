@@ -139,7 +139,7 @@ class PluginTest extends TestCase
         $cachedServicesPath = $this->plugin->getCachedServicesPath();
 
         @unlink($cachedServicesPath);
-        $this->assertFileDoesNotExist($cachedServicesPath);
+        $this->assertFileNotExists($cachedServicesPath);
 
         $this->plugin->registerProviders();
 
