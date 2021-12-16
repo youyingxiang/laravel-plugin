@@ -69,9 +69,6 @@ class PluginMakeCommand extends Command
     protected function getOptions(): array
     {
         return [
-            ['plain', 'p', InputOption::VALUE_NONE, 'Generate a plain plugin (without some resources).'],
-            ['api', null, InputOption::VALUE_NONE, 'Generate an api plugin.'],
-            ['web', null, InputOption::VALUE_NONE, 'Generate a web plugin.'],
             ['disabled', 'd', InputOption::VALUE_NONE, 'Do not enable the plugin at creation.'],
             ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when the plugin already exists.'],
         ];
