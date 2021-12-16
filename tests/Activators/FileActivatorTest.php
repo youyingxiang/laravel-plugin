@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Activators;
 
 use Illuminate\Filesystem\Filesystem;
@@ -31,26 +32,24 @@ class FileActivatorTest extends TestCase
     public function test_it_creates_valid_json_file_after_enabling()
     {
         $this->activator->enable($this->plugin);
-        $pluginsStatuses = json_decode($this->finder->get($this->activator->getStatusesFilePath()),true);
+        $pluginsStatuses = json_decode($this->finder->get($this->activator->getStatusesFilePath()), true);
         $this->assertTrue(data_get($pluginsStatuses, 'PluginOne'));
 
         $this->activator->setActive($this->plugin, true);
-        $pluginsStatuses = json_decode($this->finder->get($this->activator->getStatusesFilePath()),true);
+        $pluginsStatuses = json_decode($this->finder->get($this->activator->getStatusesFilePath()), true);
         $this->assertTrue(data_get($pluginsStatuses, 'PluginOne'));
     }
-
 
     public function test_it_creates_valid_json_file_after_disabling()
     {
         $this->activator->disable($this->plugin);
-        $pluginsStatuses = json_decode($this->finder->get($this->activator->getStatusesFilePath()),true);
+        $pluginsStatuses = json_decode($this->finder->get($this->activator->getStatusesFilePath()), true);
         $this->assertFalse(data_get($pluginsStatuses, 'PluginOne'));
 
         $this->activator->setActive($this->plugin, false);
-        $pluginsStatuses = json_decode($this->finder->get($this->activator->getStatusesFilePath()),true);
+        $pluginsStatuses = json_decode($this->finder->get($this->activator->getStatusesFilePath()), true);
         $this->assertFalse(data_get($pluginsStatuses, 'PluginOne'));
     }
-
 
     public function test_it_can_check_plugin_enabled_status()
     {
@@ -60,7 +59,6 @@ class FileActivatorTest extends TestCase
         $this->activator->setActive($this->plugin, true);
         $this->assertTrue($this->activator->hasStatus($this->plugin, true));
     }
-
 
     public function test_it_can_check_plugin_disabled_status()
     {
@@ -75,6 +73,4 @@ class FileActivatorTest extends TestCase
     {
         $this->assertTrue($this->activator->hasStatus($this->plugin, false));
     }
-
-
 }

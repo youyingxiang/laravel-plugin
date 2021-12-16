@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Commands;
 
 use Illuminate\Filesystem\Filesystem;
