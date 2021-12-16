@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Support;
 
 use Illuminate\Filesystem\Filesystem;
@@ -36,7 +37,7 @@ class FileRepositoryTest extends TestCase
         $this->activator->reset();
         $this->app['files']->delete([
             storage_path('app/plugins/plugins.used'),
-            base_path('plugins')
+            base_path('plugins'),
         ]);
         parent::tearDown();
     }
@@ -175,16 +176,14 @@ class FileRepositoryTest extends TestCase
         $this->assertTrue($this->repository->isEnabled('PluginOne'));
     }
 
-
     public function test_it_can_delete_a_module()
     {
-         $this->artisan('plugin:make', ['name' => ['Blog']]);
+        $this->artisan('plugin:make', ['name' => ['Blog']]);
 
-         $this->repository->delete('Blog');
+        $this->repository->delete('Blog');
 
-         $this->assertFalse(is_dir(base_path('plugins/Blog')));
+        $this->assertFalse(is_dir(base_path('plugins/Blog')));
     }
-
 
     public function test_it_can_find_all_requirements_of_a_plugin()
     {
@@ -220,6 +219,4 @@ class FileRepositoryTest extends TestCase
 
         $this->assertEquals('enonigulp', $plugin->getReverseName());
     }
-
-
 }
