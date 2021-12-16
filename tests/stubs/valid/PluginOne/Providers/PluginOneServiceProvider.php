@@ -32,7 +32,6 @@ class PluginOneServiceProvider extends ServiceProvider
      */
     public function provides(): array
     {
-        return array();
+        return [];
     }
-
 }
