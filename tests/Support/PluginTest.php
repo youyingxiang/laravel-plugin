@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Support;
 
 use PluginsTest\PluginOne\Providers\PluginOneServiceProvider;
@@ -60,7 +61,7 @@ class PluginTest extends TestCase
 
     public function test_it_gets_plugin_path()
     {
-        $this->assertEquals(__DIR__ . '/../stubs/valid/PluginOne', $this->plugin->getPath());
+        $this->assertEquals(__DIR__.'/../stubs/valid/PluginOne', $this->plugin->getPath());
     }
 
     public function test_it_gets_required_plugins()
@@ -146,7 +147,6 @@ class PluginTest extends TestCase
         $this->assertFileExists($cachedServicesPath);
         $manifest = require $cachedServicesPath;
 
-
         $this->assertEquals([
             'providers' => [
                 PluginOneServiceProvider::class,
@@ -156,7 +156,4 @@ class PluginTest extends TestCase
         ], $manifest);
         $this->assertEquals('fooFun', app('foo'));
     }
-
-
-
 }

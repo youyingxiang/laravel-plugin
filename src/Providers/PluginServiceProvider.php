@@ -2,7 +2,6 @@
 
 namespace Yxx\LaravelPlugin\Providers;
 
-use Composer\Autoload\ClassLoader;
 use Illuminate\Support\ServiceProvider;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
