@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Support;
 
 use Illuminate\Filesystem\Filesystem;
@@ -24,7 +25,7 @@ class StubTest extends TestCase
         $this->finder->delete([
             base_path('my-seeder.php'),
             base_path('stub-override-not-exists.php'),
-            base_path('stub-override-exists.php')
+            base_path('stub-override-exists.php'),
         ]);
     }
 
@@ -34,7 +35,7 @@ class StubTest extends TestCase
             'NAME' => 'Name',
         ]);
 
-        $this->assertEquals(['NAME' => 'Name', ], $stub->getReplaces());
+        $this->assertEquals(['NAME' => 'Name'], $stub->getReplaces());
         $this->assertStringContainsString('/stubs/plugin.stub', $stub->getPath());
     }
 
@@ -44,14 +45,14 @@ class StubTest extends TestCase
             'NAME' => 'Name',
         ]);
 
-        $stub->replace(['PLUGIN' => 'MyPlugin', ]);
-        $this->assertEquals(['PLUGIN' => 'MyPlugin', ], $stub->getReplaces());
+        $stub->replace(['PLUGIN' => 'MyPlugin']);
+        $this->assertEquals(['PLUGIN' => 'MyPlugin'], $stub->getReplaces());
     }
 
     public function test_it_stores_stub_to_specific_path()
     {
         $stub = (new Stub('/seeder.stub', [
-            'NAME'      => "TestSeeder",
+            'NAME'      => 'TestSeeder',
             'NAMESPACE' => "Plugins\Test\Database\Seeders",
         ]));
 
@@ -74,7 +75,7 @@ class StubTest extends TestCase
     public function test_use_default_stub_if_override_not_exists()
     {
         $stub = new Stub('/seeder.stub', [
-            'NAME'      => "TestSeeder",
+            'NAME'      => 'TestSeeder',
             'NAMESPACE' => "Plugins\Test\Database\Seeders",
         ]);
 
@@ -86,7 +87,7 @@ class StubTest extends TestCase
     public function test_use_override_stub_if_exists()
     {
         $stub = new Stub('/seeder.stub', [
-            'NAME'      => "TestSeeder",
+            'NAME'      => 'TestSeeder',
             'NAMESPACE' => "Plugins\Test\Database\Seeders",
         ]);
 
@@ -97,6 +98,4 @@ class StubTest extends TestCase
         $this->assertStringContainsString('Plugins\\Test\\Database\\Seeders;', $content);
         $this->assertStringContainsString('TestSeeder', $content);
     }
-
-
 }
