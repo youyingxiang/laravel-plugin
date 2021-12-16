@@ -1,11 +1,11 @@
 {
     "name": "PluginOne",
     "alias": "plugin_one",
-    "description": "",
+    "description": "plugin one test",
     "keywords": [],
     "priority": 0,
     "providers": [
-        "Plugins\\PluginOne\\Providers\\PluginOneServiceProvider"
+        "PluginsTest\\PluginOne\\Providers\\PluginOneServiceProvider"
     ],
     "aliases": {},
     "files": [],

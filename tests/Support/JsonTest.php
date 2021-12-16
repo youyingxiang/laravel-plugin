@@ -90,8 +90,8 @@ class JsonTest extends TestCase
     "active": 1,
     "order": 1,
     "providers": [
-        "Plugins\\\Test\\\Providers\\\TestServiceProvider",
-        "Plugins\\\Test\\\Providers\\\TestServiceProvider"
+        "PluginsTest\\\Test\\\Providers\\\TestServiceProvider",
+        "PluginsTest\\\Test\\\Providers\\\TestServiceProvider"
     ],
     "aliases": [],
     "files": []
@@ -122,8 +122,8 @@ class JsonTest extends TestCase
     "active": 1,
     "order": 1,
     "providers": [
-        "Plugins\\\Test\\\Providers\\\TestServiceProvider",
-        "Plugins\\\Test\\\Providers\\\TestServiceProvider"
+        "PluginsTest\\\Test\\\Providers\\\TestServiceProvider",
+        "PluginsTest\\\Test\\\Providers\\\TestServiceProvider"
     ],
     "aliases": [],
     "files": []

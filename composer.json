@@ -18,7 +18,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Yxx\\LaravelPlugin\\Tests\\": "tests"
+            "Yxx\\LaravelPlugin\\Tests\\": "tests",
+            "PluginsTest\\": "tests/stubs/valid/"
         }
     },
     "require": {

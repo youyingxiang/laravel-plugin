@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugins\PluginOne\Http\Controllers;
+namespace PluginsTest\PluginOne\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;

@@ -2,6 +2,7 @@
 
 namespace Yxx\LaravelPlugin\Providers;
 
+use Composer\Autoload\ClassLoader;
 use Illuminate\Support\ServiceProvider;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
@@ -42,8 +43,8 @@ class PluginServiceProvider extends ServiceProvider
 
     protected function setPsr4(): void
     {
-        if (file_exists(base_path().'/vendor/autoload.php')) {
-            $loader = require base_path().'/vendor/autoload.php';
+        if (file_exists(base_path('/vendor/autoload.php'))) {
+            $loader = require base_path('/vendor/autoload.php');
             $namespace = $this->app['config']->get('plugins.namespace');
             $path = $this->app['config']->get('plugins.paths.plugins');
             $loader->setPsr4("{$namespace}\\", ["{$path}/"]);
