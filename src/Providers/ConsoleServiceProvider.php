@@ -8,6 +8,7 @@ use Yxx\LaravelPlugin\Console\Commands\ControllerMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\DisableCommand;
 use Yxx\LaravelPlugin\Console\Commands\EnableCommand;
 use Yxx\LaravelPlugin\Console\Commands\ListCommand;
+use Yxx\LaravelPlugin\Console\Commands\LocalInstallCommand;
 use Yxx\LaravelPlugin\Console\Commands\PluginCommand;
 use Yxx\LaravelPlugin\Console\Commands\PluginDeleteCommand;
 use Yxx\LaravelPlugin\Console\Commands\PluginMakeCommand;
@@ -40,6 +41,7 @@ class ConsoleServiceProvider extends ServiceProvider
         DisableCommand::class,
         EnableCommand::class,
         PluginDeleteCommand::class,
+        LocalInstallCommand::class
     ];
 
     /**
