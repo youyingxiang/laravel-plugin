@@ -41,7 +41,7 @@ class ConsoleServiceProvider extends ServiceProvider
         DisableCommand::class,
         EnableCommand::class,
         PluginDeleteCommand::class,
-        LocalInstallCommand::class
+        LocalInstallCommand::class,
     ];
 
     /**
