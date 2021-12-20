@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Support;
 
 use Yxx\LaravelPlugin\Support\CompressPlugin;
@@ -19,7 +20,7 @@ class CompressPluginTest extends TestCase
     public function tearDown(): void
     {
         $this->app['files']->delete([
-            $this->plugin->getCompressFilePath()
+            $this->plugin->getCompressFilePath(),
         ]);
         $this->plugin->delete();
         parent::tearDown();

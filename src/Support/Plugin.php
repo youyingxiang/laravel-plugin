@@ -363,15 +363,14 @@ class Plugin
         $this->activator->setActive($this, $active);
     }
 
-
     public function getCompressFilePath(): string
     {
-        return $this->getPath(). "/.compress/" . $this->getName() . ".zip";
+        return $this->getPath().'/.compress/'.$this->getName().'.zip';
     }
 
-    public function getCompressDirectoryPath() : string
+    public function getCompressDirectoryPath(): string
     {
-        return $this->getPath(). "/.compress/";
+        return $this->getPath().'/.compress/';
     }
 
     /**
