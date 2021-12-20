@@ -1,6 +1,8 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support\Generators;
 
+use Illuminate\Console\Command as Console;
 use Illuminate\Filesystem\Filesystem;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
 use Yxx\LaravelPlugin\Contracts\GeneratorInterface;
@@ -8,11 +10,9 @@ use Yxx\LaravelPlugin\Exceptions\LocalPathNotFoundException;
 use Yxx\LaravelPlugin\Exceptions\PluginAlreadyExistException;
 use Yxx\LaravelPlugin\Support\FileRepository;
 use Yxx\LaravelPlugin\Support\Json;
-use Illuminate\Console\Command as Console;
 
 class LocalInstallGenerator implements GeneratorInterface
 {
-
     /**
      * The plugin name will created.
      *
@@ -62,8 +62,7 @@ class LocalInstallGenerator implements GeneratorInterface
      */
     protected bool $isActive = false;
 
-
-    public static function make():LocalInstallGenerator
+    public static function make(): LocalInstallGenerator
     {
         return new LocalInstallGenerator();
     }
@@ -71,30 +70,35 @@ class LocalInstallGenerator implements GeneratorInterface
     public function setLocalPath(string $localPath): LocalInstallGenerator
     {
         $this->localPath = $localPath;
+
         return $this;
     }
 
     public function setPluginRepository(FileRepository $pluginRepository): LocalInstallGenerator
     {
         $this->pluginRepository = $pluginRepository;
+
         return $this;
     }
 
     public function setActivator(ActivatorInterface $activator): LocalInstallGenerator
     {
         $this->activator = $activator;
+
         return $this;
     }
 
     public function setFilesystem(Filesystem $filesystem): LocalInstallGenerator
     {
         $this->filesystem = $filesystem;
+
         return $this;
     }
 
     public function setConsole(Console $console): LocalInstallGenerator
     {
         $this->console = $console;
+
         return $this;
     }
 
@@ -104,7 +108,6 @@ class LocalInstallGenerator implements GeneratorInterface
 
         return $this;
     }
-
 
     public function generate(): int
     {
@@ -133,6 +136,4 @@ class LocalInstallGenerator implements GeneratorInterface
 
         return 0;
     }
-
-
 }

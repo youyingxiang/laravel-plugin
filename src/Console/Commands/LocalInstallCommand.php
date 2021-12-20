@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -32,6 +33,7 @@ class LocalInstallCommand extends Command
             ->setActive(! $this->option('disabled'))
             ->setConsole($this)
             ->generate();
+
         return $code;
     }
 
