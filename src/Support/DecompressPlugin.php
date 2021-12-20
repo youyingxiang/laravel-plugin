@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support;
 
 use Illuminate\Filesystem\Filesystem;
@@ -18,14 +19,12 @@ class DecompressPlugin
 
     protected Filesystem $filesystem;
 
-
     public function __construct(string $compressPath)
     {
-        $this->compressPath  = $compressPath;
+        $this->compressPath = $compressPath;
         $this->repository = app('plugins.repository');
-        $this->tmpDecompressPath = dirname($this->compressPath) . "/.tmp";
+        $this->tmpDecompressPath = dirname($this->compressPath).'/.tmp';
         $this->filesystem = app('files');
-
     }
 
     public function __invoke(): bool
@@ -50,7 +49,7 @@ class DecompressPlugin
     public function getDecompressPath(): string
     {
         if (! $this->filesystem->exists("{$this->tmpDecompressPath}/plugin.json")) {
-            throw new DecompressPluginException("Plugin parsing error.");
+            throw new DecompressPluginException('Plugin parsing error.');
         }
 
         $plugName = Json::make("{$this->tmpDecompressPath}/plugin.json")->get('name');
@@ -60,6 +59,7 @@ class DecompressPlugin
         if (! $this->filesystem->isDirectory($decompressPath)) {
             $this->filesystem->makeDirectory($decompressPath, 0775, true);
         }
+
         return $decompressPath;
     }
 

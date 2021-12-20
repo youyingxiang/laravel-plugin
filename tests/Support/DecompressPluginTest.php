@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Support;
 
 use Yxx\LaravelPlugin\Support\CompressPlugin;
@@ -21,7 +22,7 @@ class DecompressPluginTest extends TestCase
     public function tearDown(): void
     {
         $this->app['files']->delete([
-            $this->compressPath
+            $this->compressPath,
         ]);
         $this->plugin->delete();
         parent::tearDown();
@@ -31,7 +32,7 @@ class DecompressPluginTest extends TestCase
     {
         (new CompressPlugin($this->plugin))->__invoke();
 
-        $this->compressPath  =  $compressPath =  base_path("plugins/"). basename($this->plugin->getCompressFilePath());
+        $this->compressPath = $compressPath = base_path('plugins/').basename($this->plugin->getCompressFilePath());
 
         $this->plugin->getFiles()->move($this->plugin->getCompressFilePath(), $compressPath);
 
@@ -45,6 +46,5 @@ class DecompressPluginTest extends TestCase
 
         $this->assertDirectoryExists($pluginPath);
         $this->assertDirectoryNotExists($compressPath);
-
     }
 }

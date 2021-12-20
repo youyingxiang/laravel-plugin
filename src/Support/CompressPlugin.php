@@ -1,11 +1,12 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support;
 
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
-use ZipArchive;
 use Symfony\Component\Process\Process;
 use Yxx\LaravelPlugin\Exceptions\CompressPluginException;
+use ZipArchive;
 
 class CompressPlugin
 {
@@ -16,14 +17,17 @@ class CompressPlugin
 
     /**
      * CompressPlugin constructor.
+     *
      * @param  Plugin  $plugin
      */
     public function __construct(Plugin $plugin)
     {
         $this->plugin = $plugin;
     }
+
     /**
      * @return bool
+     *
      * @throws CompressPluginException
      */
     public function __invoke(): bool
@@ -93,5 +97,4 @@ class CompressPlugin
             ? 33133  // '-r-xr-xr-x'
             : fileperms($file->getRealPath());
     }
-
 }
