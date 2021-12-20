@@ -294,6 +294,14 @@ class Plugin
     }
 
     /**
+     * @return Filesystem
+     */
+    public function getFiles(): Filesystem
+    {
+        return $this->files;
+    }
+
+    /**
      * Register the Plugin event.
      *
      * @param  string  $event
@@ -353,6 +361,17 @@ class Plugin
     public function setActive(bool $active): void
     {
         $this->activator->setActive($this, $active);
+    }
+
+
+    public function getCompressFilePath(): string
+    {
+        return $this->getPath(). "/.compress/" . $this->getName() . ".zip";
+    }
+
+    public function getCompressDirectoryPath() : string
+    {
+        return $this->getPath(). "/.compress/";
     }
 
     /**

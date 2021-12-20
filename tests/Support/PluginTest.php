@@ -64,6 +64,16 @@ class PluginTest extends TestCase
         $this->assertEquals(__DIR__.'/../stubs/valid/PluginOne', $this->plugin->getPath());
     }
 
+    public function test_it_gets_plugin_compress_file_path()
+    {
+        $this->assertEquals(__DIR__.'/../stubs/valid/PluginOne/.compress/PluginOne.zip', $this->plugin->getCompressFilePath());
+    }
+
+    public function test_it_gets_plugin_compress_directory_path()
+    {
+        $this->assertEquals(__DIR__.'/../stubs/valid/PluginOne/.compress/', $this->plugin->getCompressDirectoryPath());
+    }
+
     public function test_it_gets_required_plugins()
     {
         $this->assertEquals(['plugin_two'], $this->plugin->getRequires());
