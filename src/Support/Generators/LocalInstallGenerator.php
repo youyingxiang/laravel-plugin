@@ -2,6 +2,8 @@
 
 namespace Yxx\LaravelPlugin\Support\Generators;
 
+use Yxx\LaravelPlugin\Support\DecompressPlugin;
+use ZipArchive;
 use Illuminate\Console\Command as Console;
 use Illuminate\Filesystem\Filesystem;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
@@ -111,6 +113,19 @@ class LocalInstallGenerator implements GeneratorInterface
 
     public function generate(): int
     {
+        if ($this->filesystem->isDirectory($this->localPath)) {
+            $this->localPathNotIsCompressed();
+        }
+
+        if ($this->filesystem->isFile($this->localPath) && $this->filesystem->extension($this->localPath) === "zip") {
+           $this->localPathIsCompressed();
+        }
+
+        return 0;
+    }
+
+    public function localPathNotIsCompressed(): void
+    {
         if (! $this->filesystem->exists("{$this->localPath}/plugin.json")) {
             throw new LocalPathNotFoundException("Local Path [{$this->localPath}] does not exist!");
         }
@@ -133,7 +148,15 @@ class LocalInstallGenerator implements GeneratorInterface
         $this->activator->setActiveByName($pluginName, $this->isActive);
 
         $this->console->info("Plugin [{$pluginName}] created successfully.");
+    }
 
-        return 0;
+    public function localPathIsCompressed()
+    {
+        $pluginName = (new DecompressPlugin($this->localPath))->__invoke();
+
+        $this->activator->setActiveByName($pluginName, $this->isActive);
+
+        $this->console->info("Plugin [{$pluginName}] created successfully.");
+
     }
 }

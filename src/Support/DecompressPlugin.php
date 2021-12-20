@@ -28,23 +28,23 @@ class DecompressPlugin
 
     }
 
-    public function __invoke(): bool
+    public function __invoke(): ?string
     {
         $archive = new \ZipArchive();
 
         $op = $archive->open($this->compressPath);
 
         if ($op !== true) {
-            return false;
+            return null;
         }
 
         $archive->extractTo($this->tmpDecompressPath);
 
         $archive->close();
 
-        $this->filesystem->moveDirectory($this->tmpDecompressPath, $this->getDecompressPath(), true);
+        $this->filesystem->moveDirectory($this->tmpDecompressPath, $decompressPath = $this->getDecompressPath(), true);
 
-        return true;
+        return basename($decompressPath);
     }
 
     public function getDecompressPath(): string

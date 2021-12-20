@@ -1,6 +1,7 @@
 <?php
 namespace Yxx\LaravelPlugin\Tests\Support;
 
+use Yxx\LaravelPlugin\Exceptions\DecompressPluginException;
 use Yxx\LaravelPlugin\Support\CompressPlugin;
 use Yxx\LaravelPlugin\Support\DecompressPlugin;
 use Yxx\LaravelPlugin\Support\Plugin;
@@ -9,7 +10,7 @@ use Yxx\LaravelPlugin\Tests\TestCase;
 class DecompressPluginTest extends TestCase
 {
     private Plugin $plugin;
-    private string $compressPath;
+    private string $compressPath = "";
 
     public function setUp(): void
     {
@@ -45,6 +46,12 @@ class DecompressPluginTest extends TestCase
 
         $this->assertDirectoryExists($pluginPath);
         $this->assertDirectoryNotExists($compressPath);
+    }
 
+    public function test_it_can_decompress_failed()
+    {
+        $this->expectException(DecompressPluginException::class);
+        $this->plugin->getFiles()->copy(__DIR__.'/../stubs/valid/Test.zip', $this->compressPath = $compressPath = base_path("plugins/Test.zip"));
+        (new DecompressPlugin($compressPath))->__invoke();
     }
 }
