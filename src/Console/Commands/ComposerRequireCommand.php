@@ -33,6 +33,14 @@ class ComposerRequireCommand extends Command
         $v = $this->option('v');
 
         $pluginJson = $this->getPlugin()->json();
+
+        $requires = array_merge($this->getPlugin()->getComposerAttr("require") ?? [], $this->getPlugin()->getComposerAttr("require-dev") ?? []);
+
+        if (data_get($requires, $package)) {
+            $this->warn("Package already exists in `{$this->getPluginName()}`");
+            return;
+        }
+
         passthru("composer require {$package} $v $dev");
 
         $version = data_get(Json::make("composer.json")->setIsCache(false)->get($require), $package);

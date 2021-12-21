@@ -282,15 +282,12 @@ class Plugin
     }
 
     /**
-     * Get a specific data from composer.json file by given the key.
-     *
      * @param $key
-     * @param  null  $default
-     * @return mixed
+     * @return array|mixed
      */
-    public function getComposerAttr($key, $default = null)
+    public function getComposerAttr($key)
     {
-        return $this->json('composer.json')->get($key, $default);
+        return data_get($this->json()->get("composer"), $key);
     }
 
     /**

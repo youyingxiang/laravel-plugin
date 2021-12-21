@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Symfony\Component\Process\Process;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
+use Yxx\LaravelPlugin\Events\PluginDeleted;
 use Yxx\LaravelPlugin\Exceptions\InvalidAssetPath;
 use Yxx\LaravelPlugin\Exceptions\PluginNotFoundException;
 use Yxx\LaravelPlugin\Support\Process\Installer;
@@ -611,7 +612,9 @@ class FileRepository implements RepositoryInterface
      */
     public function delete(string $name): bool
     {
-        return $this->findOrFail($name)->delete();
+        $plugin = $this->findOrFail($name);
+        $this->app['events']->dispatch(new PluginDeleted($plugin));
+        return $plugin->delete();
     }
 
     /**

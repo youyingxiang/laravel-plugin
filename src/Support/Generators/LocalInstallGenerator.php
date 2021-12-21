@@ -2,6 +2,7 @@
 
 namespace Yxx\LaravelPlugin\Support\Generators;
 
+use Yxx\LaravelPlugin\Events\PluginInstalled;
 use Yxx\LaravelPlugin\Support\DecompressPlugin;
 use ZipArchive;
 use Illuminate\Console\Command as Console;
@@ -148,6 +149,8 @@ class LocalInstallGenerator implements GeneratorInterface
         $this->activator->setActiveByName($pluginName, $this->isActive);
 
         $this->console->info("Plugin [{$pluginName}] created successfully.");
+
+        app('events')->dispatch(new PluginInstalled($this->pluginRepository->find($pluginName)));
     }
 
     public function localPathIsCompressed()
@@ -157,6 +160,8 @@ class LocalInstallGenerator implements GeneratorInterface
         $this->activator->setActiveByName($pluginName, $this->isActive);
 
         $this->console->info("Plugin [{$pluginName}] created successfully.");
+
+        app('events')->dispatch(new PluginInstalled($this->pluginRepository->find($pluginName)));
 
     }
 }
