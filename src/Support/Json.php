@@ -10,6 +10,11 @@ use Yxx\LaravelPlugin\Exceptions\InvalidJsonException;
 
 class Json
 {
+
+    /**
+     * @var bool
+     */
+    protected bool $isCache;
     /**
      * The file path.
      *
@@ -118,6 +123,17 @@ class Json
         return $this->filesystem->get($this->getPath());
     }
 
+    public function setIsCache(bool $isCache): Json
+    {
+        $this->isCache = $isCache;
+        return $this;
+    }
+
+    public function isCache(): bool
+    {
+        return isset($this->isCache) ? $this->isCache : config('plugin.cache.enabled') ?? false;
+    }
+
     /**
      * Get file contents as array.
      *
@@ -134,7 +150,7 @@ class Json
             throw new InvalidJsonException('Error processing file: '.$this->getPath().'. Error: '.json_last_error_msg());
         }
 
-        if (config('plugin.cache.enabled') === false) {
+        if ($this->isCache() === false) {
             return $attributes;
         }
 
@@ -151,7 +167,7 @@ class Json
      */
     public function toJsonPretty(?array $data = null): string
     {
-        return json_encode($data ?: $this->attributes, JSON_PRETTY_PRINT);
+        return json_encode($data ?: $this->attributes, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);
     }
 
     /**

@@ -4,6 +4,8 @@ namespace Yxx\LaravelPlugin\Providers;
 
 use Carbon\Laravel\ServiceProvider;
 use Illuminate\Support\Str;
+use Yxx\LaravelPlugin\Console\Commands\ComposerRemoveCommand;
+use Yxx\LaravelPlugin\Console\Commands\ComposerRequireCommand;
 use Yxx\LaravelPlugin\Console\Commands\ControllerMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\DisableCommand;
 use Yxx\LaravelPlugin\Console\Commands\EnableCommand;
@@ -42,6 +44,8 @@ class ConsoleServiceProvider extends ServiceProvider
         EnableCommand::class,
         PluginDeleteCommand::class,
         LocalInstallCommand::class,
+        ComposerRequireCommand::class,
+        ComposerRemoveCommand::class
     ];
 
     /**
