@@ -18,6 +18,7 @@ use Yxx\LaravelPlugin\Exceptions\InvalidAssetPath;
 use Yxx\LaravelPlugin\Exceptions\PluginNotFoundException;
 use Yxx\LaravelPlugin\Support\Process\Installer;
 use Yxx\LaravelPlugin\Support\Process\Updater;
+use function Webmozart\Assert\Tests\StaticAnalysis\null;
 
 class FileRepository implements RepositoryInterface
 {
@@ -175,6 +176,21 @@ class FileRepository implements RepositoryInterface
         }
 
         return $this->formatCached($this->getCached());
+    }
+
+    /**
+     * @param  string|null  $type
+     * @return array
+     * @throws Exception
+     */
+    public function getComposerRequires(?string $type = null): array
+    {
+        return collect($this->all())->mapWithKeys(function (Plugin $plugin) use($type) {
+            if (! $type) {
+                return array_merge($plugin->getComposerAttr('require') ?? [], $plugin->getComposerAttr('require-dev') ?? []);
+            }
+            return $plugin->getComposerAttr($type) ?? [];
+        })->toArray();
     }
 
     /**
@@ -602,7 +618,7 @@ class FileRepository implements RepositoryInterface
      *
      * @throws PluginNotFoundException
      */
-    public function disable(string $name)
+    public function disable(string $name):void
     {
         $this->findOrFail($name)->disable();
     }
@@ -613,7 +629,6 @@ class FileRepository implements RepositoryInterface
     public function delete(string $name): bool
     {
         $plugin = $this->findOrFail($name);
-        $this->app['events']->dispatch(new PluginDeleted($plugin));
         return $plugin->delete();
     }
 

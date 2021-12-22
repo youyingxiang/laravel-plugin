@@ -4,9 +4,12 @@ namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Yxx\LaravelPlugin\Traits\PluginCommandTrait;
 
 class PluginDeleteCommand extends Command
 {
+    use PluginCommandTrait;
+
     protected $name = 'plugin:delete';
 
     protected $description = 'Delete a plugin from the application';
@@ -14,7 +17,6 @@ class PluginDeleteCommand extends Command
     public function handle(): int
     {
         $this->laravel['plugins.repository']->delete($this->argument('plugin'));
-
         $this->info("Plugin {$this->argument('plugin')} has been deleted.");
 
         return 0;

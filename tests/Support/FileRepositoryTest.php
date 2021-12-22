@@ -4,6 +4,7 @@ namespace Yxx\LaravelPlugin\Tests\Support;
 
 use Illuminate\Filesystem\Filesystem;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
+use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
 use Yxx\LaravelPlugin\Exceptions\PluginNotFoundException;
 use Yxx\LaravelPlugin\Support\Collection;
 use Yxx\LaravelPlugin\Support\FileRepository;
@@ -16,6 +17,8 @@ class FileRepositoryTest extends TestCase
      * @var FileRepository
      */
     private FileRepository $repository;
+
+    private Filesystem $finder;
 
     /**
      * @var ActivatorInterface
@@ -30,6 +33,7 @@ class FileRepositoryTest extends TestCase
         $this->repository = new FileRepository($this->app);
         $this->activator = $this->app[ActivatorInterface::class];
         $this->stubsValidPath = __DIR__.'/../stubs/valid';
+        $this->finder = $this->app['files'];
     }
 
     public function tearDown(): void
@@ -39,6 +43,8 @@ class FileRepositoryTest extends TestCase
             storage_path('app/plugins/plugins.used'),
             base_path('plugins'),
         ]);
+        $this->finder->deleteDirectory(base_path('plugins/Test1'));
+        $this->finder->deleteDirectory(base_path('plugins/Test2'));
         parent::tearDown();
     }
 
@@ -218,5 +224,53 @@ class FileRepositoryTest extends TestCase
         $plugin = $this->repository->find('PluginOne');
 
         $this->assertEquals('enonigulp', $plugin->getReverseName());
+    }
+
+    public function test_it_gets_composer_requires()
+    {
+        $this->artisan('plugin:make', ['name' => ['Test1']]);
+        $this->artisan('plugin:make', ['name' => ['Test2']]);
+
+        $this->repository->find('Test1')->json()->set("composer", [
+            "require" => [
+                "twilio/sdk" => "^6.28",
+                "tymon/jwt-auth" => "^1.0",
+                "wildbit/swiftmailer-postmark" => "^3.1",
+            ],
+            "require-dev" => [
+                "laravel/telescope" => "^2.0",
+            ],
+        ])->save();
+
+        $this->repository->find('Test2')->json()->set("composer", [
+            "require" => [
+                "wildbit/swiftmailer-postmark" => "^3.1",
+                "zircote/swagger-php" => "2.*"
+            ],
+            "require-dev" => [
+                "spatie/laravel-enum" => "1.6.0",
+            ],
+        ])->save();
+
+        $this->assertSame($this->repository->getComposerRequires(), [
+            "twilio/sdk" => "^6.28",
+            "tymon/jwt-auth" => "^1.0",
+            "wildbit/swiftmailer-postmark" => "^3.1",
+            "laravel/telescope" => "^2.0",
+            "zircote/swagger-php" => "2.*",
+            "spatie/laravel-enum" => "1.6.0",
+        ]);
+
+        $this->assertSame($this->repository->getComposerRequires("require"), [
+            'twilio/sdk' => '^6.28',
+            'tymon/jwt-auth' => '^1.0',
+            'wildbit/swiftmailer-postmark' => '^3.1',
+            'zircote/swagger-php' => '2.*'
+        ]);
+
+        $this->assertSame($this->repository->getComposerRequires("require-dev"), [
+            "laravel/telescope" => "^2.0",
+            "spatie/laravel-enum" => "1.6.0"
+        ]);
     }
 }

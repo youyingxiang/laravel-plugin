@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Translation\Translator;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
+use Yxx\LaravelPlugin\Events\PluginDeleted;
 
 class Plugin
 {

@@ -14,10 +14,8 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         PluginInstalled::class => [
-            ComposerRequireListener::class
         ],
         PluginDeleted::class => [
-            ComposerRemoveListener::class
         ]
     ];
 

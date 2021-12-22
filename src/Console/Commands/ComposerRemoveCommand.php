@@ -27,7 +27,6 @@ class ComposerRemoveCommand extends Command
     protected $description = 'Remove the plugin composer package.';
 
 
-
     public function handle():void
     {
         $package = $this->argument('package');
