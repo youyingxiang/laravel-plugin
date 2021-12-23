@@ -4,6 +4,8 @@ namespace Yxx\LaravelPlugin\Tests\Support\Composer;
 use Illuminate\Filesystem\Filesystem;
 use Yxx\LaravelPlugin\Support\Composer\Composer;
 use Yxx\LaravelPlugin\Tests\TestCase;
+use Yxx\LaravelPlugin\ValueObjects\ValRequire;
+use Yxx\LaravelPlugin\ValueObjects\ValRequires;
 
 class ComposerTest extends TestCase
 {
@@ -11,17 +13,16 @@ class ComposerTest extends TestCase
 
     private Filesystem $finder;
 
-    private array $requires;
+    private ValRequires $requires;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->composer = new TestComposer();
-        $this->requires = [
-            "twilio/sdk" => "^6.28",
-            "tymon/jwt-auth" => "^1.0",
-            "wildbit/swiftmailer-postmark" => "^3.1",
-        ];
+        $vr1 = ValRequire::make("twilio/sdk", "^6.28");
+        $vr2 = ValRequire::make("tymon/jwt-auth", "^1.0");
+        $vr3 = ValRequire::make("wildbit/swiftmailer-postmark", "^3.1");
+        $this->requires = ValRequires::make([$vr1, $vr2, $vr3]);
         $this->finder = $this->app['files'];
     }
 
@@ -45,11 +46,13 @@ class ComposerTest extends TestCase
     {
         $this->composer->appendRemoveRequires($this->requires);
 
-        $this->assertSame($this->requires, $this->composer->getRemoveRequires());
+        $this->assertSame($this->requires->toArray(), $this->composer->getRemoveRequires()->toArray());
 
-        $this->composer->appendRemoveRequires(["laravel/horizon" => "^3.4"]);
+        $vl = ValRequire::make("laravel/horizon", "^3.4");
+        $removeRequires = ValRequires::make([$vl]);
+        $this->composer->appendRemoveRequires($removeRequires);
 
-        $this->assertSame(array_merge($this->requires, ["laravel/horizon" => "^3.4"]), $this->composer->getRemoveRequires());
+        $this->assertSame($this->requires->append($vl)->toArray(), $this->composer->getRemoveRequires()->toArray());
     }
 
 
@@ -57,27 +60,43 @@ class ComposerTest extends TestCase
     {
         $this->composer->appendRequires($this->requires);
 
-        $this->assertSame($this->requires, $this->composer->getRequires());
+        $this->assertSame($this->requires->toArray(), $this->composer->getRequires()->toArray());
 
-        $this->composer->appendRequires(["laravel/horizon" => "^3.4"]);
+        $vl = ValRequire::make("laravel/horizon", "^3.4");
 
-        $this->assertSame(array_merge($this->requires, ["laravel/horizon" => "^3.4"]), $this->composer->getRequires());
+        $requires = ValRequires::make()->append($vl);
+
+        $this->composer->appendRequires($requires);
+
+        $this->assertSame($this->requires->append($vl)->toArray(), $this->composer->getRequires()->toArray());
     }
 
     public function test_it_can_append_dev_requires()
     {
         $this->composer->appendDevRequires($this->requires);
 
-        $this->assertSame($this->requires, $this->composer->getDevRequires());
+        $this->assertSame($this->requires->toArray(), $this->composer->getDevRequires()->toArray());
 
-        $this->composer->appendDevRequires(["laravel/horizon" => "^3.4"]);
+        $vl = ValRequire::make("laravel/horizon", "^3.4");
 
-        $this->assertSame(array_merge($this->requires, ["laravel/horizon" => "^3.4"]), $this->composer->getDevRequires());
+        $devRequires = ValRequires::make()->append($vl);
+
+        $this->composer->appendDevRequires($devRequires);
+
+        $this->assertSame($this->requires->append($vl)->toArray(), $this->composer->getDevRequires()->toArray());
     }
 
 }
 
 class TestComposer extends Composer
 {
-    public function handle(): void{}
+    public function beforeRun(): void
+    {
+        // TODO: Implement beforeRun() method.
+    }
+
+    public function afterRun(): void
+    {
+        // TODO: Implement afterRun() method.
+    }
 }

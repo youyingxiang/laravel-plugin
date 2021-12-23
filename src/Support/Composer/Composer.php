@@ -1,148 +1,189 @@
 <?php
 namespace Yxx\LaravelPlugin\Support\Composer;
 
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Traits\Macroable;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
+use Yxx\LaravelPlugin\Support\Json;
+use Yxx\LaravelPlugin\ValueObjects\ValRequires;
 
 abstract class Composer
 {
+    use Macroable;
     /**
      * @var RepositoryInterface|Application|mixed
      */
     protected RepositoryInterface $repository;
 
-    protected array $requires = [];
+    protected ValRequires $requires;
 
-    protected array $devRequires = [];
+    protected ValRequires $devRequires;
 
-    protected array $removeRequires = [];
+    protected ValRequires $removeRequires;
 
     public function __construct()
     {
+        $this->requires = ValRequires::make();
+        $this->devRequires = ValRequires::make();
+        $this->removeRequires = ValRequires::make();
         $this->repository = app('plugins.repository');
     }
 
     /**
-     * @return array
+     * @return static
      */
-    public function getRequires(): array
+    public static function make(): self
+    {
+        return new static();
+    }
+
+    /**
+     * @return ValRequires
+     */
+    public function getRequires(): ValRequires
     {
         return $this->requires;
     }
 
     /**
-     * @return array
+     * @return ValRequires
      */
-    public function getDevRequires(): array
+    public function getDevRequires(): ValRequires
     {
         return $this->devRequires;
     }
 
     /**
-     * @return array
+     * @return ValRequires
      */
-    public function getRemoveRequires(): array
+    public function getRemoveRequires(): ValRequires
     {
         return $this->removeRequires;
     }
 
     /**
-     * @param  array  $requires
+     * @param  ValRequires  $requires
      * @return $this
+     * @throws Exception
      */
-    public function setRequires(array $requires):self
+    public function setRequires(ValRequires $requires):self
     {
-        $this->requires = $requires;
-
-        return $this;
-    }
-
-    /**
-     * @param  array  $devRequires
-     * @return $this
-     */
-    public function setDevRequires(array $devRequires): self
-    {
-        $this->devRequires = $devRequires;
-
-        return $this;
-    }
-
-    /**
-     * @param  array  $removeRequires
-     * @return $this
-     */
-    public function setRemoveRequires(array $removeRequires): self
-    {
-        $this->removeRequires = $removeRequires;
-
-        return $this;
-    }
-
-    /**
-     * @param  array  $removeRequires
-     * @return $this
-     */
-    public function appendRemoveRequires(array $removeRequires): self
-    {
-        $this->removeRequires = array_merge($this->removeRequires, $removeRequires);
-        return $this;
-    }
-
-    /**
-     * @param  array  $devRequires
-     * @return $this
-     */
-    public function appendDevRequires(array $devRequires): self
-    {
-        $this->devRequires = array_merge($this->devRequires, $devRequires);
-        return $this;
-    }
-
-    /**
-     * @param  array  $requires
-     * @return $this
-     */
-    public function appendRequires(array $requires): self
-    {
-        $this->requires = array_merge($this->requires, $requires);
+        $this->requires = $this->filterExistRequires($requires);
         return $this;
     }
 
 
     /**
-     * @param  array  $requires
+     * @param  ValRequires  $devRequires
+     * @return $this
+     */
+    public function setDevRequires(ValRequires $devRequires): self
+    {
+        $this->devRequires = $this->filterExistRequires($devRequires);
+
+        return $this;
+    }
+
+    /**
+     * @param  ValRequires  $removeRequires
+     * @return $this
+     */
+    public function setRemoveRequires(ValRequires $removeRequires): self
+    {
+        $this->removeRequires = $removeRequires->unique();
+
+        return $this;
+    }
+
+    /**
+     * @param  ValRequires  $removeValRequires
+     * @return $this
+     */
+    public function appendRemoveRequires(ValRequires $removeValRequires): self
+    {
+        $this->removeRequires->merge($removeValRequires)->unique();
+        return $this;
+    }
+
+    /**
+     * @param  ValRequires  $devValRequires
+     * @return $this
+     * @throws Exception
+     */
+    public function appendDevRequires(ValRequires $devValRequires): self
+    {
+        $this->devRequires = $this->filterExistRequires($this->devRequires->merge($devValRequires));
+        return $this;
+    }
+
+    /**
+     * @param  ValRequires  $valRequires
+     * @return $this
+     * @throws Exception
+     */
+    public function appendRequires(ValRequires $valRequires): self
+    {
+        $this->requires = $this->filterExistRequires($this->requires->merge($valRequires));
+        return $this;
+    }
+
+    /**
+     * @return ValRequires
+     * @throws Exception
+     */
+    public function getExistRequires(): ValRequires
+    {
+        return ValRequires::toValRequires(Json::make("composer.json")->setIsCache(false)->get('require'))
+                ->merge(
+                    ValRequires::toValRequires(Json::make("composer.json")->setIsCache(false)->get('require-dev'))
+                );
+    }
+
+    /**
+     * @param  ValRequires  $requires
+     * @return ValRequires
+     * @throws Exception
+     */
+    public function filterExistRequires(ValRequires $requires): ValRequires
+    {
+        return $requires->notIn($this->getExistRequires())->unique();
+    }
+
+
+    /**
+     * @param  ValRequires  $requires
      * @param  bool  $isDev
      * @return string|null
      */
-    public function getInstallRequiresCommand(array $requires, bool $isDev = false): ?string
+    public function getInstallRequiresCommand(ValRequires $requires, bool $isDev = false): ?string
     {
-        if (! $requires) {
+        $concatenatedPackages = '';
+        if ($requires->empty()) {
             return null;
         }
-        $concatenatedPackages = '';
 
-        foreach ($requires as $name => $version) {
-            $concatenatedPackages .= "\"{$name}:{$version}\" ";
+        foreach ($requires->toArray() as $require) {
+            $concatenatedPackages .= empty($require->version) ? "\"{$require->name}\" " :"\"{$require->name}:{$require->version}\" ";
         }
 
         return $isDev ? "composer require --dev {$concatenatedPackages}" : "composer require {$concatenatedPackages}";
     }
 
     /**
-     * @param  array  $requires
+     * @param  ValRequires  $requires
      * @return string|null
      */
-    public function getRemoveRequiresCommand(array $requires): ?string
+    public function getRemoveRequiresCommand(ValRequires $requires): ?string
     {
-        if (! $requires) {
+        if ($requires->empty()) {
             return null;
         }
 
         $concatenatedPackages = "";
 
-        foreach ($requires as $name => $version) {
-            $concatenatedPackages .= "\"{$name}\" ";
+        foreach ($requires->toArray() as $require) {
+            $concatenatedPackages .= "\"{$require->name}\" ";
         }
 
         return "composer remove  {$concatenatedPackages}";
@@ -153,8 +194,15 @@ abstract class Composer
         return app()->getLocale() === "zh-CN";
     }
 
+
+    abstract public function beforeRun():void;
+
+    abstract public function afterRun():void;
+
     public function run()
     {
+        $this->beforeRun();
+
         chdir(base_path());
 
         if ($this->localeIsZhCN() && ! cache()->get("replace-mirror")) {
@@ -162,17 +210,18 @@ abstract class Composer
             cache()->set("replace-mirror", true);
         }
 
-        if ($this->getRequires()) {
+        if ($this->getRequires()->notEmpty()) {
             passthru($this->getInstallRequiresCommand($this->getRequires()));
         }
 
-        if ($this->getDevRequires()) {
+        if ($this->getDevRequires()->notEmpty()) {
             passthru($this->getInstallRequiresCommand($this->getDevRequires(), true));
         }
 
-        if ($this->getRemoveRequires()) {
+        if ($this->getRemoveRequires()->notEmpty()) {
             passthru($this->getRemoveRequiresCommand($this->getRemoveRequires()));
         }
+
+        $this->afterRun();
     }
-    
 }

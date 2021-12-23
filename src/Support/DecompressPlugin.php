@@ -27,7 +27,7 @@ class DecompressPlugin
         $this->filesystem = app('files');
     }
 
-    public function __invoke(): ?string
+    public function  handle(): ?string
     {
         $archive = new \ZipArchive();
 

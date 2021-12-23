@@ -4,8 +4,10 @@ namespace Yxx\LaravelPlugin\Console\Commands;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use Yxx\LaravelPlugin\Support\Composer\ComposerRequire;
 use Yxx\LaravelPlugin\Support\Json;
 use Yxx\LaravelPlugin\Traits\PluginCommandTrait;
+use Yxx\LaravelPlugin\ValueObjects\ValRequires;
 
 class ComposerRequireCommand extends Command
 {
@@ -27,31 +29,31 @@ class ComposerRequireCommand extends Command
 
     public function handle(): void
     {
-        $package = $this->argument('package');
-        $require = $this->option('dev') ? "require-dev" : "require";
-        $dev = $this->option('dev') ? "--dev" : null;
-        $v = $this->option('v');
+        try {
+            $plugin = $this->argument('plugin');
 
-        $pluginJson = $this->getPlugin()->json();
+            $package = $this->argument('package');
 
-        $requires = array_merge($this->getPlugin()->getComposerAttr("require") ?? [], $this->getPlugin()->getComposerAttr("require-dev") ?? []);
+            $pluginJson = $this->getPlugin()->json();
 
-        if (data_get($requires, $package)) {
-            $this->warn("Package already exists in `{$this->getPluginName()}`");
-            return;
-        }
+            $require = $this->option('dev') ? "require-dev" : "require";
 
-        passthru("composer require {$package} $v $dev");
+            $vrs = ValRequires::toValRequires([
+                $package => $this->option('v')
+            ]);
 
-        $version = data_get(Json::make("composer.json")->setIsCache(false)->get($require), $package);
+            $composerRequire = ComposerRequire::make();
 
-        if ($version) {
-            $composer = $pluginJson->get('composer') ?? [];
+            $this->option('dev') ? $composerRequire->appendPluginDevRequires($plugin, $vrs)->run(): $composerRequire->appendPluginRequires($plugin, $vrs)->run();
+
+            $composer = $pluginJson->get('composer', []);
+            $version = data_get(Json::make("composer.json")->setIsCache(false)->get($require), $package);
             $composer[$require][$package] = $version;
             $pluginJson->set('composer', $composer)->save();
-            $this->info("Package $package $version generated successfully.");
-        } else {
-            $this->error("Package $package $version generated failed.");
+            $this->info("Package {$vrs}generated successfully.");
+
+        } catch (\Exception $exception) {
+            $this->error($exception->getMessage());
         }
 
     }
@@ -60,8 +62,8 @@ class ComposerRequireCommand extends Command
     protected function getArguments(): array
     {
         return [
+            ['plugin', InputArgument::REQUIRED, 'The name of plugins will be used.'],
             ['package', InputArgument::REQUIRED, 'The name of the composer package name.'],
-            ['plugin', InputArgument::OPTIONAL, 'The name of plugins will be used.'],
         ];
     }
 

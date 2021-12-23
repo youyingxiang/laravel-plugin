@@ -13,6 +13,7 @@ use Illuminate\Support\Traits\Macroable;
 use Illuminate\Translation\Translator;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
 use Yxx\LaravelPlugin\Events\PluginDeleted;
+use Yxx\LaravelPlugin\ValueObjects\ValRequires;
 
 class Plugin
 {
@@ -284,11 +285,21 @@ class Plugin
 
     /**
      * @param $key
-     * @return array|mixed
+     * @param  array  $default
+     * @return ValRequires
      */
-    public function getComposerAttr($key)
+    public function getComposerAttr(string $key, $default = []): ValRequires
     {
-        return data_get($this->json()->get("composer"), $key);
+        return ValRequires::toValRequires(data_get($this->json()->get("composer"), $key, $default));
+    }
+
+    /**
+     * @return ValRequires
+     */
+    public function getAllComposerRequires(): ValRequires
+    {
+        $composer = $this->json()->get("composer");
+        return ValRequires::toValRequires(data_get($composer, "require", []))->merge(ValRequires::toValRequires(data_get($composer, 'require-dev', [])));
     }
 
     /**

@@ -9,16 +9,19 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Symfony\Component\Process\Process;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
-use Yxx\LaravelPlugin\Events\PluginDeleted;
 use Yxx\LaravelPlugin\Exceptions\InvalidAssetPath;
 use Yxx\LaravelPlugin\Exceptions\PluginNotFoundException;
+use Yxx\LaravelPlugin\Support\Composer\ComposerRequire;
 use Yxx\LaravelPlugin\Support\Process\Installer;
 use Yxx\LaravelPlugin\Support\Process\Updater;
-use function Webmozart\Assert\Tests\StaticAnalysis\null;
+use Yxx\LaravelPlugin\ValueObjects\ComposerRequires;
+use Yxx\LaravelPlugin\ValueObjects\ValRequire;
+use Yxx\LaravelPlugin\ValueObjects\ValRequires;
 
 class FileRepository implements RepositoryInterface
 {
@@ -180,17 +183,33 @@ class FileRepository implements RepositoryInterface
 
     /**
      * @param  string|null  $type
-     * @return array
+     * @return ValRequires
      * @throws Exception
      */
-    public function getComposerRequires(?string $type = null): array
+    public function getComposerRequires(?string $type = null): ValRequires
     {
-        return collect($this->all())->mapWithKeys(function (Plugin $plugin) use($type) {
-            if (! $type) {
-                return array_merge($plugin->getComposerAttr('require') ?? [], $plugin->getComposerAttr('require-dev') ?? []);
-            }
-            return $plugin->getComposerAttr($type) ?? [];
-        })->toArray();
+        $valRequires = ValRequires::make();
+        return array_reduce($this->all(), function(ValRequires $valRequires, Plugin $plugin) use($type) {
+            $requires = $type ? $plugin->getComposerAttr($type): $plugin->getAllComposerRequires();
+            return $valRequires->merge($requires);
+        }, $valRequires);
+    }
+
+    /**
+     * @param $name
+     * @param  string|null  $type
+     * @return ValRequires
+     * @throws Exception
+     */
+    public function getExceptPluginNameComposerRequires($name, ?string $type = null): ValRequires
+    {
+        $valRequires = ValRequires::make();
+        return collect($this->all())
+            ->filter(fn(Plugin $plugin) => is_array($name) ? !in_array($plugin->getName(), $name) : $plugin->getName() !== $name )
+            ->reduce(function (ValRequires $valRequires, Plugin $plugin) use($type) {
+                $requires = $type ? $plugin->getComposerAttr($type): $plugin->getAllComposerRequires();
+                return $valRequires->merge($requires);
+            }, $valRequires);
     }
 
     /**

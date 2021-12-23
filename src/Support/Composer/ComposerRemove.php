@@ -1,44 +1,66 @@
 <?php
 namespace Yxx\LaravelPlugin\Support\Composer;
 
-use Yxx\LaravelPlugin\Support\Plugin;
+use Yxx\LaravelPlugin\Exceptions\ComposerException;
+use Yxx\LaravelPlugin\ValueObjects\ValRequires;
 
 class ComposerRemove extends Composer
 {
-    protected array $removePlugins = [];
+    protected array $removePluginRequires = [];
 
-    public function appendRemovePlugins(Plugin $plugin): self
+    public function appendRemovePluginRequires($pluginName, ValRequires $removeRequires): self
     {
-        $this->removePlugins[] = $plugin;
+        $currentPlugin = $this->repository->findOrFail($pluginName);
+        $notRemoveRequires = $removeRequires->notIn($currentPlugin->getAllComposerRequires());
+
+        if ($notRemoveRequires->notEmpty()) {
+            throw new ComposerException("Package $notRemoveRequires is not in the plugin $pluginName.");
+        }
+
+        $this->removePluginRequires[$pluginName] = $removeRequires;
         return $this;
     }
 
     /**
      * @return array
      */
-    public function getRemovePlugins():array
+    public function getRemovePluginRequires():array
     {
-        return $this->removePlugins;
+        return $this->removePluginRequires;
     }
 
     /**
-     * @return array
+     * @return ValRequires
      */
-    public function getRemoveRequiresByPlugins():array
+    public function getRemoveRequiresByPlugins():ValRequires
     {
-        return collect($this->getRemovePlugins())->mapWithKeys(
-            fn(Plugin $plugin) => array_merge(
-                $plugin->getComposerAttr('require') ?? [],
-                $plugin->getComposerAttr('require-dev') ?? []
-            )
-        )->toArray();
+        $pluginNames = array_keys($this->getRemovePluginRequires());
+
+        $valRequires = ValRequires::make();
+        $removePluginRequires = array_reduce($this->getRemovePluginRequires(), function (ValRequires $valRequires, ValRequires $removePluginRequires){
+            return $valRequires->merge($removePluginRequires);
+        }, $valRequires);
+
+        if ($relyOtherPluginRemoveRequires = $this->repository->getExceptPluginNameComposerRequires($pluginNames)) {
+            return $removePluginRequires->notIn($relyOtherPluginRemoveRequires);
+        }
+        return $removePluginRequires;
     }
 
-    public function handle(): void
+
+    public function beforeRun(): void
     {
-        if ($this->getRemovePlugins()) {
+        if ($this->getRemovePluginRequires()) {
             $this->appendRemoveRequires($this->getRemoveRequiresByPlugins());
         }
-        $this->run();
+    }
+
+    public function afterRun(): void
+    {
+        $failedrequires = $this->getRemoveRequires()->in($this->getExistRequires())->unique();
+
+        if ($failedrequires->notEmpty()) {
+            throw new ComposerException("Package {$failedrequires} remove failed");
+        }
     }
 }

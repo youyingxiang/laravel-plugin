@@ -23,6 +23,12 @@ class ComposerInStallCommand extends Command
 
     public function handle():void
     {
-        (new ComposerInstall())->handle();
+        try {
+            ComposerInstall::make()->run();
+            $this->info("Composer install complete.");
+        } catch (\Exception $exception) {
+            $this->error($exception->getMessage());
+        }
+
     }
 }

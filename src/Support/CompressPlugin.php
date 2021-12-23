@@ -30,7 +30,7 @@ class CompressPlugin
      *
      * @throws CompressPluginException
      */
-    public function __invoke(): bool
+    public function handle() : bool
     {
         if (! $this->plugin->getFiles()->isDirectory($this->plugin->getCompressDirectoryPath())) {
             $this->plugin->getFiles()->makeDirectory($this->plugin->getCompressDirectoryPath(), 0775, true);

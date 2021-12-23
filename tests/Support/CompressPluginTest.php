@@ -28,7 +28,7 @@ class CompressPluginTest extends TestCase
 
     public function test_it_can_compress_succeed()
     {
-        $res = (new CompressPlugin($this->plugin))->__invoke();
+        $res = (new CompressPlugin($this->plugin))->handle();
         $this->assertFileExists($this->plugin->getCompressFilePath());
         $this->assertTrue($res);
     }

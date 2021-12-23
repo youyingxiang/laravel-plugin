@@ -10,6 +10,7 @@ use Yxx\LaravelPlugin\Support\Collection;
 use Yxx\LaravelPlugin\Support\FileRepository;
 use Yxx\LaravelPlugin\Support\Plugin;
 use Yxx\LaravelPlugin\Tests\TestCase;
+use Yxx\LaravelPlugin\ValueObjects\ValRequires;
 
 class FileRepositoryTest extends TestCase
 {
@@ -252,25 +253,75 @@ class FileRepositoryTest extends TestCase
             ],
         ])->save();
 
-        $this->assertSame($this->repository->getComposerRequires(), [
+        $this->assertTrue($this->repository->getComposerRequires()->unique()->equals(ValRequires::toValRequires([
             "twilio/sdk" => "^6.28",
             "tymon/jwt-auth" => "^1.0",
             "wildbit/swiftmailer-postmark" => "^3.1",
             "laravel/telescope" => "^2.0",
             "zircote/swagger-php" => "2.*",
             "spatie/laravel-enum" => "1.6.0",
-        ]);
+        ])));
 
-        $this->assertSame($this->repository->getComposerRequires("require"), [
+        $this->assertTrue($this->repository->getComposerRequires("require")->unique()->equals(ValRequires::toValRequires([
             'twilio/sdk' => '^6.28',
             'tymon/jwt-auth' => '^1.0',
             'wildbit/swiftmailer-postmark' => '^3.1',
             'zircote/swagger-php' => '2.*'
-        ]);
+        ])));
 
-        $this->assertSame($this->repository->getComposerRequires("require-dev"), [
+        $this->assertTrue($this->repository->getComposerRequires("require-dev")->unique()->equals(ValRequires::toValRequires([
             "laravel/telescope" => "^2.0",
             "spatie/laravel-enum" => "1.6.0"
-        ]);
+        ])));
+    }
+
+    public function test_it_gets_except_plugin_name_composer_requires()
+    {
+        $this->artisan('plugin:make', ['name' => ['Test1']]);
+        $this->artisan('plugin:make', ['name' => ['Test2']]);
+
+
+        $this->repository->find('Test1')->json()->set("composer", [
+            "require" => [
+                "twilio/sdk" => "^6.28",
+                "tymon/jwt-auth" => "^1.0",
+                "wildbit/swiftmailer-postmark" => "^3.1",
+            ],
+            "require-dev" => [
+                "laravel/telescope" => "^2.0",
+            ],
+        ])->save();
+
+        $this->repository->find('Test2')->json()->set("composer", [
+            "require" => [
+                "wildbit/swiftmailer-postmark" => "^3.1",
+                "zircote/swagger-php" => "2.*"
+            ],
+            "require-dev" => [
+                "spatie/laravel-enum" => "1.6.0",
+            ],
+        ])->save();
+
+        $this->assertTrue($this->repository->getExceptPluginNameComposerRequires("Test1")->equals(ValRequires::toValRequires([
+            "wildbit/swiftmailer-postmark" => "^3.1",
+            "zircote/swagger-php" => "2.*",
+            "spatie/laravel-enum" => "1.6.0",
+        ])));
+
+        $this->assertTrue($this->repository->getExceptPluginNameComposerRequires("Test2","require")->equals(ValRequires::toValRequires([
+            "twilio/sdk" => "^6.28",
+            "tymon/jwt-auth" => "^1.0",
+            "wildbit/swiftmailer-postmark" => "^3.1",
+        ])));
+
+        $this->assertTrue($this->repository->getExceptPluginNameComposerRequires("Test1","require-dev")->equals(ValRequires::toValRequires([
+            "spatie/laravel-enum" => "1.6.0",
+        ])));
+
+        $this->assertTrue($this->repository->getExceptPluginNameComposerRequires(["Test1"],"require-dev")->equals(ValRequires::toValRequires([
+            "spatie/laravel-enum" => "1.6.0",
+        ])));
+
+        $this->assertTrue($this->repository->getExceptPluginNameComposerRequires(["Test1", 'Test2'],"require-dev")->equals(ValRequires::toValRequires([])));
     }
 }

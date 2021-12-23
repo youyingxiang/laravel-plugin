@@ -1,42 +1,65 @@
 <?php
 namespace Yxx\LaravelPlugin\Support\Composer;
 
-use Yxx\LaravelPlugin\Support\Plugin;
+use Yxx\LaravelPlugin\Exceptions\ComposerException;
+use Yxx\LaravelPlugin\ValueObjects\ValRequires;
 
 class ComposerRequire extends Composer
 {
-    protected array $requirePlugins = [];
+    protected array $pluginRequires = [];
+    protected array $pluginDevRequires = [];
 
-    public function appendRequirePlugins(Plugin $plugin): self
+    public function appendPluginRequires($pluginName, ValRequires $requires): self
     {
-        $this->requirePlugins[] = $plugin;
+        $this->pluginRequires[$pluginName] = $requires;
         return $this;
     }
 
-    public function getRequirePlugins(): array
+    public function appendPluginDevRequires($pluginName, ValRequires $devRequires): self
     {
-        return $this->requirePlugins;
+        $this->pluginDevRequires[$pluginName] = $devRequires;
+        return $this;
     }
 
-    public function getRequiresByPlugins():array
+    public function getPluginRequires(): array
     {
-        /** @var Plugin $plugin */
-        $requires = [];
-
-        foreach ($this->getRequirePlugins() as $plugin) {
-            $requires['require'] = array_merge($requires['require'] ?? [], $plugin->getComposerAttr('require') ?? []);
-            $requires['require-dev'] = array_merge($requires['require-dev'] ?? [], $plugin->getComposerAttr('require-dev') ?? []);
-        }
-        return $requires;
+        return $this->pluginRequires;
     }
 
-    public function handle(): void
+    public function getPluginDevRequires(): array
     {
-        if ($this->getRequirePlugins()) {
-            $requires = $this->getRequiresByPlugins();
-            $this->appendRequires(data_get($requires, "require"));
-            $this->appendDevRequires(data_get($requires, "require-dev"));
+        return $this->pluginDevRequires;
+    }
+
+    public function getRequiresByPlugins():ValRequires
+    {
+        $valRequires = ValRequires::make();
+        return array_reduce($this->getPluginRequires(), fn(ValRequires $valRequires, ValRequires $requires) => $valRequires->merge($requires), $valRequires);
+    }
+
+    public function getDevRequiresByPlugins():ValRequires
+    {
+        $valRequires = ValRequires::make();
+        return array_reduce($this->getPluginDevRequires(), fn(ValRequires $valRequires, ValRequires $devRequires) => $valRequires->merge($devRequires), $valRequires);
+    }
+
+    public function beforeRun():void
+    {
+        if ($this->getPluginRequires()) {
+            $this->appendRequires($this->getRequiresByPlugins());
         }
-        $this->run();
+
+        if ($this->getPluginDevRequires()) {
+            $this->appendDevRequires($this->getDevRequiresByPlugins());
+        }
+    }
+
+    public function afterRun(): void
+    {
+        $failedrequires = $this->filterExistRequires($this->getRequires()->merge($this->getDevRequires()));
+
+        if ($failedrequires->notEmpty()) {
+            throw new ComposerException("Package {$failedrequires}require failed");
+        }
     }
 }

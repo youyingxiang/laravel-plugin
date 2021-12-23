@@ -4,6 +4,7 @@ namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Yxx\LaravelPlugin\Support\Composer\ComposerRemove;
 use Yxx\LaravelPlugin\Traits\PluginCommandTrait;
 
 class PluginDeleteCommand extends Command
@@ -16,7 +17,13 @@ class PluginDeleteCommand extends Command
 
     public function handle(): int
     {
+        ComposerRemove::make()->appendRemovePluginRequires(
+                $this->getPluginName(),
+                $this->getPlugin()->getAllComposerRequires()
+            )->run();
+
         $this->laravel['plugins.repository']->delete($this->argument('plugin'));
+
         $this->info("Plugin {$this->argument('plugin')} has been deleted.");
 
         return 0;

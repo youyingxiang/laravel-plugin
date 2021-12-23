@@ -31,7 +31,7 @@ class DecompressPluginTest extends TestCase
 
     public function test_it_can_decompress_succeed()
     {
-        (new CompressPlugin($this->plugin))->__invoke();
+        (new CompressPlugin($this->plugin))->handle();
 
         $this->compressPath = $compressPath = base_path('plugins/').basename($this->plugin->getCompressFilePath());
 
@@ -43,7 +43,7 @@ class DecompressPluginTest extends TestCase
 
         $this->assertDirectoryNotExists($pluginPath);
 
-        (new DecompressPlugin($compressPath))->__invoke();
+        (new DecompressPlugin($compressPath))->handle();
 
         $this->assertDirectoryExists($pluginPath);
         $this->assertDirectoryNotExists($compressPath);
@@ -53,6 +53,6 @@ class DecompressPluginTest extends TestCase
     {
         $this->expectException(DecompressPluginException::class);
         $this->plugin->getFiles()->copy(__DIR__.'/../stubs/valid/Test.zip', $this->compressPath = $compressPath = base_path("plugins/Test.zip"));
-        (new DecompressPlugin($compressPath))->__invoke();
+        (new DecompressPlugin($compressPath))->handle();
     }
 }

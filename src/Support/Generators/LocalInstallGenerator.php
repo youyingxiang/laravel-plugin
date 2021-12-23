@@ -2,9 +2,8 @@
 
 namespace Yxx\LaravelPlugin\Support\Generators;
 
-use Yxx\LaravelPlugin\Events\PluginInstalled;
+use Yxx\LaravelPlugin\Support\Composer\ComposerRequire;
 use Yxx\LaravelPlugin\Support\DecompressPlugin;
-use ZipArchive;
 use Illuminate\Console\Command as Console;
 use Illuminate\Filesystem\Filesystem;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
@@ -115,49 +114,44 @@ class LocalInstallGenerator implements GeneratorInterface
     public function generate(): int
     {
         if ($this->filesystem->isDirectory($this->localPath)) {
-            $this->localPathNotIsCompressed();
+            if (! $this->filesystem->exists("{$this->localPath}/plugin.json")) {
+                throw new LocalPathNotFoundException("Local Path [{$this->localPath}] does not exist!");
+            }
+
+            $pluginName = Json::make("{$this->localPath}/plugin.json")->get('name');
+
+            if ($this->pluginRepository->has($pluginName)) {
+                throw new PluginAlreadyExistException("Plugin [{$pluginName}] already exists!");
+            }
+            $buildPluginPath = $this->pluginRepository->getPluginPath($pluginName);
+
+            if (! $this->filesystem->isDirectory($buildPluginPath)) {
+                $this->filesystem->makeDirectory($buildPluginPath, 0775, true);
+            }
+            $this->filesystem->copyDirectory(
+                $this->localPath,
+                $buildPluginPath
+            );
+        } elseif ($this->filesystem->isFile($this->localPath) && $this->filesystem->extension($this->localPath) === "zip") {
+            $pluginName = (new DecompressPlugin($this->localPath))->handle();
         }
 
-        if ($this->filesystem->isFile($this->localPath) && $this->filesystem->extension($this->localPath) === "zip") {
-           $this->localPathIsCompressed();
-        }
+        $this->activator->setActiveByName($pluginName, $this->isActive);
+
+        $this->console->info("Plugin [{$pluginName}] created successfully.");
+
+        $plugin = $this->pluginRepository->findOrFail($pluginName);
+
+        ComposerRequire::make()
+            ->appendPluginRequires(
+                $pluginName,
+                $plugin->getComposerAttr('require')
+            )->appendPluginDevRequires(
+                $pluginName,
+                $plugin->getComposerAttr('require-dev')
+            )->run();
 
         return 0;
     }
 
-    public function localPathNotIsCompressed(): void
-    {
-        if (! $this->filesystem->exists("{$this->localPath}/plugin.json")) {
-            throw new LocalPathNotFoundException("Local Path [{$this->localPath}] does not exist!");
-        }
-
-        $pluginName = Json::make("{$this->localPath}/plugin.json")->get('name');
-
-        if ($this->pluginRepository->has($pluginName)) {
-            throw new PluginAlreadyExistException("Plugin [{$pluginName}] already exists!");
-        }
-        $buildPluginPath = $this->pluginRepository->getPluginPath($pluginName);
-
-        if (! $this->filesystem->isDirectory($buildPluginPath)) {
-            $this->filesystem->makeDirectory($buildPluginPath, 0775, true);
-        }
-        $this->filesystem->copyDirectory(
-            $this->localPath,
-            $buildPluginPath
-        );
-
-        $this->activator->setActiveByName($pluginName, $this->isActive);
-
-        $this->console->info("Plugin [{$pluginName}] created successfully.");
-    }
-
-    public function localPathIsCompressed()
-    {
-        $pluginName = (new DecompressPlugin($this->localPath))->__invoke();
-
-        $this->activator->setActiveByName($pluginName, $this->isActive);
-
-        $this->console->info("Plugin [{$pluginName}] created successfully.");
-
-    }
 }
