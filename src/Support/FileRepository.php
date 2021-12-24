@@ -9,18 +9,14 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Symfony\Component\Process\Process;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
 use Yxx\LaravelPlugin\Exceptions\InvalidAssetPath;
 use Yxx\LaravelPlugin\Exceptions\PluginNotFoundException;
-use Yxx\LaravelPlugin\Support\Composer\ComposerRequire;
 use Yxx\LaravelPlugin\Support\Process\Installer;
 use Yxx\LaravelPlugin\Support\Process\Updater;
-use Yxx\LaravelPlugin\ValueObjects\ComposerRequires;
-use Yxx\LaravelPlugin\ValueObjects\ValRequire;
 use Yxx\LaravelPlugin\ValueObjects\ValRequires;
 
 class FileRepository implements RepositoryInterface

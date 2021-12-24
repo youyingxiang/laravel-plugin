@@ -16,6 +16,7 @@ use Yxx\LaravelPlugin\Console\Commands\PluginCommand;
 use Yxx\LaravelPlugin\Console\Commands\PluginDeleteCommand;
 use Yxx\LaravelPlugin\Console\Commands\PluginMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\ProviderMakeCommand;
+use Yxx\LaravelPlugin\Console\Commands\PublishCommand;
 use Yxx\LaravelPlugin\Console\Commands\RouteProviderMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\SeedMakeCommand;
 
@@ -47,7 +48,8 @@ class ConsoleServiceProvider extends ServiceProvider
         LocalInstallCommand::class,
         ComposerRequireCommand::class,
         ComposerRemoveCommand::class,
-        ComposerInStallCommand::class
+        ComposerInStallCommand::class,
+        PublishCommand::class
     ];
 
     /**
