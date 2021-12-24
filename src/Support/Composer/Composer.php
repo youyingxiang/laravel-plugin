@@ -134,9 +134,9 @@ abstract class Composer
      */
     public function getExistRequires(): ValRequires
     {
-        return ValRequires::toValRequires(Json::make("composer.json")->setIsCache(false)->get('require'))
+        return ValRequires::toValRequires(Json::make(base_path("composer.json"))->setIsCache(false)->get('require'))
                 ->merge(
-                    ValRequires::toValRequires(Json::make("composer.json")->setIsCache(false)->get('require-dev'))
+                    ValRequires::toValRequires(Json::make(base_path("composer.json"))->setIsCache(false)->get('require-dev'))
                 );
     }
 
