@@ -12,6 +12,8 @@ use Yxx\LaravelPlugin\Console\Commands\DisableCommand;
 use Yxx\LaravelPlugin\Console\Commands\EnableCommand;
 use Yxx\LaravelPlugin\Console\Commands\ListCommand;
 use Yxx\LaravelPlugin\Console\Commands\LocalInstallCommand;
+use Yxx\LaravelPlugin\Console\Commands\MigrateCommand;
+use Yxx\LaravelPlugin\Console\Commands\MigrationMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\PluginCommand;
 use Yxx\LaravelPlugin\Console\Commands\PluginDeleteCommand;
 use Yxx\LaravelPlugin\Console\Commands\PluginMakeCommand;
@@ -19,6 +21,7 @@ use Yxx\LaravelPlugin\Console\Commands\ProviderMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\PublishCommand;
 use Yxx\LaravelPlugin\Console\Commands\RouteProviderMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\SeedMakeCommand;
+use Yxx\LaravelPlugin\Console\Commands\UploadCommand;
 
 class ConsoleServiceProvider extends ServiceProvider
 {
@@ -49,7 +52,10 @@ class ConsoleServiceProvider extends ServiceProvider
         ComposerRequireCommand::class,
         ComposerRemoveCommand::class,
         ComposerInStallCommand::class,
-        PublishCommand::class
+        PublishCommand::class,
+        UploadCommand::class,
+        MigrationMakeCommand::class,
+        MigrateCommand::class
     ];
 
     /**

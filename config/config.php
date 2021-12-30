@@ -32,6 +32,9 @@ return [
             'scaffold/config' => 'Config/config.php',
             'assets/js/app'   => 'Resources/assets/js/app.js',
             'assets/sass/app' => 'Resources/assets/sass/app.scss',
+            'webpack'         => 'webpack.mix.js',
+            'package'         => 'package.json',
+            'gitignore'       => '.gitignore'
         ],
         'replacements' => [
             'routes/web'      => ['LOWER_NAME', 'STUDLY_NAME'],
@@ -40,6 +43,7 @@ return [
             'views/index'     => ['LOWER_NAME'],
             'views/master'    => ['LOWER_NAME', 'STUDLY_NAME'],
             'scaffold/config' => ['STUDLY_NAME'],
+            'webpack'         => ['LOWER_NAME'],
         ],
         'gitkeep' => true,
     ],
@@ -73,6 +77,7 @@ return [
         'generator' => [
             'config'     => ['path' => 'Config', 'generate' => true],
             'seeder'     => ['path' => 'Database/Seeders', 'generate' => true],
+            'migration'  => ['path' => 'Database/Migrations', 'generate' => true],
             'routes'     => ['path' => 'Routes', 'generate' => true],
             'controller' => ['path' => 'Http/Controllers', 'generate' => true],
             'provider'   => ['path' => 'Providers', 'generate' => true],
@@ -145,4 +150,8 @@ return [
     ],
 
     'activator' => 'file',
+
+    'market' => [
+        'api_base' => 'http://127.0.0.1:8001'
+    ]
 ];
