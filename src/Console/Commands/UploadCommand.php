@@ -41,18 +41,22 @@ class UploadCommand extends Command
             $progressBar->setProgress((int) round($uploaded / 1024, 2));
         };
         try {
-            (new MarketSDK())->upload([
+             (new MarketSDK())->upload([
                 'body'     => $stream,
                 'headers'  => ['plugin-info' => json_encode($this->getPlugin()->json()->getAttributes(), true)],
                 'progress' => $progressCallback,
             ]);
+
         } catch (\Exception $exception) {
+            $this->line("");
+            $this->error("Plugin upload failed");
             return E_ERROR;
         }
 
-
         $progressBar->finish();
+        $this->laravel['files']->delete($compressPath);
         $this->line("");
+        $this->info("Plugin upload completed");
 
         if (is_resource($stream)) {
             fclose($stream);

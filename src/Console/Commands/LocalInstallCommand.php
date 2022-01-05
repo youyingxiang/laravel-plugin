@@ -26,16 +26,22 @@ class LocalInstallCommand extends Command
     public function handle(): int
     {
         $path = $this->argument('path');
-        $code = LocalInstallGenerator::make()
-            ->setLocalPath($path)
-            ->setFilesystem($this->laravel['files'])
-            ->setPluginRepository($this->laravel['plugins.repository'])
-            ->setActivator($this->laravel[ActivatorInterface::class])
-            ->setActive(! $this->option('disabled'))
-            ->setConsole($this)
-            ->generate();
+        try {
+            $code = LocalInstallGenerator::make()
+                ->setLocalPath($path)
+                ->setFilesystem($this->laravel['files'])
+                ->setPluginRepository($this->laravel['plugins.repository'])
+                ->setActivator($this->laravel[ActivatorInterface::class])
+                ->setActive(! $this->option('disabled'))
+                ->setConsole($this)
+                ->generate();
 
-        return $code;
+            return $code;
+        } catch (\Exception $exception) {
+            $this->error($exception->getMessage());
+            return E_ERROR;
+        }
+
     }
 
     protected function getArguments(): array

@@ -84,6 +84,7 @@ return [
             'assets'     => ['path' => 'Resources/assets', 'generate' => true],
             'lang'       => ['path' => 'Resources/lang', 'generate' => true],
             'views'      => ['path' => 'Resources/views', 'generate' => true],
+            'model'      => ['path' => 'Models', 'generate' => true],
         ],
     ],
 
@@ -152,6 +153,6 @@ return [
     'activator' => 'file',
 
     'market' => [
-        'api_base' => 'http://127.0.0.1:8001'
+        'api_base' => 'http://plugin.com'
     ]
 ];

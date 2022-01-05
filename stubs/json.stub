@@ -2,6 +2,8 @@
     "name": "$STUDLY_NAME$",
     "alias": "$LOWER_NAME$",
     "description": "",
+    "logo": "",
+    "version": "1.0.0",
     "keywords": [],
     "priority": 0,
     "providers": [

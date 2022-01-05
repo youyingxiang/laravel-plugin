@@ -4,6 +4,7 @@ namespace Yxx\LaravelPlugin\Support;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\StreamInterface;
 
 class MarketSDK
 {
@@ -15,6 +16,26 @@ class MarketSDK
     public function upload(array $options): array
     {
         return $this->request("/api/pluginmarket/plugins", 'POST', $options);
+    }
+
+    /**
+     * @return array
+     * @throws GuzzleException
+     */
+    public function plugins(): array
+    {
+        return $this->request("/api/pluginmarket/plugins", 'GET', []);
+    }
+
+
+    /**
+     * @param  int  $versionId
+     * @return StreamInterface
+     * @throws GuzzleException
+     */
+    public function install(int $versionId): StreamInterface
+    {
+        return $this->client()->request('POST', ltrim("/api/pluginmarket/plugins/install/". $versionId, '/'))->getBody();
     }
 
     /**
