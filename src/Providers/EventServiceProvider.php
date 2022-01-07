@@ -12,7 +12,7 @@ class EventServiceProvider extends ServiceProvider
         $listens = config('plugins.listen');
         if (is_array($listens)) {
             foreach ($listens as $event => $listen) {
-                if(is_array($listen)) {
+                if (is_array($listen)) {
                     foreach ($listen as $value) {
                         Event::listen($event, $value);
                     }
