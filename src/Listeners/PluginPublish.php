@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Listeners;
 
 use Illuminate\Support\Facades\Artisan;
@@ -8,6 +9,6 @@ class PluginPublish
 {
     public function handle(PluginInstalled $installed)
     {
-        Artisan::call("plugin:publish", ["plugin" => $installed->plugin->getName()]);
+        Artisan::call('plugin:publish', ['plugin' => $installed->plugin->getName()]);
     }
 }
