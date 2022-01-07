@@ -1,10 +1,11 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Contracts;
 
 interface PublisherInterface
 {
     /**
-     * Publish something
+     * Publish something.
      */
     public function publish(): void;
 }

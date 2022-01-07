@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -25,7 +26,7 @@ class PublishCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle() : int
+    public function handle(): int
     {
         if ($name = $this->argument('plugin')) {
             $plugin = $this->laravel['plugins.repository']->findOrFail($name);

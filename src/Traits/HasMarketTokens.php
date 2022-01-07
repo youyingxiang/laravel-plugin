@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Traits;
 
 use Exception;

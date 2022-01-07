@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Events;
 
 use Illuminate\Queue\SerializesModels;

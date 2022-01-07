@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support\Migrations;
 
 class NameParser
@@ -46,7 +47,7 @@ class NameParser
     /**
      * The constructor.
      *
-     * @param string $name
+     * @param  string  $name
      */
     public function __construct(string $name)
     {
@@ -59,7 +60,7 @@ class NameParser
      *
      * @return string
      */
-    public function getOriginalName():string
+    public function getOriginalName(): string
     {
         return $this->name;
     }
@@ -149,7 +150,6 @@ class NameParser
      * Determine whether the given type is same with the current schema action or type.
      *
      * @param $type
-     *
      * @return bool
      */
     public function is($type): bool

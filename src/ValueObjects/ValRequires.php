@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\ValueObjects;
 
 use Illuminate\Support\Arr;
@@ -22,6 +23,7 @@ class ValRequires
     public function append(ValRequire $valRequire): ValRequires
     {
         $this->items[] = $valRequire;
+
         return $this;
     }
 
@@ -31,7 +33,7 @@ class ValRequires
      */
     public function filter(callable $callback = null): ValRequires
     {
-         return new static(array_values(array_filter($this->items, $callback)));
+        return new static(array_values(array_filter($this->items, $callback)));
     }
 
     /**
@@ -39,12 +41,12 @@ class ValRequires
      */
     public function unique(): ValRequires
     {
-        return new static(array_values(array_reduce($this->items, function (array $items, ValRequire $valRequire){
+        return new static(array_values(array_reduce($this->items, function (array $items, ValRequire $valRequire) {
             $items[$valRequire->name] = $valRequire;
-            return $items;
-        } , $items = [])));
-    }
 
+            return $items;
+        }, $items = [])));
+    }
 
     /**
      * @param  ValRequires  $valRequires
@@ -53,6 +55,7 @@ class ValRequires
     public function merge(ValRequires $valRequires): ValRequires
     {
         $this->items = array_merge($this->items, $valRequires->items);
+
         return $this;
     }
 
@@ -71,7 +74,7 @@ class ValRequires
      */
     public function notIn(ValRequires $valRequires): ValRequires
     {
-        return $this->filter(fn(ValRequire $require) => ! in_array($require->name, Arr::pluck($valRequires->toArray(), "name")));
+        return $this->filter(fn (ValRequire $require) => ! in_array($require->name, Arr::pluck($valRequires->toArray(), 'name')));
     }
 
     /**
@@ -80,7 +83,7 @@ class ValRequires
      */
     public function In(ValRequires $valRequires): ValRequires
     {
-        return $this->filter(fn(ValRequire $require) => in_array($require->name, Arr::pluck($valRequires->toArray(), "name")));
+        return $this->filter(fn (ValRequire $require) => in_array($require->name, Arr::pluck($valRequires->toArray(), 'name')));
     }
 
     /**
@@ -93,7 +96,7 @@ class ValRequires
 
     public function __toString(): string
     {
-        return array_reduce($this->items, fn(string $str, ValRequire $require) => $str .= "\"{$require->name}\" "  , $str = "");
+        return array_reduce($this->items, fn (string $str, ValRequire $require) => $str .= "\"{$require->name}\" ", $str = '');
     }
 
     /**
@@ -114,7 +117,7 @@ class ValRequires
     /**
      * @return bool
      */
-    public function empty():bool
+    public function empty(): bool
     {
         return empty($this->items);
     }
@@ -135,5 +138,4 @@ class ValRequires
     {
         return json_encode($this->items, true) === json_encode($valRequires->items, true);
     }
-
 }

@@ -12,7 +12,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Translation\Translator;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
-use Yxx\LaravelPlugin\Events\PluginDeleted;
 use Yxx\LaravelPlugin\ValueObjects\ValRequires;
 
 class Plugin
@@ -290,7 +289,7 @@ class Plugin
      */
     public function getComposerAttr(string $key, $default = []): ValRequires
     {
-        return ValRequires::toValRequires(data_get($this->json()->get("composer"), $key, $default));
+        return ValRequires::toValRequires(data_get($this->json()->get('composer'), $key, $default));
     }
 
     /**
@@ -298,8 +297,9 @@ class Plugin
      */
     public function getAllComposerRequires(): ValRequires
     {
-        $composer = $this->json()->get("composer");
-        return ValRequires::toValRequires(data_get($composer, "require", []))->merge(ValRequires::toValRequires(data_get($composer, 'require-dev', [])));
+        $composer = $this->json()->get('composer');
+
+        return ValRequires::toValRequires(data_get($composer, 'require', []))->merge(ValRequires::toValRequires(data_get($composer, 'require-dev', [])));
     }
 
     /**
@@ -322,9 +322,8 @@ class Plugin
 
     public function fireInstalledEvent(): void
     {
-        $this->app['events']->dispatch("PluginInstalled", [$this]);
+        $this->app['events']->dispatch('PluginInstalled', [$this]);
     }
-
 
     /**
      * Handle call __toString.
@@ -413,6 +412,7 @@ class Plugin
 
         $this->fireEvent('enabled');
     }
+
     /**
      * Delete the current plugin.
      *

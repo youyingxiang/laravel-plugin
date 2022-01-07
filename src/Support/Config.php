@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support;
 
 use ArrayAccess;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support\Publishing;
 
 use Illuminate\Console\Command;
@@ -41,6 +42,7 @@ abstract class Publisher implements PublisherInterface
 
     /**
      * Publisher constructor.
+     *
      * @param  Plugin  $plugin
      */
     public function __construct(Plugin $plugin)
@@ -71,7 +73,6 @@ abstract class Publisher implements PublisherInterface
 
         return $this;
     }
-
 
     /**
      * Get plugin instance.
@@ -118,7 +119,7 @@ abstract class Publisher implements PublisherInterface
      *
      * @return Command
      */
-    public function getConsole():Command
+    public function getConsole(): Command
     {
         return $this->console;
     }
@@ -150,17 +151,17 @@ abstract class Publisher implements PublisherInterface
      */
     public function publish(): void
     {
-        if (!$this->console instanceof Command) {
+        if (! $this->console instanceof Command) {
             $message = "The 'console' property must instance of \\Illuminate\\Console\\Command.";
 
             throw new \RuntimeException($message);
         }
 
-        if (!$this->getFilesystem()->isDirectory($sourcePath = $this->getSourcePath())) {
+        if (! $this->getFilesystem()->isDirectory($sourcePath = $this->getSourcePath())) {
             return;
         }
 
-        if (!$this->getFilesystem()->isDirectory($destinationPath = $this->getDestinationPath())) {
+        if (! $this->getFilesystem()->isDirectory($destinationPath = $this->getDestinationPath())) {
             $this->getFilesystem()->makeDirectory($destinationPath, 0775, true);
         }
 
@@ -172,5 +173,4 @@ abstract class Publisher implements PublisherInterface
             $this->console->error($this->error);
         }
     }
-
 }

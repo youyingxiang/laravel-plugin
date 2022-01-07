@@ -34,7 +34,7 @@ return [
             'assets/sass/app' => 'Resources/assets/sass/app.scss',
             'webpack'         => 'webpack.mix.js',
             'package'         => 'package.json',
-            'gitignore'       => '.gitignore'
+            'gitignore'       => '.gitignore',
         ],
         'replacements' => [
             'routes/web'      => ['LOWER_NAME', 'STUDLY_NAME'],
@@ -153,6 +153,6 @@ return [
     'activator' => 'file',
 
     'market' => [
-        'api_base' => 'https://laravel.plugin.com'
-    ]
+        'api_base' => 'https://laravel.plugin.com',
+    ],
 ];

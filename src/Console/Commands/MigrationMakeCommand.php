@@ -1,13 +1,14 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Yxx\LaravelPlugin\Support\Config\GenerateConfigReader;
 use Yxx\LaravelPlugin\Support\Migrations\NameParser;
 use Yxx\LaravelPlugin\Support\Migrations\SchemaParser;
-use Symfony\Component\Console\Input\InputArgument;
 use Yxx\LaravelPlugin\Support\Stub;
 use Yxx\LaravelPlugin\Traits\PluginCommandTrait;
 
@@ -28,7 +29,6 @@ class MigrationMakeCommand extends GeneratorCommand
      * @var string
      */
     protected $description = 'Create a new migration for the specified plugin.';
-
 
     /**
      * Get the console command arguments.
@@ -67,9 +67,9 @@ class MigrationMakeCommand extends GeneratorCommand
     }
 
     /**
-     * @throws InvalidArgumentException
-     *
      * @return mixed
+     *
+     * @throws InvalidArgumentException
      */
     protected function getTemplateContents(): string
     {
@@ -116,7 +116,7 @@ class MigrationMakeCommand extends GeneratorCommand
 
         $generatorPath = GenerateConfigReader::read('migration');
 
-        return $plugin->getPath() ."/". $generatorPath->getPath() . '/' . $this->getFileName() . '.php';
+        return $plugin->getPath().'/'.$generatorPath->getPath().'/'.$this->getFileName().'.php';
     }
 
     /**
@@ -124,7 +124,7 @@ class MigrationMakeCommand extends GeneratorCommand
      */
     private function getFileName(): string
     {
-        return date('Y_m_d_His_') . $this->getSchemaName();
+        return date('Y_m_d_His_').$this->getSchemaName();
     }
 
     /**
@@ -154,7 +154,7 @@ class MigrationMakeCommand extends GeneratorCommand
     /**
      * Run the command.
      */
-    public function handle() : int
+    public function handle(): int
     {
         if (parent::handle() === E_ERROR) {
             return E_ERROR;

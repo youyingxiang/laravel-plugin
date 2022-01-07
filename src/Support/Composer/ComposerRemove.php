@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support\Composer;
 
 use Yxx\LaravelPlugin\Exceptions\ComposerException;
@@ -18,13 +19,14 @@ class ComposerRemove extends Composer
         }
 
         $this->removePluginRequires[$pluginName] = $removeRequires;
+
         return $this;
     }
 
     /**
      * @return array
      */
-    public function getRemovePluginRequires():array
+    public function getRemovePluginRequires(): array
     {
         return $this->removePluginRequires;
     }
@@ -32,21 +34,21 @@ class ComposerRemove extends Composer
     /**
      * @return ValRequires
      */
-    public function getRemoveRequiresByPlugins():ValRequires
+    public function getRemoveRequiresByPlugins(): ValRequires
     {
         $pluginNames = array_keys($this->getRemovePluginRequires());
 
         $valRequires = ValRequires::make();
-        $removePluginRequires = array_reduce($this->getRemovePluginRequires(), function (ValRequires $valRequires, ValRequires $removePluginRequires){
+        $removePluginRequires = array_reduce($this->getRemovePluginRequires(), function (ValRequires $valRequires, ValRequires $removePluginRequires) {
             return $valRequires->merge($removePluginRequires);
         }, $valRequires);
 
         if ($relyOtherPluginRemoveRequires = $this->repository->getExceptPluginNameComposerRequires($pluginNames)) {
             return $removePluginRequires->notIn($relyOtherPluginRemoveRequires);
         }
+
         return $removePluginRequires;
     }
-
 
     public function beforeRun(): void
     {

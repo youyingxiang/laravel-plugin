@@ -1,10 +1,10 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Psr\Http\Message\StreamInterface;
 
@@ -13,49 +13,54 @@ class MarketSDK
     /**
      * @param  array  $options
      * @return array
+     *
      * @throws GuzzleException
      */
     public function upload(array $options): array
     {
-        return $this->request("/api/pluginmarket/plugins", 'POST', $options);
+        return $this->request('/api/pluginmarket/plugins', 'POST', $options);
     }
 
     /**
      * @return array
+     *
      * @throws GuzzleException
      */
     public function plugins(): array
     {
-        return $this->httpGet("/api/pluginmarket/plugins");
+        return $this->httpGet('/api/pluginmarket/plugins');
     }
 
     /**
      * @return array
+     *
      * @throws GuzzleException
      */
     public function getUserPlugins(): array
     {
-        return $this->httpGet("/api/pluginmarket/user/plugins");
+        return $this->httpGet('/api/pluginmarket/user/plugins');
     }
 
     /**
      * @return array
+     *
      * @throws GuzzleException
      */
     public function getUserInfo(): array
     {
-        return $this->httpGet("/api/pluginmarket/user-info");
+        return $this->httpGet('/api/pluginmarket/user-info');
     }
 
     /**
      * @param  string  $email
      * @param  string  $password
      * @return array
+     *
      * @throws GuzzleException
      */
     public function login(string $email, string $password): array
     {
-        return $this->httpPostJson("/api/pluginmarket/login", compact(
+        return $this->httpPostJson('/api/pluginmarket/login', compact(
             'email',
             'password'
         ));
@@ -67,39 +72,42 @@ class MarketSDK
      * @param  string  $password
      * @param  string  $passwordConfirmation
      * @return array
+     *
      * @throws GuzzleException
      */
     public function register(string $name, string $email, string $password, string $passwordConfirmation): array
     {
-        return $this->httpPostJson("/api/pluginmarket/register",[
+        return $this->httpPostJson('/api/pluginmarket/register', [
             'name' => $name,
             'email' => $email,
             'password' => $password,
-            'password_confirmation' => $passwordConfirmation
+            'password_confirmation' => $passwordConfirmation,
         ]);
     }
 
     /**
      * @return array
+     *
      * @throws GuzzleException
      */
     public function count(): array
     {
-        return $this->httpGet("/api/pluginmarket/plugins/count");
+        return $this->httpGet('/api/pluginmarket/plugins/count');
     }
 
     /**
      * @param  int  $versionId
      * @return StreamInterface
+     *
      * @throws GuzzleException
      */
     public function install(int $versionId): StreamInterface
     {
         try {
-            return $this->client()->request('POST', ltrim("/api/pluginmarket/plugins/install/".$versionId, '/'))->getBody();
+            return $this->client()->request('POST', ltrim('/api/pluginmarket/plugins/install/'.$versionId, '/'))->getBody();
         } catch (ClientException $e) {
             $response = $e->getResponse();
-            if ($message = data_get(json_decode($response->getBody()->getContents(),true), 'message')) {
+            if ($message = data_get(json_decode($response->getBody()->getContents(), true), 'message')) {
                 throw new \Exception($message, $e->getCode());
             }
             if ($message = $response->getReasonPhrase()) {
@@ -115,13 +123,14 @@ class MarketSDK
      * @param  array  $options
      * @param  int  $tries
      * @return mixed
+     *
      * @throws GuzzleException
      */
     public function request(string $url, string $method = 'GET', array $options = [], $tries = 0): array
     {
         try {
             return json_decode((string) $this->client()->request($method, ltrim($url, '/'), array_filter($options))->getBody(), true);
-         } catch (ClientException $e) {
+        } catch (ClientException $e) {
             $response = $e->getResponse();
 
             if ($response->getStatusCode() === 429 && $response->hasHeader('retry-after') && $tries < 3) {
@@ -129,10 +138,10 @@ class MarketSDK
 
                 sleep($retryAfter + 1);
 
-                return $this->request($url,$method, $options, $tries + 1);
+                return $this->request($url, $method, $options, $tries + 1);
             }
 
-            if ($message = data_get(json_decode($response->getBody()->getContents(),true), 'message')) {
+            if ($message = data_get(json_decode($response->getBody()->getContents(), true), 'message')) {
                 throw new \Exception($message, $e->getCode());
             }
             if ($message = $response->getReasonPhrase()) {
@@ -140,15 +149,14 @@ class MarketSDK
             }
             throw $e;
         }
-
     }
-
 
     /**
      * @param  string  $url
      * @param  array  $data
      * @param  array  $query
      * @return array
+     *
      * @throws GuzzleException
      */
     public function httpPostJson(string $url, array $data = [], array $query = []): array
@@ -160,6 +168,7 @@ class MarketSDK
      * @param  string  $url
      * @param  array  $data
      * @return array|mixed
+     *
      * @throws GuzzleException
      */
     public function httpPost(string $url, array $data = []): array
@@ -171,6 +180,7 @@ class MarketSDK
      * @param  string  $url
      * @param  array  $query
      * @return array
+     *
      * @throws GuzzleException
      */
     public function httpGet(string $url, array $query = []): array
@@ -199,7 +209,7 @@ class MarketSDK
         return  [
             'Accept'        => 'application/json',
             'Content-Type'  => 'application/json',
-            'Authorization' => 'Bearer '. $this->getAuthorization(),
+            'Authorization' => 'Bearer '.$this->getAuthorization(),
         ];
     }
 
@@ -209,9 +219,9 @@ class MarketSDK
     public function getAuthorization(): string
     {
         if (App::runningInConsole()) {
-            return Config::get('token', "");
+            return Config::get('token', '');
         } else {
-            return request()->header('token', "");
+            return request()->header('token', '');
         }
     }
 
