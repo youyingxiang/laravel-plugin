@@ -90,8 +90,8 @@ return [
     'listen' => [
         \Yxx\LaravelPlugin\Events\PluginInstalled::class => [
             \Yxx\LaravelPlugin\Listeners\PluginPublish::class,
-            \Yxx\LaravelPlugin\Listeners\PluginMigrate::class
-        ]
+            \Yxx\LaravelPlugin\Listeners\PluginMigrate::class,
+        ],
     ],
 
     /*
@@ -159,6 +159,6 @@ return [
     'activator' => 'file',
 
     'market' => [
-        'api_base' => 'http://plugin.you-tang.com/'
-    ]
+        'api_base' => 'http://plugin.you-tang.com/',
+    ],
 ];

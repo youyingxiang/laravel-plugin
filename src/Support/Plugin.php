@@ -331,6 +331,7 @@ class Plugin
     {
         $this->app['events']->dispatch(new PluginUnInstalled($this));
     }
+
     /**
      * Handle call __toString.
      *
