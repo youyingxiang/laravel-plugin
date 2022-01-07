@@ -320,6 +320,12 @@ class Plugin
         $this->app['events']->dispatch(sprintf('plugins.%s.'.$event, $this->getLowerName()), [$this]);
     }
 
+    public function fireInstalledEvent(): void
+    {
+        $this->app['events']->dispatch("PluginInstalled", [$this]);
+    }
+
+
     /**
      * Handle call __toString.
      *
@@ -407,7 +413,6 @@ class Plugin
 
         $this->fireEvent('enabled');
     }
-
     /**
      * Delete the current plugin.
      *

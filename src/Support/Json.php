@@ -167,7 +167,7 @@ class Json
      */
     public function toJsonPretty(?array $data = null): string
     {
-        return json_encode($data ?: $this->attributes, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);
+        return json_encode($data ?: $this->attributes, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
 
     /**

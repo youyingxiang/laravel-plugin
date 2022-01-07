@@ -153,6 +153,6 @@ return [
     'activator' => 'file',
 
     'market' => [
-        'api_base' => 'http://plugin.com'
+        'api_base' => 'https://laravel.plugin.com'
     ]
 ];

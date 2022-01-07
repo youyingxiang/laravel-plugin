@@ -151,6 +151,7 @@ class LocalInstallGenerator implements GeneratorInterface
                 $plugin->getComposerAttr('require-dev')
             )->run();
 
+        $plugin->fireInstalledEvent();
         return 0;
     }
 

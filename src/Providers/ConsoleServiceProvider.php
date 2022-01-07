@@ -12,6 +12,7 @@ use Yxx\LaravelPlugin\Console\Commands\DisableCommand;
 use Yxx\LaravelPlugin\Console\Commands\EnableCommand;
 use Yxx\LaravelPlugin\Console\Commands\ListCommand;
 use Yxx\LaravelPlugin\Console\Commands\LocalInstallCommand;
+use Yxx\LaravelPlugin\Console\Commands\LoginCommand;
 use Yxx\LaravelPlugin\Console\Commands\MigrateCommand;
 use Yxx\LaravelPlugin\Console\Commands\MigrationMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\ModelMakeCommand;
@@ -57,7 +58,8 @@ class ConsoleServiceProvider extends ServiceProvider
         UploadCommand::class,
         MigrationMakeCommand::class,
         MigrateCommand::class,
-        ModelMakeCommand::class
+        ModelMakeCommand::class,
+        LoginCommand::class,
     ];
 
     /**
