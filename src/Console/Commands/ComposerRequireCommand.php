@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -26,7 +27,6 @@ class ComposerRequireCommand extends Command
      */
     protected $description = 'Install the plugin composer package.';
 
-
     public function handle(): void
     {
         try {
@@ -36,28 +36,25 @@ class ComposerRequireCommand extends Command
 
             $pluginJson = $this->getPlugin()->json();
 
-            $require = $this->option('dev') ? "require-dev" : "require";
+            $require = $this->option('dev') ? 'require-dev' : 'require';
 
             $vrs = ValRequires::toValRequires([
-                $package => $this->option('v')
+                $package => $this->option('v'),
             ]);
 
             $composerRequire = ComposerRequire::make();
 
-            $this->option('dev') ? $composerRequire->appendPluginDevRequires($plugin, $vrs)->run(): $composerRequire->appendPluginRequires($plugin, $vrs)->run();
+            $this->option('dev') ? $composerRequire->appendPluginDevRequires($plugin, $vrs)->run() : $composerRequire->appendPluginRequires($plugin, $vrs)->run();
 
             $composer = $pluginJson->get('composer', []);
-            $version = data_get(Json::make("composer.json")->setIsCache(false)->get($require), $package);
+            $version = data_get(Json::make('composer.json')->setIsCache(false)->get($require), $package);
             $composer[$require][$package] = $version;
             $pluginJson->set('composer', $composer)->save();
             $this->info("Package {$vrs}generated successfully.");
-
         } catch (\Exception $exception) {
             $this->error($exception->getMessage());
         }
-
     }
-
 
     protected function getArguments(): array
     {

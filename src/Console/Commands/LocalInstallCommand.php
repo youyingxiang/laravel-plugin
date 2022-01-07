@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
-use Yxx\LaravelPlugin\Support\Composer\ComposerRequire;
 use Yxx\LaravelPlugin\Support\Generators\LocalInstallGenerator;
 
 class LocalInstallCommand extends Command
@@ -39,9 +38,9 @@ class LocalInstallCommand extends Command
             return $code;
         } catch (\Exception $exception) {
             $this->error($exception->getMessage());
+
             return E_ERROR;
         }
-
     }
 
     protected function getArguments(): array

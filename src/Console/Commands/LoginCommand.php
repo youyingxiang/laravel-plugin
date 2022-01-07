@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -17,18 +18,19 @@ class LoginCommand extends Command
      */
     protected $description = 'Login to the plugin server.';
 
-
     public function handle(MarketSDK $marketSDK): int
     {
         try {
             $result = $marketSDK->login(
-                $email = $this->ask("Email Address"),
-                $password = $this->secret("Password")
+                $email = $this->ask('Email Address'),
+                $password = $this->secret('Password')
             );
             $this->store(data_get($result, 'token'));
+
             return 0;
         } catch (\Exception $exception) {
             $this->error($exception->getMessage());
+
             return E_ERROR;
         }
     }

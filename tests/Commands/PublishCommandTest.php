@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Commands;
 
 use Illuminate\Filesystem\Filesystem;
@@ -8,7 +9,6 @@ use Yxx\LaravelPlugin\Tests\TestCase;
 
 class PublishCommandTest extends TestCase
 {
-
     /**
      * @var Filesystem
      */
@@ -24,7 +24,7 @@ class PublishCommandTest extends TestCase
         $this->pluginPath = base_path('plugins/Blog');
         $this->finder = $this->app['files'];
         $this->artisan('plugin:make', ['name' => ['Blog']]);
-        $this->finder->put($this->pluginPath . "/" . GenerateConfigReader::read('assets')->getPath() . '/script.js', 'assetfile');
+        $this->finder->put($this->pluginPath.'/'.GenerateConfigReader::read('assets')->getPath().'/script.js', 'assetfile');
     }
 
     public function tearDown(): void

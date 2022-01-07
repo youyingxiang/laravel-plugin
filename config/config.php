@@ -34,7 +34,7 @@ return [
             'assets/sass/app' => 'Resources/assets/sass/app.scss',
             'webpack'         => 'webpack.mix.js',
             'package'         => 'package.json',
-            'gitignore'       => '.gitignore'
+            'gitignore'       => '.gitignore',
         ],
         'replacements' => [
             'routes/web'      => ['LOWER_NAME', 'STUDLY_NAME'],

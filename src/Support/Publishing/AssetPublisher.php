@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support\Publishing;
 
 use Yxx\LaravelPlugin\Support\Config\GenerateConfigReader;

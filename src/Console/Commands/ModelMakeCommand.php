@@ -34,7 +34,7 @@ class ModelMakeCommand extends GeneratorCommand
      */
     protected $description = 'Create a new model for the specified plugin.';
 
-    public function handle() : int
+    public function handle(): int
     {
         if (parent::handle() === E_ERROR) {
             return E_ERROR;
@@ -48,7 +48,8 @@ class ModelMakeCommand extends GeneratorCommand
     /**
      * Create a proper migration name:
      * ProductDetail: product_details
-     * Product: products
+     * Product: products.
+     *
      * @return string
      */
     private function createMigrationName()
@@ -57,8 +58,8 @@ class ModelMakeCommand extends GeneratorCommand
 
         $string = '';
         foreach ($pieces as $i => $piece) {
-            if ($i+1 < count($pieces)) {
-                $string .= strtolower($piece) . '_';
+            if ($i + 1 < count($pieces)) {
+                $string .= strtolower($piece).'_';
             } else {
                 $string .= Str::plural(strtolower($piece));
             }
@@ -94,12 +95,12 @@ class ModelMakeCommand extends GeneratorCommand
     }
 
     /**
-     * Create the migration file with the given model if migration flag was used
+     * Create the migration file with the given model if migration flag was used.
      */
     private function handleOptionalMigrationOption()
     {
         if ($this->option('migration') === true) {
-            $migrationName = 'create_' . $this->createMigrationName() . '_table';
+            $migrationName = 'create_'.$this->createMigrationName().'_table';
             $this->call('plugin:make-migration', ['name' => $migrationName, 'plugin' => $this->argument('plugin')]);
         }
     }
@@ -132,7 +133,7 @@ class ModelMakeCommand extends GeneratorCommand
 
         $modelPath = GenerateConfigReader::read('model');
 
-        return $path . $modelPath->getPath() . '/' . $this->getModelName() . '.php';
+        return $path.$modelPath->getPath().'/'.$this->getModelName().'.php';
     }
 
     /**
@@ -146,11 +147,11 @@ class ModelMakeCommand extends GeneratorCommand
     /**
      * @return string
      */
-    private function getFillable():string
+    private function getFillable(): string
     {
         $fillable = $this->option('fillable');
 
-        if (!is_null($fillable)) {
+        if (! is_null($fillable)) {
             $arrays = explode(',', $fillable);
 
             return json_encode($arrays);
@@ -164,7 +165,7 @@ class ModelMakeCommand extends GeneratorCommand
      *
      * @return string
      */
-    public function getDefaultNamespace() : string
+    public function getDefaultNamespace(): string
     {
         $repository = $this->laravel['plugins.repository'];
 

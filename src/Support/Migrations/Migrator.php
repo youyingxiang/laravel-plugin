@@ -1,17 +1,19 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support\Migrations;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Yxx\LaravelPlugin\Support\Config\GenerateConfigReader;
 use Yxx\LaravelPlugin\Support\Plugin;
-use Illuminate\Contracts\Foundation\Application;
 
 class Migrator
 {
     /**
      * Plugin instance.
+     *
      * @var Plugin
      */
     protected Plugin $plugin;
@@ -24,7 +26,7 @@ class Migrator
     protected Application $laravel;
 
     /**
-     * The database connection to be used
+     * The database connection to be used.
      *
      * @var string
      */
@@ -32,8 +34,9 @@ class Migrator
 
     /**
      * Create new instance.
-     * @param Plugin $plugin
-     * @param Application $application
+     *
+     * @param  Plugin  $plugin
+     * @param  Application  $application
      */
     public function __construct(Plugin $plugin, Application $application)
     {
@@ -42,13 +45,12 @@ class Migrator
     }
 
     /**
-     * Set the database connection to be used
+     * Set the database connection to be used.
      *
      * @param $database
-     *
      * @return Migrator
      */
-    public function setDatabase($database):Migrator
+    public function setDatabase($database): Migrator
     {
         if (is_string($database) && $database) {
             $this->database = $database;
@@ -60,7 +62,7 @@ class Migrator
     /**
      * @return Plugin
      */
-    public function getPlugin():Plugin
+    public function getPlugin(): Plugin
     {
         return $this->plugin;
     }
@@ -84,12 +86,12 @@ class Migrator
     /**
      * Get migration files.
      *
-     * @param boolean $reverse
+     * @param  bool  $reverse
      * @return array
      */
     public function getMigrations($reverse = false): array
     {
-        $files = $this->laravel['files']->glob($this->getPath() . '/*_*.php');
+        $files = $this->laravel['files']->glob($this->getPath().'/*_*.php');
 
         // Once we have the array of files in the directory we will just remove the
         // extension and take the basename of the file which is all we need when
@@ -173,7 +175,7 @@ class Migrator
     /**
      * Run down schema from the given migration name.
      *
-     * @param string $migration
+     * @param  string  $migration
      */
     public function down($migration)
     {
@@ -183,7 +185,7 @@ class Migrator
     /**
      * Run up schema from the given migration name.
      *
-     * @param string $migration
+     * @param  string  $migration
      */
     public function up($migration)
     {
@@ -193,8 +195,7 @@ class Migrator
     /**
      * Resolve a migration instance from a file.
      *
-     * @param string $file
-     *
+     * @param  string  $file
      * @return object
      */
     public function resolve($file)
@@ -209,13 +210,13 @@ class Migrator
     /**
      * Require in all the migration files in a given path.
      *
-     * @param array  $files
+     * @param  array  $files
      */
     public function requireFiles(array $files)
     {
         $path = $this->getPath();
         foreach ($files as $file) {
-            $this->laravel['files']->requireOnce($path . '/' . $file . '.php');
+            $this->laravel['files']->requireOnce($path.'/'.$file.'.php');
         }
     }
 
@@ -232,8 +233,7 @@ class Migrator
     /**
      * Find migration data from database by given migration name.
      *
-     * @param string $migration
-     *
+     * @param  string  $migration
      * @return object
      */
     public function find($migration)
@@ -244,8 +244,7 @@ class Migrator
     /**
      * Save new migration to database.
      *
-     * @param string $migration
-     *
+     * @param  string  $migration
      * @return mixed
      */
     public function log($migration)
@@ -269,7 +268,7 @@ class Migrator
     /**
      * Get the last migration batch number.
      *
-     * @param array|null $migrations
+     * @param  array|null  $migrations
      * @return int
      */
     public function getLastBatchNumber($migrations = null)
@@ -286,8 +285,7 @@ class Migrator
     /**
      * Get the last migration batch.
      *
-     * @param array $migrations
-     *
+     * @param  array  $migrations
      * @return Collection
      */
     public function getLast($migrations)

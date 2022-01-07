@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support\Composer;
 
 use Yxx\LaravelPlugin\Exceptions\ComposerException;
@@ -12,12 +13,14 @@ class ComposerRequire extends Composer
     public function appendPluginRequires($pluginName, ValRequires $requires): self
     {
         $this->pluginRequires[$pluginName] = $requires;
+
         return $this;
     }
 
     public function appendPluginDevRequires($pluginName, ValRequires $devRequires): self
     {
         $this->pluginDevRequires[$pluginName] = $devRequires;
+
         return $this;
     }
 
@@ -31,19 +34,21 @@ class ComposerRequire extends Composer
         return $this->pluginDevRequires;
     }
 
-    public function getRequiresByPlugins():ValRequires
+    public function getRequiresByPlugins(): ValRequires
     {
         $valRequires = ValRequires::make();
-        return array_reduce($this->getPluginRequires(), fn(ValRequires $valRequires, ValRequires $requires) => $valRequires->merge($requires), $valRequires);
+
+        return array_reduce($this->getPluginRequires(), fn (ValRequires $valRequires, ValRequires $requires) => $valRequires->merge($requires), $valRequires);
     }
 
-    public function getDevRequiresByPlugins():ValRequires
+    public function getDevRequiresByPlugins(): ValRequires
     {
         $valRequires = ValRequires::make();
-        return array_reduce($this->getPluginDevRequires(), fn(ValRequires $valRequires, ValRequires $devRequires) => $valRequires->merge($devRequires), $valRequires);
+
+        return array_reduce($this->getPluginDevRequires(), fn (ValRequires $valRequires, ValRequires $devRequires) => $valRequires->merge($devRequires), $valRequires);
     }
 
-    public function beforeRun():void
+    public function beforeRun(): void
     {
         if ($this->getPluginRequires()) {
             $this->appendRequires($this->getRequiresByPlugins());

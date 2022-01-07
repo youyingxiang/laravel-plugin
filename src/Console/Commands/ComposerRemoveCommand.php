@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -26,8 +27,7 @@ class ComposerRemoveCommand extends Command
      */
     protected $description = 'Remove the plugin composer package.';
 
-
-    public function handle():void
+    public function handle(): void
     {
         $packages = $this->argument('packages');
         $plugin = $this->argument('plugin');
@@ -51,7 +51,6 @@ class ComposerRemoveCommand extends Command
         } catch (\Exception $exception) {
             $this->error($exception->getMessage());
         }
-
     }
 
     protected function getArguments(): array

@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\ValueObjects;
 
 class ValRequire
@@ -13,7 +14,7 @@ class ValRequire
         $this->version = $version;
     }
 
-    public static function make(string $name, ?string $version = ""): ValRequire
+    public static function make(string $name, ?string $version = ''): ValRequire
     {
         return new static($name, $version);
     }

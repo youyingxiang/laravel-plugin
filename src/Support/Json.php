@@ -10,7 +10,6 @@ use Yxx\LaravelPlugin\Exceptions\InvalidJsonException;
 
 class Json
 {
-
     /**
      * @var bool
      */
@@ -126,6 +125,7 @@ class Json
     public function setIsCache(bool $isCache): Json
     {
         $this->isCache = $isCache;
+
         return $this;
     }
 
@@ -167,7 +167,7 @@ class Json
      */
     public function toJsonPretty(?array $data = null): string
     {
-        return json_encode($data ?: $this->attributes, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+        return json_encode($data ?: $this->attributes, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     /**

@@ -2,14 +2,14 @@
 
 namespace Yxx\LaravelPlugin\Support\Generators;
 
-use Yxx\LaravelPlugin\Support\Composer\ComposerRequire;
-use Yxx\LaravelPlugin\Support\DecompressPlugin;
 use Illuminate\Console\Command as Console;
 use Illuminate\Filesystem\Filesystem;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
 use Yxx\LaravelPlugin\Contracts\GeneratorInterface;
 use Yxx\LaravelPlugin\Exceptions\LocalPathNotFoundException;
 use Yxx\LaravelPlugin\Exceptions\PluginAlreadyExistException;
+use Yxx\LaravelPlugin\Support\Composer\ComposerRequire;
+use Yxx\LaravelPlugin\Support\DecompressPlugin;
 use Yxx\LaravelPlugin\Support\FileRepository;
 use Yxx\LaravelPlugin\Support\Json;
 
@@ -132,7 +132,7 @@ class LocalInstallGenerator implements GeneratorInterface
                 $this->localPath,
                 $buildPluginPath
             );
-        } elseif ($this->filesystem->isFile($this->localPath) && $this->filesystem->extension($this->localPath) === "zip") {
+        } elseif ($this->filesystem->isFile($this->localPath) && $this->filesystem->extension($this->localPath) === 'zip') {
             $pluginName = (new DecompressPlugin($this->localPath))->handle();
         }
 
@@ -152,7 +152,7 @@ class LocalInstallGenerator implements GeneratorInterface
             )->run();
 
         $plugin->fireInstalledEvent();
+
         return 0;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Support\Composer;
 
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
@@ -20,23 +21,23 @@ class ComposerRequireTest extends TestCase
         $this->repository = new FileRepository($this->app);
         $this->artisan('plugin:make', ['name' => ['Test1']]);
         $this->artisan('plugin:make', ['name' => ['Test2']]);
-        $this->repository->find('Test1')->json()->set("composer", [
-            "require" => [
-                "twilio/sdk" => "^6.28",
-                "tymon/jwt-auth" => "^1.0",
-                "wildbit/swiftmailer-postmark" => "^3.1",
+        $this->repository->find('Test1')->json()->set('composer', [
+            'require' => [
+                'twilio/sdk' => '^6.28',
+                'tymon/jwt-auth' => '^1.0',
+                'wildbit/swiftmailer-postmark' => '^3.1',
             ],
-            "require-dev" => [
-                "laravel/telescope" => "^2.0",
+            'require-dev' => [
+                'laravel/telescope' => '^2.0',
             ],
         ])->save();
-        $this->repository->find('Test2')->json()->set("composer", [
-            "require" => [
-                "twilio/sdk" => "^6.28",
-                "tymon/jwt-auth" => "^1.0",
+        $this->repository->find('Test2')->json()->set('composer', [
+            'require' => [
+                'twilio/sdk' => '^6.28',
+                'tymon/jwt-auth' => '^1.0',
             ],
-            "require-dev" => [
-                "laravel/sanctum" => "^2.11",
+            'require-dev' => [
+                'laravel/sanctum' => '^2.11',
             ],
         ])->save();
     }
@@ -69,16 +70,16 @@ class ComposerRequireTest extends TestCase
         $this->composerRequire->appendPluginRequires('Test1', $plugin1->getComposerAttr('require'))->appendPluginRequires('Test2', $plugin2->getComposerAttr('require'));
 
         $this->assertTrue($this->composerRequire->getRequiresByPlugins()->unique()->equals(ValRequires::toValRequires([
-            "twilio/sdk" => "^6.28",
-            "tymon/jwt-auth" => "^1.0",
-            "wildbit/swiftmailer-postmark" => "^3.1",
+            'twilio/sdk' => '^6.28',
+            'tymon/jwt-auth' => '^1.0',
+            'wildbit/swiftmailer-postmark' => '^3.1',
         ])));
 
         $this->composerRequire->appendPluginDevRequires('Test1', $plugin1->getComposerAttr('require-dev'))->appendPluginDevRequires('Test2', $plugin2->getComposerAttr('require-dev'));
 
         $this->assertTrue($this->composerRequire->getDevRequiresByPlugins()->unique()->equals(ValRequires::toValRequires([
-            "laravel/telescope" => "^2.0",
-            "laravel/sanctum" => "^2.11",
+            'laravel/telescope' => '^2.0',
+            'laravel/sanctum' => '^2.11',
         ])));
     }
 }

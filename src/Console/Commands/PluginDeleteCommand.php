@@ -2,8 +2,8 @@
 
 namespace Yxx\LaravelPlugin\Console\Commands;
 
-use Illuminate\Console\Command;
 use Exception;
+use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Yxx\LaravelPlugin\Support\Composer\ComposerRemove;
 use Yxx\LaravelPlugin\Traits\PluginCommandTrait;
@@ -33,6 +33,7 @@ class PluginDeleteCommand extends Command
             return 0;
         } catch (Exception $exception) {
             $this->error($exception->getMessage());
+
             return E_ERROR;
         }
     }

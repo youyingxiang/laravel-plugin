@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Support\Composer;
 
 use Illuminate\Filesystem\Filesystem;
@@ -19,9 +20,9 @@ class ComposerTest extends TestCase
     {
         parent::setUp();
         $this->composer = new TestComposer();
-        $vr1 = ValRequire::make("twilio/sdk", "^6.28");
-        $vr2 = ValRequire::make("tymon/jwt-auth", "^1.0");
-        $vr3 = ValRequire::make("wildbit/swiftmailer-postmark", "^3.1");
+        $vr1 = ValRequire::make('twilio/sdk', '^6.28');
+        $vr2 = ValRequire::make('tymon/jwt-auth', '^1.0');
+        $vr3 = ValRequire::make('wildbit/swiftmailer-postmark', '^3.1');
         $this->requires = ValRequires::make([$vr1, $vr2, $vr3]);
         $this->finder = $this->app['files'];
     }
@@ -48,13 +49,12 @@ class ComposerTest extends TestCase
 
         $this->assertSame($this->requires->toArray(), $this->composer->getRemoveRequires()->toArray());
 
-        $vl = ValRequire::make("laravel/horizon", "^3.4");
+        $vl = ValRequire::make('laravel/horizon', '^3.4');
         $removeRequires = ValRequires::make([$vl]);
         $this->composer->appendRemoveRequires($removeRequires);
 
         $this->assertSame($this->requires->append($vl)->toArray(), $this->composer->getRemoveRequires()->toArray());
     }
-
 
     public function test_it_can_append_requires()
     {
@@ -62,7 +62,7 @@ class ComposerTest extends TestCase
 
         $this->assertSame($this->requires->toArray(), $this->composer->getRequires()->toArray());
 
-        $vl = ValRequire::make("laravel/horizon", "^3.4");
+        $vl = ValRequire::make('laravel/horizon', '^3.4');
 
         $requires = ValRequires::make()->append($vl);
 
@@ -77,7 +77,7 @@ class ComposerTest extends TestCase
 
         $this->assertSame($this->requires->toArray(), $this->composer->getDevRequires()->toArray());
 
-        $vl = ValRequire::make("laravel/horizon", "^3.4");
+        $vl = ValRequire::make('laravel/horizon', '^3.4');
 
         $devRequires = ValRequires::make()->append($vl);
 
@@ -85,7 +85,6 @@ class ComposerTest extends TestCase
 
         $this->assertSame($this->requires->append($vl)->toArray(), $this->composer->getDevRequires()->toArray());
     }
-
 }
 
 class TestComposer extends Composer

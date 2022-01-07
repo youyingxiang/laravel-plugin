@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -24,9 +25,9 @@ class MigrateCommand extends Command
      *
      * @return int
      */
-    public function handle() : int
+    public function handle(): int
     {
-        $name  = $this->argument('plugin');
+        $name = $this->argument('plugin');
 
         if ($name) {
             $plugin = $this->laravel['plugins.repository']->findOrFail($name);
@@ -37,10 +38,11 @@ class MigrateCommand extends Command
         }
         /** @var Plugin $plugin */
         foreach ($this->laravel['plugins.repository']->getOrdered($this->option('direction')) as $plugin) {
-            $this->line('Running for plugin: <info>' . $plugin->getName() . '</info>');
+            $this->line('Running for plugin: <info>'.$plugin->getName().'</info>');
 
             $this->migrate($plugin);
         }
+
         return 0;
     }
 
@@ -49,7 +51,7 @@ class MigrateCommand extends Command
         $path = str_replace(base_path(), '', (new Migrator($plugin, $this->getLaravel()))->getPath());
 
         if ($this->option('subpath')) {
-            $path = $path . "/" . $this->option("subpath");
+            $path = $path.'/'.$this->option('subpath');
         }
 
         $this->call('migrate', [

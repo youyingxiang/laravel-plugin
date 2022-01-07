@@ -180,13 +180,16 @@ class FileRepository implements RepositoryInterface
     /**
      * @param  string|null  $type
      * @return ValRequires
+     *
      * @throws Exception
      */
     public function getComposerRequires(?string $type = null): ValRequires
     {
         $valRequires = ValRequires::make();
-        return array_reduce($this->all(), function(ValRequires $valRequires, Plugin $plugin) use($type) {
-            $requires = $type ? $plugin->getComposerAttr($type): $plugin->getAllComposerRequires();
+
+        return array_reduce($this->all(), function (ValRequires $valRequires, Plugin $plugin) use ($type) {
+            $requires = $type ? $plugin->getComposerAttr($type) : $plugin->getAllComposerRequires();
+
             return $valRequires->merge($requires);
         }, $valRequires);
     }
@@ -195,15 +198,18 @@ class FileRepository implements RepositoryInterface
      * @param $name
      * @param  string|null  $type
      * @return ValRequires
+     *
      * @throws Exception
      */
     public function getExceptPluginNameComposerRequires($name, ?string $type = null): ValRequires
     {
         $valRequires = ValRequires::make();
+
         return collect($this->all())
-            ->filter(fn(Plugin $plugin) => is_array($name) ? !in_array($plugin->getName(), $name) : $plugin->getName() !== $name )
-            ->reduce(function (ValRequires $valRequires, Plugin $plugin) use($type) {
-                $requires = $type ? $plugin->getComposerAttr($type): $plugin->getAllComposerRequires();
+            ->filter(fn (Plugin $plugin) => is_array($name) ? ! in_array($plugin->getName(), $name) : $plugin->getName() !== $name)
+            ->reduce(function (ValRequires $valRequires, Plugin $plugin) use ($type) {
+                $requires = $type ? $plugin->getComposerAttr($type) : $plugin->getAllComposerRequires();
+
                 return $valRequires->merge($requires);
             }, $valRequires);
     }
@@ -633,7 +639,7 @@ class FileRepository implements RepositoryInterface
      *
      * @throws PluginNotFoundException
      */
-    public function disable(string $name):void
+    public function disable(string $name): void
     {
         $this->findOrFail($name)->disable();
     }
@@ -644,6 +650,7 @@ class FileRepository implements RepositoryInterface
     public function delete(string $name): bool
     {
         $plugin = $this->findOrFail($name);
+
         return $plugin->delete();
     }
 
