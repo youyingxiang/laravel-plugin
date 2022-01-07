@@ -2,26 +2,18 @@
 namespace Yxx\LaravelPlugin\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Yxx\LaravelPlugin\Events\PluginDeleted;
-use Yxx\LaravelPlugin\Events\PluginInstalled;
-use Yxx\LaravelPlugin\Listeners\ComposerRemoveListener;
-use Yxx\LaravelPlugin\Listeners\ComposerRequireListener;
+use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
-    /**
-     * @var array|array[]
-     */
-    protected $listen = [
-        PluginInstalled::class => [
-        ],
-        PluginDeleted::class => [
-        ]
-    ];
-
 
     public function boot(): void
     {
-        parent::boot();
+        $listens = config('plugins.listen');
+        if (is_array($listens)) {
+            foreach ($listens as $event => $listen) {
+                Event::listen($event, $listen);
+            }
+        }
     }
 }

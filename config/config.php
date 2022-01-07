@@ -87,6 +87,12 @@ return [
             'model'      => ['path' => 'Models', 'generate' => true],
         ],
     ],
+    'listen' => [
+        \Yxx\LaravelPlugin\Events\PluginInstalled::class => [
+            \Yxx\LaravelPlugin\Listeners\PluginPublish::class,
+            \Yxx\LaravelPlugin\Listeners\PluginMigrate::class
+        ]
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -153,6 +159,6 @@ return [
     'activator' => 'file',
 
     'market' => [
-        'api_base' => 'https://laravel.plugin.com'
+        'api_base' => 'http://plugin.you-tang.com/'
     ]
 ];

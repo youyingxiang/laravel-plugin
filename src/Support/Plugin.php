@@ -13,6 +13,8 @@ use Illuminate\Support\Traits\Macroable;
 use Illuminate\Translation\Translator;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
 use Yxx\LaravelPlugin\Events\PluginDeleted;
+use Yxx\LaravelPlugin\Events\PluginInstalled;
+use Yxx\LaravelPlugin\Events\PluginUnInstalled;
 use Yxx\LaravelPlugin\ValueObjects\ValRequires;
 
 class Plugin
@@ -322,9 +324,13 @@ class Plugin
 
     public function fireInstalledEvent(): void
     {
-        $this->app['events']->dispatch("PluginInstalled", [$this]);
+        $this->app['events']->dispatch(new PluginInstalled($this));
     }
 
+    public function fireUnInstalledEvent(): void
+    {
+        $this->app['events']->dispatch(new PluginUnInstalled($this));
+    }
 
     /**
      * Handle call __toString.
