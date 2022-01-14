@@ -4,6 +4,7 @@ namespace Yxx\LaravelPlugin\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
+use Yxx\LaravelPlugin\Contracts\ClientInterface;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
 use Yxx\LaravelPlugin\Exceptions\InvalidActivatorClass;
 use Yxx\LaravelPlugin\Support\FileRepository;
@@ -84,8 +85,16 @@ class PluginServiceProvider extends ServiceProvider
 
             return new $class($app);
         });
+        $this->app->singleton(ClientInterface::class, function ($app){
+            $class = $app['config']->get('plugins.market.default');
+            if ($class === null) {
+                throw InvalidActivatorClass::missingConfig();
+            }
+            return new $class();
+        });
         $this->app->alias(RepositoryInterface::class, 'plugins.repository');
         $this->app->alias(ActivatorInterface::class, 'plugins.activator');
+        $this->app->alias(ClientInterface::class, 'plugins.client');
     }
 
     /**

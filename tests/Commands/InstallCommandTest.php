@@ -6,7 +6,7 @@ use Illuminate\Filesystem\Filesystem;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
 use Yxx\LaravelPlugin\Tests\TestCase;
 
-class LocalInstallCommandTest extends TestCase
+class InstallCommandTest extends TestCase
 {
     private Filesystem $filesystem;
 
@@ -31,14 +31,14 @@ class LocalInstallCommandTest extends TestCase
 
     public function test_it_can_local_install_by_directory()
     {
-        $this->artisan('plugin:local-install', ['path' => $this->localPath.'PluginOne']);
+        $this->artisan('plugin:install', ['path' => $this->localPath.'PluginOne']);
         $this->assertDirectoryExists($this->repository->find('PluginOne')->getPath());
         $this->assertTrue($this->repository->find('PluginOne')->isEnabled());
     }
 
     public function test_it_can_local_install_by_zip()
     {
-        $this->artisan('plugin:local-install', ['path' => $this->localPath.'Plugin3.zip']);
+        $this->artisan('plugin:install', ['path' => $this->localPath.'Plugin3.zip']);
         $this->assertDirectoryExists($this->repository->find('Plugin3')->getPath());
         $this->assertTrue($this->repository->find('Plugin3')->isEnabled());
     }

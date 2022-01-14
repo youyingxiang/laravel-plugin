@@ -8,9 +8,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
 use Yxx\LaravelPlugin\Support\Generators\LocalInstallGenerator;
 
-class LocalInstallCommand extends Command
+class InstallCommand extends Command
 {
-    protected $name = 'plugin:local-install';
+    protected $name = 'plugin:install';
 
     /**
      * The console command description.

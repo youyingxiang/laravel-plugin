@@ -2,25 +2,15 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | plugin Namespace
-    |--------------------------------------------------------------------------
-    |
-    | Default plugin namespace.
-    |
-    */
-
     'namespace' => 'Plugins',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Plugin Stubs
-    |--------------------------------------------------------------------------
-    |
-    | Default plugin stubs.
-    |
-    */
+    // 插件市场
+    'market' => [
+        // 插件市场 api 域名
+        'api_base' => 'http://plugin.you-tang.com/',
+        // 插件市场默认调用的 client class
+        'default' => \Yxx\LaravelPlugin\Support\Client\Market::class
+    ],
 
     'stubs' => [
         'enabled' => false,
@@ -48,32 +38,14 @@ return [
         'gitkeep' => true,
     ],
     'paths' => [
-        /*
-        |--------------------------------------------------------------------------
-        | Plugins path
-        |--------------------------------------------------------------------------
-        |
-        */
+
 
         'plugins' => base_path('plugins'),
-        /*
-        |--------------------------------------------------------------------------
-        | Plugins assets path
-        |--------------------------------------------------------------------------
-        |
-        | Here you may update the plugin assets path.
-        |
-        */
 
+        // 资源发布目录
         'assets' => public_path('plugins'),
 
-        /*
-        |--------------------------------------------------------------------------
-        | Generator path
-        |--------------------------------------------------------------------------
-        | Customise the paths where the folders will be generated.
-        | Set the generate key to false to not generate that folder
-        */
+        // 默认插件创建目录结构
         'generator' => [
             'config'     => ['path' => 'Config', 'generate' => true],
             'seeder'     => ['path' => 'Database/Seeders', 'generate' => true],
@@ -87,6 +59,7 @@ return [
             'model'      => ['path' => 'Models', 'generate' => true],
         ],
     ],
+    // 事件监听
     'listen' => [
         \Yxx\LaravelPlugin\Events\PluginInstalled::class => [
             \Yxx\LaravelPlugin\Listeners\PluginPublish::class,
@@ -94,59 +67,21 @@ return [
         ],
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Package commands
-    |--------------------------------------------------------------------------
-    |
-    | Here you can define which commands will be visible and used in your
-    | application. If for example you don't use some of the commands provided
-    | you can simply comment them out.
-    |
-    */
+
+    // 自定义命令
     'commands' => [],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Caching
-    |--------------------------------------------------------------------------
-    |
-    | Here is the config for setting up caching feature.
-    |
-    */
+
     'cache' => [
         'enabled'  => false,
         'key'      => 'laravel-plugin',
         'lifetime' => 60,
     ],
-    /*
-    |--------------------------------------------------------------------------
-    | Choose what laravel-plugins will register as custom namespaces.
-    | Setting one to false will require you to register that part
-    | in your own Service Provider class.
-    |--------------------------------------------------------------------------
-    */
     'register' => [
         'translations' => true,
-        /**
-         * load files on boot or register method.
-         *
-         * Note: boot not compatible with asgardcms
-         *
-         * @example boot|register
-         */
         'files' => 'register',
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Activators
-    |--------------------------------------------------------------------------
-    |
-    | You can define new types of activators here, file, database etc. The only
-    | required parameter is 'class'.
-    | The file activator will store the activation status in storage/installed_plugins
-    */
     'activators' => [
         'file' => [
             'class'          => \Yxx\LaravelPlugin\Activators\FileActivator::class,
@@ -158,7 +93,5 @@ return [
 
     'activator' => 'file',
 
-    'market' => [
-        'api_base' => 'http://plugin.you-tang.com/',
-    ],
+
 ];

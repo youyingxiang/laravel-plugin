@@ -4,7 +4,6 @@ namespace Yxx\LaravelPlugin\Console\Commands;
 
 use Illuminate\Console\Command;
 use Yxx\LaravelPlugin\Support\Config;
-use Yxx\LaravelPlugin\Support\MarketSDK;
 
 class LoginCommand extends Command
 {
@@ -18,11 +17,11 @@ class LoginCommand extends Command
      */
     protected $description = 'Login to the plugin server.';
 
-    public function handle(MarketSDK $marketSDK): int
+    public function handle(): int
     {
         try {
-            $result = $marketSDK->login(
-                $email = $this->ask('Email Address'),
+            $result = app('plugins.client')->login(
+                $email = $this->ask('Account'),
                 $password = $this->secret('Password')
             );
             $this->store(data_get($result, 'token'));

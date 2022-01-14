@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 use Mockery\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Yxx\LaravelPlugin\Support\CompressPlugin;
-use Yxx\LaravelPlugin\Support\MarketSDK;
 use Yxx\LaravelPlugin\Traits\HasMarketTokens;
 use Yxx\LaravelPlugin\Traits\PluginCommandTrait;
 
@@ -18,7 +17,7 @@ class UploadCommand extends Command
 
     protected $description = 'Upload the plugin to the server.';
 
-    public function handle(MarketSDK $marketSDK): int
+    public function handle(): int
     {
         try {
             $this->ensure_api_token_is_available();
@@ -47,7 +46,7 @@ class UploadCommand extends Command
                 $progressBar->setProgress((int) round($uploaded / 1024, 2));
             };
             try {
-                $marketSDK->upload([
+                app('plugins.client')->upload([
                     'body' => $stream,
                     'headers' => ['plugin-info' => json_encode($this->getPlugin()->json()->getAttributes(), true)],
                     'progress' => $progressCallback,

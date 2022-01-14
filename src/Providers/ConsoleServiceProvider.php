@@ -9,10 +9,12 @@ use Yxx\LaravelPlugin\Console\Commands\ComposerRemoveCommand;
 use Yxx\LaravelPlugin\Console\Commands\ComposerRequireCommand;
 use Yxx\LaravelPlugin\Console\Commands\ControllerMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\DisableCommand;
+use Yxx\LaravelPlugin\Console\Commands\DownLoadCommand;
 use Yxx\LaravelPlugin\Console\Commands\EnableCommand;
+use Yxx\LaravelPlugin\Console\Commands\InstallCommand;
 use Yxx\LaravelPlugin\Console\Commands\ListCommand;
-use Yxx\LaravelPlugin\Console\Commands\LocalInstallCommand;
 use Yxx\LaravelPlugin\Console\Commands\LoginCommand;
+use Yxx\LaravelPlugin\Console\Commands\MarketPluginsCommand;
 use Yxx\LaravelPlugin\Console\Commands\MigrateCommand;
 use Yxx\LaravelPlugin\Console\Commands\MigrationMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\ModelMakeCommand;
@@ -21,6 +23,7 @@ use Yxx\LaravelPlugin\Console\Commands\PluginDeleteCommand;
 use Yxx\LaravelPlugin\Console\Commands\PluginMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\ProviderMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\PublishCommand;
+use Yxx\LaravelPlugin\Console\Commands\RegisterCommand;
 use Yxx\LaravelPlugin\Console\Commands\RouteProviderMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\SeedMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\UploadCommand;
@@ -42,6 +45,9 @@ class ConsoleServiceProvider extends ServiceProvider
     protected array $commands = [
         PluginCommand::class,
         PluginMakeCommand::class,
+        LoginCommand::class,
+        RegisterCommand::class,
+        DownLoadCommand::class,
         ProviderMakeCommand::class,
         RouteProviderMakeCommand::class,
         ControllerMakeCommand::class,
@@ -50,7 +56,7 @@ class ConsoleServiceProvider extends ServiceProvider
         DisableCommand::class,
         EnableCommand::class,
         PluginDeleteCommand::class,
-        LocalInstallCommand::class,
+        InstallCommand::class,
         ComposerRequireCommand::class,
         ComposerRemoveCommand::class,
         ComposerInStallCommand::class,
@@ -59,7 +65,6 @@ class ConsoleServiceProvider extends ServiceProvider
         MigrationMakeCommand::class,
         MigrateCommand::class,
         ModelMakeCommand::class,
-        LoginCommand::class,
     ];
 
     /**
