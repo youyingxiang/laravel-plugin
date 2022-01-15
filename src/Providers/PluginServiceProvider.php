@@ -85,11 +85,12 @@ class PluginServiceProvider extends ServiceProvider
 
             return new $class($app);
         });
-        $this->app->singleton(ClientInterface::class, function ($app){
+        $this->app->singleton(ClientInterface::class, function ($app) {
             $class = $app['config']->get('plugins.market.default');
             if ($class === null) {
                 throw InvalidActivatorClass::missingConfig();
             }
+
             return new $class();
         });
         $this->app->alias(RepositoryInterface::class, 'plugins.repository');

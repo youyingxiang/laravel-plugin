@@ -9,7 +9,7 @@ return [
         // 插件市场 api 域名
         'api_base' => 'http://plugin.you-tang.com/',
         // 插件市场默认调用的 client class
-        'default' => \Yxx\LaravelPlugin\Support\Client\Market::class
+        'default' => \Yxx\LaravelPlugin\Support\Client\Market::class,
     ],
 
     'stubs' => [
@@ -39,7 +39,6 @@ return [
     ],
     'paths' => [
 
-
         'plugins' => base_path('plugins'),
 
         // 资源发布目录
@@ -67,10 +66,8 @@ return [
         ],
     ],
 
-
     // 自定义命令
     'commands' => [],
-
 
     'cache' => [
         'enabled'  => false,
@@ -92,6 +89,5 @@ return [
     ],
 
     'activator' => 'file',
-
 
 ];

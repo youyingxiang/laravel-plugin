@@ -53,7 +53,7 @@ class UploadCommand extends Command
                 ]);
             } catch (\Exception $exception) {
                 $this->line('');
-                $this->error('Plugin upload failed : ' . $exception->getMessage());
+                $this->error('Plugin upload failed : '.$exception->getMessage());
 
                 return E_ERROR;
             }
