@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Contracts;
 
 use Psr\Http\Message\StreamInterface;
@@ -6,7 +7,7 @@ use Psr\Http\Message\StreamInterface;
 interface ClientInterface
 {
     /**
-     * 用户登录
+     * 用户登录.
      *
      * @param  string  $account
      * @param  string  $password
@@ -15,7 +16,7 @@ interface ClientInterface
     public function login(string $account, string $password): array;
 
     /**
-     * 用户注册
+     * 用户注册.
      *
      * @param  string  $account
      * @param  string  $password
@@ -26,7 +27,7 @@ interface ClientInterface
     public function register(string $account, string $name, string $password, string $passwordConfirmation): array;
 
     /**
-     * 选择插件版本进行下载
+     * 选择插件版本进行下载.
      *
      * @param  int  $versionId
      * @return StreamInterface
@@ -34,7 +35,7 @@ interface ClientInterface
     public function download(int $versionId): StreamInterface;
 
     /**
-     * 用户插件上传
+     * 用户插件上传.
      *
      * @param  array  $options
      * @return array
@@ -42,13 +43,10 @@ interface ClientInterface
     public function upload(array $options): array;
 
     /**
-     * 获取插件市场发布的插件
+     * 获取插件市场发布的插件.
      *
      * @param  int  $page
      * @return array
      */
     public function plugins(int $page): array;
-
-
-
 }

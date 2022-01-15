@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Traits;
 
 use GuzzleHttp\Client;
@@ -10,7 +11,6 @@ use Yxx\LaravelPlugin\Support\Config;
 
 trait HasGuzzleClient
 {
-
     /**
      * @param  string  $url
      * @param  array  $data
@@ -29,6 +29,7 @@ trait HasGuzzleClient
      * @param  array  $form
      * @param  array  $query
      * @return array|mixed
+     *
      * @throws GuzzleException
      */
     public function httpUpload(string $url, array $files = [], array $form = [], array $query = []): array
@@ -66,6 +67,7 @@ trait HasGuzzleClient
     {
         return $this->request($url, 'GET', ['query' => $query]);
     }
+
     /**
      * @param  string  $url
      * @param  array  $data
@@ -84,6 +86,7 @@ trait HasGuzzleClient
      * @param  array  $data
      * @param  array  $query
      * @return array
+     *
      * @throws GuzzleException
      */
     public function httpPutJson(string $url, array $data = [], array $query = []): array
@@ -124,6 +127,7 @@ trait HasGuzzleClient
             throw $e;
         }
     }
+
     /**
      * Get a HTTP client instance.
      *

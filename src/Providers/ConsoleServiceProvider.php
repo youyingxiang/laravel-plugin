@@ -14,7 +14,6 @@ use Yxx\LaravelPlugin\Console\Commands\EnableCommand;
 use Yxx\LaravelPlugin\Console\Commands\InstallCommand;
 use Yxx\LaravelPlugin\Console\Commands\ListCommand;
 use Yxx\LaravelPlugin\Console\Commands\LoginCommand;
-use Yxx\LaravelPlugin\Console\Commands\MarketPluginsCommand;
 use Yxx\LaravelPlugin\Console\Commands\MigrateCommand;
 use Yxx\LaravelPlugin\Console\Commands\MigrationMakeCommand;
 use Yxx\LaravelPlugin\Console\Commands\ModelMakeCommand;

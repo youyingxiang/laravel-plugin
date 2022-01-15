@@ -25,12 +25,12 @@ class RegisterCommand extends Command
             $account = $this->ask('Account');
             $password = $this->secret('Password');
             if (Str::length($password) < 8) {
-                throw new \InvalidArgumentException("The password must be at least 8 characters.");
+                throw new \InvalidArgumentException('The password must be at least 8 characters.');
             }
             $passwordConfirmation = $this->secret('Confirmation Password');
 
             if ($passwordConfirmation !== $password) {
-                throw new \InvalidArgumentException("The password confirmation does not match.");
+                throw new \InvalidArgumentException('The password confirmation does not match.');
             }
 
             $result = app('plugins.client')->register(

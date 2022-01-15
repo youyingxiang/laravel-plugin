@@ -1,40 +1,43 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support\Client;
 
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\StreamInterface;
 use Yxx\LaravelPlugin\Contracts\ClientInterface;
 use Yxx\LaravelPlugin\Traits\HasGuzzleClient;
-use Psr\Http\Message\StreamInterface;;
 
 class Market implements ClientInterface
 {
     use HasGuzzleClient;
 
     /**
-     * 用户登录
+     * 用户登录.
      *
      * @param  string  $account
      * @param  string  $password
      * @return array
+     *
      * @throws GuzzleException
      */
     public function login(string $account, string $password): array
     {
         return $this->httpPostJson('/api/pluginmarket/login', [
             'email' => $account,
-            'password' => $password
+            'password' => $password,
         ]);
     }
 
     /**
-     * 用户注册
+     * 用户注册.
      *
      * @param  string  $account
      * @param  string  $password
      * @param  string  $name
      * @param  string  $passwordConfirmation
      * @return array
+     *
      * @throws GuzzleException
      */
     public function register(string $account, string $name, string $password, string $passwordConfirmation): array
@@ -48,10 +51,11 @@ class Market implements ClientInterface
     }
 
     /**
-     * 选择插件版本进行下载
+     * 选择插件版本进行下载.
      *
      * @param  int  $versionId
      * @return StreamInterface
+     *
      * @throws GuzzleException
      */
     public function download(int $versionId): StreamInterface
@@ -71,10 +75,11 @@ class Market implements ClientInterface
     }
 
     /**
-     * 用户插件上传
+     * 用户插件上传.
      *
      * @param  array  $options
      * @return array
+     *
      * @throws GuzzleException
      */
     public function upload(array $options): array
@@ -82,19 +87,19 @@ class Market implements ClientInterface
         return $this->request('/api/pluginmarket/plugins', 'POST', $options);
     }
 
-
     /**
-     * 获取插件市场发布的插件
+     * 获取插件市场发布的插件.
      *
      * @param  int  $page
      * @return array
+     *
      * @throws GuzzleException
      */
     public function plugins(int $page): array
     {
         return $this->httpGet('/api/pluginmarket/plugins', [
             'page' => $page,
-            'status' => 'release'
+            'status' => 'release',
         ]);
     }
 }
