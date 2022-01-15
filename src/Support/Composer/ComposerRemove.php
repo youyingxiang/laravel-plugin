@@ -18,7 +18,7 @@ class ComposerRemove extends Composer
             throw new ComposerException("Package $notRemoveRequires is not in the plugin $pluginName.");
         }
 
-        $this->removePluginRequires[$pluginName] = $removeRequires;
+        $this->removePluginRequires[$currentPlugin->getName()] = $removeRequires;
 
         return $this;
     }

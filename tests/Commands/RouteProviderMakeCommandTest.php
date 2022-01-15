@@ -31,7 +31,7 @@ class RouteProviderMakeCommandTest extends TestCase
         parent::tearDown();
     }
 
-    /** @test */
+
     public function it_generates_a_new_service_provider_class()
     {
         $path = $this->pluginPath.'/Providers/RouteServiceProvider.php';
