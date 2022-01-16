@@ -34,8 +34,8 @@ class EnableCommandTest extends TestCase
 
         $this->assertTrue($blogPlugin->isEnabled());
         $this->assertSame(0, $code);
-        Event::assertDispatched("plugins.enabling");
-        Event::assertDispatched("plugins.enabled");
+        Event::assertDispatched('plugins.enabling');
+        Event::assertDispatched('plugins.enabled');
     }
 
     public function it_enables_all_plugins()
@@ -53,7 +53,7 @@ class EnableCommandTest extends TestCase
 
         $this->assertTrue($blogModule->isEnabled() && $taxonomyPlugin->isEnabled());
         $this->assertSame(0, $code);
-        Event::assertDispatched("plugins.enabling");
-        Event::assertDispatched("plugins.enabled");
+        Event::assertDispatched('plugins.enabling');
+        Event::assertDispatched('plugins.enabled');
     }
 }
