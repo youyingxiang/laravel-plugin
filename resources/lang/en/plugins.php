@@ -20,5 +20,3 @@ return [
     'version_not_exist' => 'Version ID cannot exist.',
     'download_successful' => 'Download Successful',
 ];
-
-
