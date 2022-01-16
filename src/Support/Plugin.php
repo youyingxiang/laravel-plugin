@@ -12,8 +12,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Translation\Translator;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
-use Yxx\LaravelPlugin\Events\PluginInstalled;
-use Yxx\LaravelPlugin\Events\PluginUnInstalled;
 use Yxx\LaravelPlugin\ValueObjects\ValRequires;
 
 class Plugin
@@ -319,17 +317,12 @@ class Plugin
      */
     protected function fireEvent($event): void
     {
-        $this->app['events']->dispatch(sprintf('plugins.%s.'.$event, $this->getLowerName()), [$this]);
+        $this->app['events']->dispatch('plugins.'.$event, [$this]);
     }
 
     public function fireInstalledEvent(): void
     {
-        $this->app['events']->dispatch(new PluginInstalled($this));
-    }
-
-    public function fireUnInstalledEvent(): void
-    {
-        $this->app['events']->dispatch(new PluginUnInstalled($this));
+        $this->fireEvent('installed');
     }
 
     /**
@@ -427,9 +420,15 @@ class Plugin
      */
     public function delete(): bool
     {
+        $this->fireEvent('deleting');
+
         $this->activator->delete($this);
 
-        return $this->json()->getFilesystem()->deleteDirectory($this->getPath());
+        $res = $this->json()->getFilesystem()->deleteDirectory($this->getPath());
+
+        $this->fireEvent('deleted');
+
+        return $res;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Yxx\LaravelPlugin\Tests\Commands;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Event;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
 use Yxx\LaravelPlugin\Tests\TestCase;
 
@@ -31,15 +32,19 @@ class InstallCommandTest extends TestCase
 
     public function test_it_can_local_install_by_directory()
     {
+        Event::fake();
         $this->artisan('plugin:install', ['path' => $this->localPath.'PluginOne']);
         $this->assertDirectoryExists($this->repository->find('PluginOne')->getPath());
         $this->assertTrue($this->repository->find('PluginOne')->isEnabled());
+        Event::assertDispatched("plugins.installed");
     }
 
     public function test_it_can_local_install_by_zip()
     {
+        Event::fake();
         $this->artisan('plugin:install', ['path' => $this->localPath.'Plugin3.zip']);
         $this->assertDirectoryExists($this->repository->find('Plugin3')->getPath());
         $this->assertTrue($this->repository->find('Plugin3')->isEnabled());
+        Event::assertDispatched("plugins.installed");
     }
 }

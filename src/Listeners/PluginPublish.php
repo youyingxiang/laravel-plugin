@@ -3,12 +3,13 @@
 namespace Yxx\LaravelPlugin\Listeners;
 
 use Illuminate\Support\Facades\Artisan;
-use Yxx\LaravelPlugin\Events\PluginInstalled;
+use Yxx\LaravelPlugin\Support\Plugin;
 
 class PluginPublish
 {
-    public function handle(PluginInstalled $installed)
+    public function handle(Plugin $plugin)
     {
-        Artisan::call('plugin:publish', ['plugin' => $installed->plugin->getName()]);
+        dd($plugin);
+        Artisan::call('plugin:publish', ['plugin' => $plugin->getName()]);
     }
 }

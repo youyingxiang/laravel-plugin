@@ -120,8 +120,8 @@ class PluginTest extends TestCase
     public function test_it_fires_events_when_plugin_is_enabled()
     {
         $this->expectsEvents([
-            sprintf('plugins.%s.enabling', $this->plugin->getLowerName()),
-            sprintf('plugins.%s.enabled', $this->plugin->getLowerName()),
+            'plugins.enabling',
+            'plugins.enabled'
         ]);
 
         $this->plugin->enable();
@@ -130,8 +130,8 @@ class PluginTest extends TestCase
     public function test_it_fires_events_when_plugin_is_disabled()
     {
         $this->expectsEvents([
-            sprintf('plugins.%s.disabling', $this->plugin->getLowerName()),
-            sprintf('plugins.%s.disabled', $this->plugin->getLowerName()),
+            'plugins.disabling',
+            'plugins.disabled'
         ]);
 
         $this->plugin->disable();

@@ -2,6 +2,7 @@
 
 namespace Yxx\LaravelPlugin\Tests\Commands;
 
+use Illuminate\Support\Facades\Event;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
 use Yxx\LaravelPlugin\Support\Plugin;
 use Yxx\LaravelPlugin\Tests\TestCase;
@@ -24,6 +25,7 @@ class DisableCommandTest extends TestCase
 
     public function test_it_disables_a_plugin()
     {
+        Event::fake();
         /** @var Plugin $blogPlugin */
         $blogPlugin = $this->app[RepositoryInterface::class]->find('Blog');
         $blogPlugin->enable();
@@ -32,10 +34,13 @@ class DisableCommandTest extends TestCase
 
         $this->assertTrue($blogPlugin->isDisabled());
         $this->assertSame(0, $code);
+        Event::assertDispatched("plugins.disabling");
+        Event::assertDispatched("plugins.disabled");
     }
 
     public function it_disables_all_plugins()
     {
+        Event::fake();
         /** @var Plugin $blogModule */
         $blogPlugin = $this->app[RepositoryInterface::class]->find('Blog');
         $blogPlugin->enable();
@@ -48,5 +53,7 @@ class DisableCommandTest extends TestCase
 
         $this->assertTrue($blogModule->isDisabled() && $taxonomyPlugin->isDisabled());
         $this->assertSame(0, $code);
+        Event::assertDispatched("plugins.disabling");
+        Event::assertDispatched("plugins.disabled");
     }
 }

@@ -19,8 +19,6 @@ class PluginDeleteCommand extends Command
     public function handle(): int
     {
         try {
-            $this->getPlugin()->fireUnInstalledEvent();
-
             ComposerRemove::make()->appendRemovePluginRequires(
                 $this->getPluginName(),
                 $this->getPlugin()->getAllComposerRequires()

@@ -60,10 +60,28 @@ return [
     ],
     // 事件监听
     'listen' => [
-        \Yxx\LaravelPlugin\Events\PluginInstalled::class => [
+        // 插件安装以后
+        'plugins.installed' => [
             \Yxx\LaravelPlugin\Listeners\PluginPublish::class,
             \Yxx\LaravelPlugin\Listeners\PluginMigrate::class,
         ],
+        // 插件禁用之前
+        'plugins.disabling' => [],
+
+        // 插件禁用之后
+        'plugins.disabled' => [],
+
+        // 插件启用之前
+        'plugins.enabling' => [],
+
+        // 插件启用之后
+        'plugins.enabled' => [],
+
+        // 插件删除之前
+        'plugins.deleting' => [],
+
+        //插件删除之后
+        'plugins.deleted' => [],
     ],
 
     // 自定义命令
