@@ -80,7 +80,7 @@ return [
         // 插件删除之前
         'plugins.deleting' => [],
 
-        //插件删除之后
+        // 插件删除之后
         'plugins.deleted' => [],
     ],
 
