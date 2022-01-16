@@ -1,6 +1,6 @@
 {
     "name": "yxx/laravel-plugin",
-    "license": "GPL-3.0-only",
+    "license": "MIT",
     "minimum-stability": "stable",
     "authors": [
         {
