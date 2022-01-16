@@ -61,7 +61,7 @@ class Market implements ClientInterface
     public function download(int $versionId): StreamInterface
     {
         try {
-            return $this->client()->request('POST', ltrim('/api/pluginmarket/plugins/install/'.$versionId, '/'))->getBody();
+            return $this->client()->request('POST', ltrim('/api/pluginmarket/plugins/download/'.$versionId, '/'))->getBody();
         } catch (ClientException $e) {
             $response = $e->getResponse();
             if ($message = data_get(json_decode($response->getBody()->getContents(), true), 'message')) {

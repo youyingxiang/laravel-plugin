@@ -22,6 +22,7 @@ class DownLoadCommand extends Command
     {
         $path = Str::uuid().'.zip';
         try {
+            $this->ensure_api_token_is_available();
             $plugins = data_get(app('plugins.client')->plugins(1), 'data');
             $rows = array_reduce($plugins, function ($rows, $item) {
                 $rows[] = [
