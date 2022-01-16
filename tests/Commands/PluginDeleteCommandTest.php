@@ -34,7 +34,7 @@ class PluginDeleteCommandTest extends TestCase
         $code = $this->artisan('plugin:delete', ['plugin' => 'WrongPlugin']);
         $this->assertDirectoryNotExists(base_path('plugins/WrongPlugin'));
         $this->assertSame(0, $code);
-        Event::assertDispatched("plugins.deleting");
-        Event::assertDispatched("plugins.deleted");
+        Event::assertDispatched('plugins.deleting');
+        Event::assertDispatched('plugins.deleted');
     }
 }

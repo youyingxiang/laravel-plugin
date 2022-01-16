@@ -121,7 +121,7 @@ class PluginTest extends TestCase
     {
         $this->expectsEvents([
             'plugins.enabling',
-            'plugins.enabled'
+            'plugins.enabled',
         ]);
 
         $this->plugin->enable();
@@ -131,7 +131,7 @@ class PluginTest extends TestCase
     {
         $this->expectsEvents([
             'plugins.disabling',
-            'plugins.disabled'
+            'plugins.disabled',
         ]);
 
         $this->plugin->disable();
