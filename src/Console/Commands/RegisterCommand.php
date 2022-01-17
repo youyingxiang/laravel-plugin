@@ -22,7 +22,7 @@ class RegisterCommand extends Command
     {
         try {
             $name = $this->ask('UserName');
-            $account = $this->ask('Account');
+            $account = $this->ask('Email');
             $password = $this->secret('Password');
             if (Str::length($password) < 8) {
                 throw new \InvalidArgumentException('The password must be at least 8 characters.');

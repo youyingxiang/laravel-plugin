@@ -21,7 +21,7 @@ class LoginCommand extends Command
     {
         try {
             $result = app('plugins.client')->login(
-                $email = $this->ask('Account'),
+                $email = $this->ask('Email'),
                 $password = $this->secret('Password')
             );
             $this->store(data_get($result, 'token'));
