@@ -5,7 +5,7 @@ namespace Yxx\LaravelPlugin\Console\Commands;
 use Illuminate\Console\Command;
 use Yxx\LaravelPlugin\Support\Composer\ComposerInstall;
 
-class ComposerInStallCommand extends Command
+class ComposerInstallCommand extends Command
 {
     /**
      * The console command name.

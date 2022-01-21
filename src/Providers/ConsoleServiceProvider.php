@@ -4,7 +4,7 @@ namespace Yxx\LaravelPlugin\Providers;
 
 use Carbon\Laravel\ServiceProvider;
 use Illuminate\Support\Str;
-use Yxx\LaravelPlugin\Console\Commands\ComposerInStallCommand;
+use Yxx\LaravelPlugin\Console\Commands\ComposerInstallCommand;
 use Yxx\LaravelPlugin\Console\Commands\ComposerRemoveCommand;
 use Yxx\LaravelPlugin\Console\Commands\ComposerRequireCommand;
 use Yxx\LaravelPlugin\Console\Commands\ControllerMakeCommand;
@@ -53,7 +53,7 @@ class ConsoleServiceProvider extends ServiceProvider
         SeedMakeCommand::class,
         ComposerRequireCommand::class,
         ComposerRemoveCommand::class,
-        ComposerInStallCommand::class,
+        ComposerInstallCommand::class,
         ListCommand::class,
         DisableCommand::class,
         EnableCommand::class,
