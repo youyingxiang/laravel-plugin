@@ -162,7 +162,7 @@ class MysqlRepository
      */
     public function getByStatus(PluginStatus $status): Collection
     {
-        return $this->all()->filter(fn (InstallPlugin $plugin) => $plugin->status->equals($status));
+        return $this->all()->filter(fn (InstallPlugin $plugin) => (int)$plugin->status->value === (int)$status->value);
     }
 
     /**
