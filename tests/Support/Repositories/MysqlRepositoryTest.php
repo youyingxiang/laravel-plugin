@@ -71,7 +71,7 @@ class MysqlRepositoryTest extends TestCase
     public function test_it_returns_all_enabled_plugins()
     {
         $this->assertEquals(1, $this->repository->getByStatus(PluginStatus::enable())->count());
-        $this->assertEquals(1, $this->repository->allEnabled());
+        $this->assertEquals(1, $this->repository->allEnabled()->count());
     }
 
     public function test_it_counts_all_plugins()
