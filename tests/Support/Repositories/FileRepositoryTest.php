@@ -1,12 +1,12 @@
 <?php
 
-namespace Yxx\LaravelPlugin\Tests\Support;
+namespace Yxx\LaravelPlugin\Tests\Support\Repositories;
 
 use Illuminate\Filesystem\Filesystem;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
 use Yxx\LaravelPlugin\Exceptions\PluginNotFoundException;
 use Yxx\LaravelPlugin\Support\Collection;
-use Yxx\LaravelPlugin\Support\FileRepository;
+use Yxx\LaravelPlugin\Support\Repositories\FileRepository;
 use Yxx\LaravelPlugin\Support\Plugin;
 use Yxx\LaravelPlugin\Tests\TestCase;
 use Yxx\LaravelPlugin\ValueObjects\ValRequires;
@@ -32,7 +32,7 @@ class FileRepositoryTest extends TestCase
         parent::setUp();
         $this->repository = new FileRepository($this->app);
         $this->activator = $this->app[ActivatorInterface::class];
-        $this->stubsValidPath = __DIR__.'/../stubs/valid';
+        $this->stubsValidPath = __DIR__.'/../../stubs/valid';
         $this->finder = $this->app['files'];
     }
 

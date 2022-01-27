@@ -4,7 +4,7 @@ namespace Yxx\LaravelPlugin\Providers;
 
 use Carbon\Laravel\ServiceProvider;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
-use Yxx\LaravelPlugin\Support\FileRepository;
+use Yxx\LaravelPlugin\Support\Repositories\FileRepository;
 
 class ContractsServiceProvider extends ServiceProvider
 {

@@ -9,7 +9,7 @@
         <server name="APP_ENV" value="testing"/>
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>
-        <server name="DB_DATABASE" value=""/>
+        <server name="DB_DATABASE" value="plugins-test"/>
         <server name="DB_USERNAME" value="root"/>
         <server name="DB_PASSWORD" value=""/>
         <server name="DB_HOST" value="127.0.0.1"/>

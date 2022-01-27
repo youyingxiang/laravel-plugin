@@ -15,22 +15,18 @@ abstract class TestCase extends Orchestra
         }
     }
 
-    private function resetDatabase()
-    {
-        $this->artisan('migrate:reset', [
-            '--database' => 'sqlite',
-        ]);
-    }
 
-    public function getEnvironmentSetup($app)
+    protected function defineEnvironment($app)
     {
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite', [
+        // Setup default database to use sqlite :memory:
+        $app['config']->set('database.default', 'plugins-testing');
+        $app['config']->set('database.connections.plugins-testing', [
             'driver'   => 'sqlite',
             'database' => ':memory:',
             'prefix'   => '',
         ]);
     }
+
 
     protected function getPackageProviders($app)
     {
@@ -39,8 +35,4 @@ abstract class TestCase extends Orchestra
         ];
     }
 
-    protected function setUpDatabase()
-    {
-        $this->resetDatabase();
-    }
 }

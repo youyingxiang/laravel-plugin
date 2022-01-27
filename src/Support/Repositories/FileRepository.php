@@ -1,6 +1,6 @@
 <?php
 
-namespace Yxx\LaravelPlugin\Support;
+namespace Yxx\LaravelPlugin\Support\Repositories;
 
 use Exception;
 use Illuminate\Cache\CacheManager;
@@ -15,6 +15,9 @@ use Symfony\Component\Process\Process;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
 use Yxx\LaravelPlugin\Exceptions\InvalidAssetPath;
 use Yxx\LaravelPlugin\Exceptions\PluginNotFoundException;
+use Yxx\LaravelPlugin\Support\Collection;
+use Yxx\LaravelPlugin\Support\Json;
+use Yxx\LaravelPlugin\Support\Plugin;
 use Yxx\LaravelPlugin\Support\Process\Installer;
 use Yxx\LaravelPlugin\Support\Process\Updater;
 use Yxx\LaravelPlugin\ValueObjects\ValRequires;
@@ -692,7 +695,7 @@ class FileRepository implements RepositoryInterface
         }
 
         if ($this->config('stubs.enabled') === true) {
-            return $this->config('stubs.path') ?? __DIR__.'/../../stubs';
+            return $this->config('stubs.path') ?? __DIR__.'/../../../stubs';
         }
 
         return optional($this)->stubPath;

@@ -5,7 +5,7 @@ namespace Yxx\LaravelPlugin\Tests\Support\Composer;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
 use Yxx\LaravelPlugin\Exceptions\ComposerException;
 use Yxx\LaravelPlugin\Support\Composer\ComposerRemove;
-use Yxx\LaravelPlugin\Support\FileRepository;
+use Yxx\LaravelPlugin\Support\Repositories\FileRepository;
 use Yxx\LaravelPlugin\Tests\TestCase;
 use Yxx\LaravelPlugin\ValueObjects\ValRequires;
 

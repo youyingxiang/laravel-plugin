@@ -7,7 +7,7 @@ use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
 use Yxx\LaravelPlugin\Contracts\ClientInterface;
 use Yxx\LaravelPlugin\Contracts\RepositoryInterface;
 use Yxx\LaravelPlugin\Exceptions\InvalidActivatorClass;
-use Yxx\LaravelPlugin\Support\FileRepository;
+use Yxx\LaravelPlugin\Support\Repositories\FileRepository;
 use Yxx\LaravelPlugin\Support\Stub;
 
 class PluginServiceProvider extends ServiceProvider
@@ -127,6 +127,8 @@ class PluginServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../../resources/lang' => resource_path('lang'),
             ], 'laravel-plugin-lang');
+
+            $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
         }
     }
 }

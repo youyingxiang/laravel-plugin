@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use Yxx\LaravelPlugin\Contracts\ActivatorInterface;
 use Yxx\LaravelPlugin\Contracts\GeneratorInterface;
 use Yxx\LaravelPlugin\Support\Config\GenerateConfigReader;
-use Yxx\LaravelPlugin\Support\FileRepository;
+use Yxx\LaravelPlugin\Support\Repositories\FileRepository;
 use Yxx\LaravelPlugin\Support\Stub;
 
 class PluginGenerator implements GeneratorInterface
