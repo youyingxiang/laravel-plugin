@@ -18,7 +18,7 @@ class InstallPlugin extends Model
      */
     public $casts = [
         'composer' => 'json',
-        'status' => PluginStatus::class,
+       // 'status' => PluginStatus::class,
     ];
 
     /**
@@ -28,6 +28,16 @@ class InstallPlugin extends Model
     public function scopeEnable(Builder $query): Builder
     {
         return $query->where('status', PluginStatus::enable());
+    }
+
+    public function getStatusAttribute($status)
+    {
+        return PluginStatus::from($status);
+    }
+
+    public function setStatusAttribute(PluginStatus $value)
+    {
+        $this->attributes['status'] = $value->value;
     }
 
     /**
