@@ -70,7 +70,7 @@ class MysqlRepositoryTest extends TestCase
 
     public function test_it_returns_all_enabled_plugins()
     {
-        $this->repository->all()->each(function ($p){
+        $this->repository->all()->each(function ($p) {
             dump($p->status);
         });
         $this->assertCount(1, $this->repository->getByStatus(PluginStatus::enable()));
