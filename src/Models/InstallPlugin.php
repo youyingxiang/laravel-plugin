@@ -33,6 +33,7 @@ class InstallPlugin extends Model
     public function getStatusAttribute(int $status)
     {
         dump($status);
+
         return PluginStatus::from($status);
     }
 
