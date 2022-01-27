@@ -18,7 +18,7 @@ class InstallPlugin extends Model
      */
     public $casts = [
         'composer' => 'json',
-       // 'status' => PluginStatus::class,
+        // 'status' => PluginStatus::class,
     ];
 
     /**
