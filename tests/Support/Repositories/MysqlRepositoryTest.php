@@ -73,7 +73,6 @@ class MysqlRepositoryTest extends TestCase
         $this->repository->all()->each(function ($p){
             dump($p->status);
         });
-        dd('ss');
         $this->assertCount(1, $this->repository->getByStatus(PluginStatus::enable()));
         $this->assertCount(1, $this->repository->allEnabled());
     }
