@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -17,7 +18,7 @@ class InstallPlugin extends Model
      */
     public $casts = [
         'composer' => 'json',
-        'status' => PluginStatus::class
+        'status' => PluginStatus::class,
     ];
 
     /**

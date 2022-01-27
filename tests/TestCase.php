@@ -15,7 +15,6 @@ abstract class TestCase extends Orchestra
         }
     }
 
-
     protected function defineEnvironment($app)
     {
         // Setup default database to use sqlite :memory:
@@ -27,12 +26,10 @@ abstract class TestCase extends Orchestra
         ]);
     }
 
-
     protected function getPackageProviders($app)
     {
         return [
             PluginServiceProvider::class,
         ];
     }
-
 }
