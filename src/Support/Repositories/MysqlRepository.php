@@ -130,7 +130,6 @@ class MysqlRepository
      */
     public function allDisabled()
     {
-
     }
 
     /**
@@ -151,7 +150,6 @@ class MysqlRepository
      */
     public function getOrdered($direction = 'asc')
     {
-
     }
 
     /**
