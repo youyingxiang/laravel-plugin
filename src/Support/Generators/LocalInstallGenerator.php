@@ -10,8 +10,8 @@ use Yxx\LaravelPlugin\Exceptions\LocalPathNotFoundException;
 use Yxx\LaravelPlugin\Exceptions\PluginAlreadyExistException;
 use Yxx\LaravelPlugin\Support\Composer\ComposerRequire;
 use Yxx\LaravelPlugin\Support\DecompressPlugin;
-use Yxx\LaravelPlugin\Support\Repositories\FileRepository;
 use Yxx\LaravelPlugin\Support\Json;
+use Yxx\LaravelPlugin\Support\Repositories\FileRepository;
 
 class LocalInstallGenerator implements GeneratorInterface
 {

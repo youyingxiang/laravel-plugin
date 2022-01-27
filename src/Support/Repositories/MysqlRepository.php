@@ -1,17 +1,18 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Support\Repositories;
 
 use Illuminate\Cache\CacheManager;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 use Yxx\LaravelPlugin\Enums\PluginStatus;
 use Yxx\LaravelPlugin\Exceptions\PluginNotFoundException;
 use Yxx\LaravelPlugin\Models\InstallPlugin;
-use Illuminate\Support\Collection;
 use Yxx\LaravelPlugin\Support\Plugin;
-use Illuminate\Contracts\Foundation\Application;
 
 class MysqlRepository
 {
@@ -55,12 +56,13 @@ class MysqlRepository
     {
         return InstallPlugin::query();
     }
+
     /**
      * Get all plugins.
      *
      * @return mixed
      */
-    public function all():Collection
+    public function all(): Collection
     {
         if (! $this->config('cache.enabled')) {
             return $this->scan();
@@ -128,7 +130,7 @@ class MysqlRepository
      */
     public function allDisabled()
     {
-        return ;
+
     }
 
     /**
@@ -149,7 +151,7 @@ class MysqlRepository
      */
     public function getOrdered($direction = 'asc')
     {
-        return ;
+
     }
 
     /**
@@ -160,7 +162,7 @@ class MysqlRepository
      */
     public function getByStatus(PluginStatus $status): Collection
     {
-        return $this->all()->filter(fn(InstallPlugin $plugin) => $plugin->status->equals($status));
+        return $this->all()->filter(fn (InstallPlugin $plugin) => $plugin->status->equals($status));
     }
 
     /**
@@ -179,7 +181,6 @@ class MysqlRepository
      *
      * @param $name
      * @return array
-     *
      */
     public function findRequirements($name): array
     {
@@ -191,6 +192,7 @@ class MysqlRepository
      *
      * @param $name
      * @return InstallPlugin
+     *
      * @throws PluginNotFoundException
      */
     public function findOrFail(string $name): InstallPlugin
@@ -202,7 +204,6 @@ class MysqlRepository
         }
 
         throw new PluginNotFoundException("Plugin [{$name}] does not exist!");
-
     }
 
     /**
@@ -244,7 +245,6 @@ class MysqlRepository
         return $this->config('paths.plugins', base_path('plugins'));
     }
 
-
     /**
      * Find a specific plugin by its alias.
      *
@@ -261,7 +261,6 @@ class MysqlRepository
      */
     public function boot(): void
     {
-
     }
 
     /**
@@ -269,7 +268,6 @@ class MysqlRepository
      */
     public function register(): void
     {
-
     }
 
     /**

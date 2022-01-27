@@ -1,4 +1,5 @@
 <?php
+
 namespace Yxx\LaravelPlugin\Tests\Support\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -29,7 +30,7 @@ class MysqlRepositoryTest extends TestCase
         $ip1 = InstallPlugin::query()->newModelInstance();
         $ip1->name = 'Test1';
         $ip1->alias = 'test1a';
-        $ip1->description = "this is test1";
+        $ip1->description = 'this is test1';
         $ip1->providers = "PluginsTest\Test1\Providers\Test1ServiceProvider";
         $ip1->status = PluginStatus::enable();
         $ip1->composer = [
@@ -43,11 +44,10 @@ class MysqlRepositoryTest extends TestCase
         ];
         $ip1->saveOrFail();
 
-
         $ip2 = InstallPlugin::query()->newModelInstance();
         $ip2->name = 'Test2';
         $ip2->alias = 'test2a';
-        $ip2->description = "this is test2";
+        $ip2->description = 'this is test2';
         $ip2->providers = "PluginsTest\Test2\Providers\Test2ServiceProvider";
         $ip2->status = PluginStatus::disable();
         $ip2->composer = [
@@ -61,7 +61,6 @@ class MysqlRepositoryTest extends TestCase
             ],
         ];
         $ip2->saveOrFail();
-
     }
 
     public function test_it_can_query_return_builder()
@@ -120,6 +119,4 @@ class MysqlRepositoryTest extends TestCase
         $this->assertInstanceOf(InstallPlugin::class, $plugin);
         $this->assertEquals('Test1', $plugin->name);
     }
-
-
 }
