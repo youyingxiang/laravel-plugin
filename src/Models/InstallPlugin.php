@@ -19,9 +19,6 @@ class InstallPlugin extends Model
     public $casts = [
         'composer' => 'json',
         'status' => PluginStatus::class,
-        'nullable_enum' => PluginStatus::class.':nullable',
-        'array_of_enums' => PluginStatus::class.':collection',
-        'nullable_array_of_enums' => PluginStatus::class.':collection,nullable',
     ];
 
     /**
