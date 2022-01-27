@@ -130,7 +130,6 @@ class MysqlRepository
      */
     public function allDisabled()
     {
-
     }
 
     /**
@@ -151,7 +150,6 @@ class MysqlRepository
      */
     public function getOrdered($direction = 'asc')
     {
-
     }
 
     /**
@@ -162,7 +160,7 @@ class MysqlRepository
      */
     public function getByStatus(PluginStatus $status): Collection
     {
-        return $this->all()->filter(fn (InstallPlugin $plugin) => (int)$plugin->status->value === (int)$status->value);
+        return $this->all()->filter(fn (InstallPlugin $plugin) => (int) $plugin->status->value === (int) $status->value);
     }
 
     /**
