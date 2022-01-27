@@ -17,7 +17,13 @@ Laravel Plugin is a plugin mechanism solution for developers who need to build t
 ## Requirement
 
 * php >= 7.4
-* laravel >= 6.0
+* laravel >= 8.0
+
+## v1.1.0 Development Plan
+* [x] Support laravel 9
+* [ ] Replace FileRepository with MysqlRepository
+* [ ] Complete `Laravel-plugin-ui`
+
 
 
 ## installation
