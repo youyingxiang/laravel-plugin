@@ -70,7 +70,7 @@ class MysqlRepositoryTest extends TestCase
 
     public function test_it_returns_all_enabled_plugins()
     {
-        $this->repository->scan()->each(function ($p){
+        $this->repository->scan()->each(function ($p) {
             dump($p);
             dump($p->status);
         });
