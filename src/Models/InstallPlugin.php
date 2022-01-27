@@ -18,6 +18,7 @@ class InstallPlugin extends Model
      */
     public $casts = [
         'composer' => 'json',
+        'status' => 'integer'
     ];
 
     /**
