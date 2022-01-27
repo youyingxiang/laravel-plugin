@@ -30,8 +30,9 @@ class InstallPlugin extends Model
         return $query->where('status', PluginStatus::enable());
     }
 
-    public function getStatusAttribute($status)
+    public function getStatusAttribute(int $status)
     {
+        dump($status);
         return PluginStatus::from($status);
     }
 
