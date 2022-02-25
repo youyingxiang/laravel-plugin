@@ -50,7 +50,7 @@ class RegisterCommand extends Command
         }
     }
 
-    protected function store($token): void
+    protected function store(string $token): void
     {
         Config::set('token', $token);
 

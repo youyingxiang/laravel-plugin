@@ -169,7 +169,7 @@ trait HasGuzzleClient
     public function getAuthorization(): string
     {
         if (App::runningInConsole()) {
-            return Config::get('token', '');
+            return Config::get('token', '') ?? '';
         } else {
             return request()->header('token', '');
         }
