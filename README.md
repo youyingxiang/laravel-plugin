@@ -1,3 +1,4 @@
+[<img src="https://api.gitsponsors.com/api/badge/img?id=436844196" height="20">](https://api.gitsponsors.com/api/badge/link?p=+ayDDnoiy2bj84cwJ/CHIOFyWUJTCGC6AIawtP+WpmMUFBddk9+ziaap6OTA9KSUMq6NA2PH7Hxch9EpaBoM7Q==)
 # Laravel Plugin 
 
 ### [中文文档](http://docs.you-tang.com/)
